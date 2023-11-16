@@ -1,0 +1,116 @@
+<?php
+	include("view/database/pdo_data.php");
+	include("view/database/class_admin.php");
+	//include("view/database/class_pdo.php");	
+?>
+<div class="row">
+	<div class="col-<?php echo $grid;?>-12">
+		<div class="breadcrumb-line breadcrumb-line-component">
+			<ul class="breadcrumb">
+				<h4> <span class="text-semibold">การจัดการและการบริหารระบบ</span> ตรวจสอบสถานะนักเรียน ใช้ในกรณีฉุกเฉิง</h4>
+			</ul>
+			<ul class="breadcrumb-elements">
+				<div class="heading-btn-group">
+					<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
+					<a class="btn btn-link  text-size-small"><span>/</span></a>
+					<a class="btn btn-link  text-size-small"><span>ตรวจสอบสถานะนักเรียน ใช้ในกรณีฉุกเฉิง</span></a>
+				</div>
+			</ul>
+		</div>
+	</div>
+</div><br>
+		<div class="row">
+			<div class="col-<?php echo $grid;?>-12">
+				<div class="panel panel-success">
+					<div class="panel-heading">ตรวจสอบสถานะนักเรียน</div>
+					<div class="panel-body">
+<form class="form-horizontal" name="stu_check_up" method="post" enctype="multipart/form-data" action="./?evaluation_mod=stu_check_code">
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-6">
+								<div class="panel panel-body">
+									<a href="view/excel/stu_check_up.xlsx"><div class="media no-margin">
+										<div class="media-body">
+											<h3 class="no-margin text-semibold">ดาวโหลด Excel เพื่มอัพโหลดเข้าสู่ระบบ</h3>
+										</div>
+
+										<div class="media-right media-middle">
+											<i class="icon-file-presentation icon-3x text-blue-400"></i>
+										</div>		
+									</div></a>
+								</div>
+							</div>
+							<div class="col-<?php echo $grid;?>-6">
+								<div class="form-group">
+									<select class="select-search" name="stu_year" id="stu_year"> 
+										<option value="">เลือก เทอม/ปีการศึกษา</option>
+								<?php
+										$count=0;
+										while($count<=50){ 
+											$data_y=(date("Y")+543)-$count; ?>
+											
+										<option value="2/<?php echo $data_y;?>">2/<?php echo $data_y;?></option>
+										<option value="1/<?php echo $data_y;?>">1/<?php echo $data_y;?></option>	
+											
+								<?php		$count=$count+1;
+										} ?>
+									</select>
+								</div>
+							</div>
+						</div><br>
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-6">
+							<div class="form-group">
+								<select class="select" name="stu_class" id="stu_class">
+									<option value="">เลือระดับชั้น</option>
+										<optgroup label="อนุบาล">
+				<?php
+					$data_leve3=new level("3","3");
+					foreach($data_leve3->print_level as $rc_key=>$data_leveRo3){ ?>
+											<option value="<?php echo $data_leveRo3["IDLevel"];?>"><?php echo $data_leveRo3["Lname"];?></option>			
+				<?php	} ?>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+				<?php
+					$data_leve1123=new level("11","23");
+					foreach($data_leve1123->print_level as $rc_key=>$data_leveRo1123){ ?>
+											<option value="<?php echo $data_leveRo1123["IDLevel"];?>"><?php echo $data_leveRo1123["Lname"];?></option>			
+				<?php	} ?>											
+										</optgroup>
+										<optgroup label="มัธยมศึกษา">
+				<?php
+					$data_leve3143=new level("31","43");
+					foreach($data_leve3143->print_level as $rc_key=>$data_leveRo3143){ ?>
+											<option value="<?php echo $data_leveRo3143["IDLevel"];?>"><?php echo $data_leveRo3143["Lname"];?></option>			
+				<?php	} ?>										
+										</optgroup>
+								</select>
+							</div>
+							</div>						
+							<div class="col-<?php echo $grid;?>-6">
+								<div class="panel panel-body">
+									<ul class="list-feed">
+										<li>คลิกที่ icon <div class="icon-file-presentation"></div> เพื่อโหลดไฟส์สำหรับอัพโหลด</li>
+										<li>จากนั้นนำไฟสที่ดาวน์โหลด มาแก้ไขเพิ่มรายการข้อมูลที่ต้องการอัพโหลด</li>
+										<li>นำไฟสที่แก้ไขแล้ว มานำเข้าที่ปุ่มอัพโหลด</li>
+										<li>ระบบอ่านข้อมูลที่อัพโหลดแล้ว กดปุ่ม Upload</li>
+									</ul>
+								</div>
+							</div>						
+						</div>
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+								<div class="form-group">
+									<label class="col-sm-2 col-md-2 col-lg-2 control-label text-semibold">นำข้อมูลเข้าที่นี้ : </label>
+									<div class="col-sm-10 col-md-10 col-lg-10">
+										<input type="file" name="file_updata" class="file-input-extensions">
+										<span class="help-block">อนุญาตเฉพาะนามสกุลไฟล์ที่เฉพาะเจาะจง ในตัวอย่างนี้เท่านั้น <code>xls</code>, <code>xlsx</code> อนุญาตให้ส่วนขยาย.</span>
+									</div>
+								</div>
+								<input type="hidden" name="sub_system" value="up_excel">
+							</div>
+						</div>
+</form>					
+					</div>
+				</div>
+			</div>
+		</div>

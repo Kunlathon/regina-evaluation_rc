@@ -1,0 +1,71 @@
+<?php
+	include("../../../../database/pdo_data.php");
+	include("../../../../database/class_admin.php");
+	include("../../../../database/pdo_summer.php");
+	include("../../../../database/class_summer.php");
+//--------------------------------------------------------------------    
+    include("../../../../img_user/document/gotolink.php");//----------
+    $goingtolink=new goingtolink($_SERVER['REMOTE_ADDR']);//----------
+    $golink=$goingtolink->Rungotolink();//----------------------------
+//--------------------------------------------------------------------
+
+//--------------------------------------------------------------------
+?>
+
+<?php
+	$summer_t=filter_input(INPUT_POST,'summer_t');
+	$summer_year=filter_input(INPUT_POST,'summer_year');
+	$sp_key=filter_input(INPUT_POST,'sp_key');
+	$sp_class=filter_input(INPUT_POST,'sp_class');
+	$sp_system=filter_input(INPUT_POST,'sp_system');
+	
+	
+//---------------------------------------------------------------------
+	
+
+
+
+
+//----------------------------------------------------------------------	
+	
+	
+	
+	
+		if(isset($summer_t,$summer_year,$sp_key,$sp_class,$sp_system)){
+			switch($sp_system){	
+				case "Into":
+//----------------------------------------------------------------------------------
+					$IntoRcRcSummerFirst=new IntoDeleteRcSummerFirst($sp_key,$summer_year,$sp_class,$sp_system);
+						if($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="Y"){
+							$txt_error=0;
+							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+						}elseif($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="N"){
+							$txt_error=1;
+							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+						}else{}
+//----------------------------------------------------------------------------------				
+				break;
+				case "Delete":
+//----------------------------------------------------------------------------------
+					$IntoRcRcSummerFirst=new IntoDeleteRcSummerFirst($sp_key,$summer_year,$sp_class,$sp_system);
+						if($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="Y"){
+							$txt_error=0;
+							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+						}elseif($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="N"){
+							$txt_error=1;
+							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+						}else{}
+//----------------------------------------------------------------------------------				
+				break;
+				default:
+					$txt_error=1;
+					exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+//----------------------------------------------------------------------------------
+			}
+		}else{
+			$txt_error=1;
+			exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+		}
+?>
+
+

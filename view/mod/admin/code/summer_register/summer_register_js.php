@@ -1,0 +1,72 @@
+	<!-- Theme JS files colors_success.html-->
+	<script src="<?php echo $golink;?>/Template/global_assets/js/core/libraries/jquery_ui/core.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/selects/selectboxit.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/selects/bootstrap_select.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/notifications/pnotify.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/notifications/noty.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/notifications/jgrowl.min.js"></script>
+
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/ui/ripple.min.js"></script>
+	
+	
+	<script>
+		$(document).ready(function(){
+			$('.select').select2({
+				minimumResultsForSearch: Infinity,
+				containerCssClass: 'bg-info'
+			});			
+		})
+	</script>
+	
+	
+	<script>
+		$(document).ready(function(){
+			$("#sr_year").change(function(){
+				var sr_year=$("#sr_year").val();
+				var sr_class=$("#sr_class").val();
+					if(sr_year!="" && sr_class!=""){
+						$.post("<?php echo $golink;?>/Summer/summer_register",{
+							sr_year:sr_year,
+							sr_class:sr_class
+						},function(SR){
+							if(SR!=""){
+								$("#RunSR").html(SR)
+							}else{}
+						})
+					}else{}
+			})
+		})
+	</script>
+	<script>
+		$(document).ready(function(){
+			$("#sr_class").change(function(){
+				var sr_year=$("#sr_year").val();
+				var sr_class=$("#sr_class").val();
+					if(sr_year!="" && sr_class!=""){
+						$.post("<?php echo $golink;?>/Summer/summer_register",{
+							sr_year:sr_year,
+							sr_class:sr_class
+						},function(SR){
+							if(SR!=""){
+								$("#RunSR").html(SR)
+							}else{}
+						})
+					}else{}
+			})
+		})
+	</script>
+	
+	<!-- /theme JS files -->
+	
+	<!-- Theme JS files -->
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
+	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
+	<!-- /theme JS files -->	
+	

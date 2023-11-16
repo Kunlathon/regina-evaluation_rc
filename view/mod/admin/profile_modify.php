@@ -1,0 +1,3883 @@
+<?php
+	
+	include("view/database/pdo_data.php");
+	include("view/database/class_pdo.php");	
+	
+	include("view/database/pdo_conndatastu.php");
+	include("view/database/class_pdodatastu.php");	
+
+	error_reporting(error_reporting() & ~E_NOTICE); 
+	
+	$set_stuid=filter_input(INPUT_GET,'set_stuid');
+	$set_stuid=base64_decode($set_stuid);
+	
+	
+?>
+
+<div class="row">
+	<div class="col-sm-12 col-md-12 col-lg-12">
+		<div class="breadcrumb-line breadcrumb-line-component">
+			<ul class="breadcrumb">
+				<h4> <span class="text-semibold">ข้อมูลนักเรียน </span>แก้ไขข้อมูลรายบุคคล</h4>
+			</ul>
+			<ul class="breadcrumb-elements">
+				<div class="heading-btn-group">
+					<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
+					<a class="btn btn-link  text-size-small"><span>/</span></a>
+					<a href="./?evaluation_mod=profile_modify" class="btn btn-link  text-size-small"><span>ข้อมูลนักเรียน แก้ไขข้อมูลรายบุคคล</span></a>
+				</div>
+			</ul>
+		</div>
+	</div>
+</div><br>
+
+
+<form class="form-horizontal" name="data_stu" method="post" action="view/mod/student/code/profile/profile_modify.php">
+<?php
+	$regina_stu_dataSql="SELECT * FROM `regina_stu_data` WHERE `rsd_studentid`='{$set_stuid}'";
+	$regina_stu_data=new notrow_evaluation($regina_stu_dataSql);
+	foreach($regina_stu_data->evaluation_array as $rc_key=>$regina_stu_datarow){}
+
+	$data_studentSql="SELECT * FROM `data_student` WHERE `stu_id`='{$set_stuid}'";
+	$data_student=new notrow_datastu($data_studentSql);
+	foreach($data_student->datastu_array as $rc_key=>$data_studentrow){}
+	
+	$stu_addressSql="SELECT * FROM `stu_address` WHERE `stu_id`='{$set_stuid}'";
+	$stu_address=new notrow_datastu($stu_addressSql);
+	foreach($stu_address->datastu_array as $rc_key=>$stu_addressRow){}
+	
+	$stu_address_homeSql="SELECT * FROM `stu_address_home` WHERE `stu_id`='{$set_stuid}'";
+	$stu_address_home=new notrow_datastu($stu_address_homeSql);
+	foreach($stu_address_home->datastu_array as $rc_key=>$stu_address_homeRow){}
+	
+?>
+<div class="row">
+	<div class="col-<?php echo $grid;?>-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">ข้อมูลนักเรียน</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ ไทย</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text"  name="rsd_name" id="rsd_name"  class="form-control" placeholder="ชื่อ ไทย" size="100" value="<?php echo $regina_stu_datarow["rsd_name"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล ไทย</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" name="rsd_surname" id="rsd_surname" class="form-control" placeholder="นามสกุล ไทย" size="100" value="<?php echo $regina_stu_datarow["rsd_surname"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อเล่น ไทย</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="nickTh" id="nickTh" class="form-control" placeholder="ชื่อเล่น ไทย" size="100" value="<?php echo $regina_stu_datarow["nickTh"];?>" maxlength="20">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">ชื่อเล่น อังกฤษ</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text"  name="nickEn" id="nickEn" class="form-control" placeholder="ชื่อเล่น อังกฤษ" size="100" value="<?php echo $regina_stu_datarow["nickEn"];?>" maxlength="20">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>			
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="rsd_nameEn" id="rsd_nameEn" class="form-control" placeholder="ชื่อ อังกฤษ" size="100" value="<?php echo $regina_stu_datarow["rsd_nameEn"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" name="rsd_surnameEn" id="rsd_surnameEn" class="form-control" placeholder="นามสกุล อังกฤษ" size="100" value="<?php echo $regina_stu_datarow["rsd_surnameEn"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-5">รหัสประจำตัวประชาชน</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" name="rsd_Identification" id="rsd_Identification" class="form-control" placeholder="รหัสประจำตัวประชาชน / G Code" size="100" value="<?php echo $regina_stu_datarow["rsd_Identification"];?>" maxlength="13"  required="required">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">วัน/เดือน/ปี เกิด</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text"  name="stu_birth" id="stu_birth" class="form-control pickadate-accessibility" placeholder="คลิกเลือก วัน/เดือน/ปี เกิด" size="100" value="<?php echo $data_studentrow["stu_birth"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-2">
+									<div class="form-group">
+										<label>กรุ๊ปเลือด</label>
+										<select name="stu_blood" id="stu_blood" data-placeholder="กรุ๊ปเลือด..." class="select-size-<?php echo $grid;?>">
+						<?php
+							if($data_studentrow["stu_blood"]=="A"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A" selected="selected">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($data_studentrow["stu_blood"]=="B"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B" selected="selected">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($data_studentrow["stu_blood"]=="O"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O" selected="selected">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($data_studentrow["stu_blood"]=="AB"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB" selected="selected">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}else{ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}   ?>
+										</select>
+									</div>					
+					</div>					
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>เชื้อชาติ</label>
+										<select name="stu_nation" id="stu_nation" data-placeholder="เชื้อชาติ..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="เชื้อชาติ">
+						<?php
+								if($data_studentrow["stu_nation"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($data_studentrow["stu_nation"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>						
+						
+											</optgroup>
+										</select>
+									</div>
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>สัญชาติ</label>
+										<select name="stu_sun" id="stu_sun" data-placeholder="สัญชาติ..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="สัญชาติ">
+
+						<?php
+								if($data_studentrow["stu_sun"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($data_studentrow["stu_sun"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>
+
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ศาสนา</label>
+										<select name="IDReligion" id="IDReligion" data-placeholder="ศาสนา..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="ศาสนา">
+							<?php
+								$ReligionSql="SELECT `IDReligion`,`Religion` FROM `rc_religion`";
+								$Religion=new row_datastu($ReligionSql);
+								foreach($Religion->datastu_array as $rc_key=>$Religion_print){ 
+								if($data_studentrow["IDReligion"]==$Religion_print["IDReligion"]){
+									$stu_Religion="selected";
+								}else{
+									$stu_Religion="";
+								}
+								?>
+											<option value="<?php echo $Religion_print["IDReligion"];?>" <?php echo $stu_Religion;?>><?php echo $Religion_print["Religion"];?></option>
+							<?php	} ?>					
+
+											</optgroup>
+										</select>
+									</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" name="stu_phone" id="stu_phone" class="form-control" placeholder="Left addon" size="100" value="<?php echo $data_studentrow["stu_phone"];?>" maxlength="20">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">จำนวนพี่น้องรวม</label>
+								<div class="col-<?php echo $grid;?>-6">
+									<div class="input-group">
+										<input type="number"  name="stu_brethren" id="stu_brethren" value="<?php echo $data_studentrow["stu_brethren"];?>" min="0" class="form-control"  size="100">
+									</div>
+								</div>
+								<label class="control-label col-<?php echo $grid;?>-2">คน</label>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-5">มีพี่น้องเรียนสถานศึกษานี้</label>
+								<div class="col-<?php echo $grid;?>-5">
+									<div class="input-group">
+										<input type="number" name="stu_brethreS" id="stu_brethreS" value="<?php echo $data_studentrow["stu_brethreS"];?>" min="0" class="form-control"  size="100">
+									</div>
+								</div>
+								<label class="control-label col-<?php echo $grid;?>-2">คน</label>
+							</div>
+                        </fieldset>					
+					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">เป็นบุตรคนที่</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="number"  name="stu_child" id="stu_child" value="<?php echo $data_studentrow["stu_child"];?>"  min="0" class="form-control"  size="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+									<div class="form-group">
+										<label>ความบกพร่องทางร่างกาย</label>
+										<select name="stu_physical" id="stu_physical" data-placeholder="ความบกพร่องทางร่างกาย..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="ความบกพร่องทางร่างกาย">
+									
+							<?php
+									if($data_studentrow["stu_physical"]==""){ ?>
+<!--********************************************************************************************************************************-->									
+							<?php
+									$physicalSql="SELECT `disabled_id`,`disabled_txt` FROM `data_disabled`;";
+									$physicalRs=new row_datastu($physicalSql);
+									foreach($physicalRs->datastu_array as $rc_key=>$physicalRow){
+									if($physicalRow["disabled_id"]=="0000"){
+										$stu_p="selected";
+									}else{
+										$stu_p="";
+									}
+									
+							?>
+										<option value="<?php echo $physicalRow["disabled_id"];?>" <?php echo $stu_p;?>><?php echo $physicalRow["disabled_txt"];?></option>
+							<?php	}?>
+<!--********************************************************************************************************************************-->								
+							<?php	}else{ ?>
+<!--********************************************************************************************************************************-->								
+							<?php
+									$physicalSql="SELECT `disabled_id`,`disabled_txt` FROM `data_disabled`;";
+									$physicalRs=new row_datastu($physicalSql);
+									foreach($physicalRs->datastu_array as $rc_key=>$physicalRow){
+									if($data_studentrow["stu_physical"]==$physicalRow["disabled_id"]){
+										$stu_p="selected";
+									}else{
+										$stu_p="";
+									}
+									
+							?>
+										<option value="<?php echo $physicalRow["disabled_id"];?>" <?php echo $stu_p;?>><?php echo $physicalRow["disabled_txt"];?></option>
+							<?php	}?>	
+<!--********************************************************************************************************************************-->								
+							<?php	}  ?>
+									
+		
+											</optgroup>
+										</select>
+									</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">สถานที่เกิด (โรงพยาบาล)</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" name="breed_add" id="breed_add" class="form-control" placeholder="สถานที่เกิด (โรงพยาบาล)" size="100" maxlength="100" value="<?php echo $data_studentrow["breed_add"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+									<div class="form-group">
+										<label>ที่เกิดจังหวัด</label>
+										<select name="breed_province" id="breed_province" data-placeholder="ที่เกิดจังหวัด..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($data_studentrow["breed_province"]==$provincesRow["PROVINCE_ID"]){
+											$pr_selected="selected";
+										}else{
+											$pr_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $pr_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+									<div class="form-group">
+										<label>ที่เกิดอำเภอ</label>
+										<select name="breed_city" id="breed_city" data-placeholder="ที่เกิดอำเภอ..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$data_studentrow["breed_province"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){
+									if($data_studentrow["breed_city"]==$amphuresRow["AMPHUR_ID"]){
+										$bc_selected="selected";
+									}else{
+										$bc_selected="";
+									}
+
+									?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $bc_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+									<div class="form-group">
+										<label>ที่เกิดตำบล</label>
+										<select name="breed_district" id="breed_district" data-placeholder="ที่เกิดตำบล..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$data_studentrow["breed_city"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){
+										if($data_studentrow["breed_district"]==$districts_print["DISTRICT_ID"]){
+											$bd_selected="selected";
+										}else{
+											$bd_selected="";
+										}
+										?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $bd_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+				</div>
+			
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<p style="color: #F20408"><b>ตามทะเบียนบ้าน</b></p>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">บ้านเลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" name="stu_reg_hno" id="stu_reg_hno" class="form-control" placeholder="บ้านเลขที่ ตามทะเบียนบ้าน" size="100" maxlength="30" value="<?php echo $stu_address_homeRow["stu_reg_hno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="stu_reg_moo" id="stu_reg_moo" class="form-control" placeholder="หมู่ที่ ตามทะเบียนบ้าน" size="100" maxlength="3" value="<?php echo $stu_address_homeRow["stu_reg_moo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="stu_reg_soi" id="stu_reg_soi" class="form-control" placeholder=" ซอย ตามทะเบียนบ้าน" size="100" maxlength="100" value="<?php echo $stu_address_homeRow["stu_reg_soi"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="stu_reg_road" id="stu_reg_road" class="form-control" placeholder="ถนน ตามทะเบียนบ้าน" size="100" maxlength="100" value="<?php echo $stu_address_homeRow["stu_reg_road"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select  name="stu_reg_province" id="stu_reg_province" data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_address_homeRow["stu_reg_province"]==$provincesRow["PROVINCE_ID"]){
+											$srp_selected="selected";
+										}else{
+											$srp_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $srp_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>											
+			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select name="stu_reg_amphur" id="stu_reg_amphur" data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_address_homeRow["stu_reg_province"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_address_homeRow["stu_reg_amphur"]==$amphuresRow["AMPHUR_ID"]){
+									$sra_selected="selected";
+								}else{
+									$sra_selected="";
+								}
+								
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $sra_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+
+
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select name="stu_reg_tumbon" id="stu_reg_tumbon" data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_address_homeRow["stu_reg_amphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+									if($stu_address_homeRow["stu_reg_tumbon"]==$districts_print["DISTRICT_ID"]){
+										$srt_selected="selected";
+									}else{
+										$srt_selected="";
+									}
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>"<?php echo $srt_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3"> 
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="stu_reg_zipcode"><input type="text" name="stu_reg_zipcode" id="stu_reg_zipcodecopy" readonly="readonly" class="form-control" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_address_homeRow["stu_reg_zipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+			
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<p style="color: #F20408"><b>ที่อยู่ปัจจุบัน</b></p>
+					</div>
+				</div>			
+			
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">บ้านเลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" name="stu_hno" id="stu_hno" class="form-control" placeholder="บ้านเลขที่" size="100" maxlength="100" value="<?php echo $stu_addressRow["stu_hno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" name="stu_moo" id="stu_moo" placeholder="หมู่ที่" size="100" maxlength="100" value="<?php echo $stu_addressRow["stu_moo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" name="stu_soi" id="stu_soi" placeholder="ซอย" size="100" maxlength="100" value="<?php echo $stu_addressRow["stu_soi"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" name="stu_road" id="stu_road" placeholder="ถนน" size="100" maxlength="100" value="<?php echo $stu_addressRow["stu_road"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>"  id="stu_province" name="stu_province">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_addressRow["stu_province"]==$provincesRow["PROVINCE_ID"]){
+											$pr_selected="selected";
+										}else{
+											$pr_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $pr_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="stu_amphur" id="stu_amphur">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_addressRow["stu_province"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_addressRow["stu_amphur"]==$amphuresRow["AMPHUR_ID"]){
+									$sa_selected="selected";
+								}else{
+									$sa_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $sa_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="stu_tumbon" id="stu_tumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_addressRow["stu_amphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_addressRow["stu_tumbon"]==$districts_print["DISTRICT_ID"]){
+											$stum_selected="selected";
+										}else{
+											$stum_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $stum_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="stu_zipcode"><input type="text" name="stu_zipcode" id="stu_zipcodecopy" class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_addressRow["stu_zipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>			
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">ชื่อโรงเรียนเดิมที่จบการศึกษา</label>
+									<div class="col-<?php echo $grid;?>-8">
+										<div class="input-group">
+											<input type="text" name="ds_SameSchool" id="ds_SameSchool" class="form-control" placeholder="ชื่อโรงเรียนเดิมที่จบการศึกษา" size="100" maxlength="100" value="<?php echo $data_studentrow["ds_SameSchool"];?>">
+										</div>
+									</div>
+							</div>
+						</fieldset>						
+					</div>	
+
+										<div class="col-<?php echo $grid;?>-6">
+						<div class="form-group">
+							<label>ระดับชั้นเดิมที่จบการศึกษา</label>
+								<select  data-placeholder="ระดับชั้น..." class="select-size-<?php echo $grid;?>" name="ds_OriginalClass" id="ds_OriginalClass">
+									<option></option>
+										
+				<?php
+						if($data_studentrow["ds_OriginalClass"]==1){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											<option value="1" selected>อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==2){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+
+											<option value="1">อนุบาล 1</option>
+											<option value="2" selected>อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==3){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3" selected>อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==11){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11" selected>ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==12){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12" selected>ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==13){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13" selected>ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==21){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21" selected>ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==22){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22" selected>ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==23){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23" selected>ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						 
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==31){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31" selected>มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==32){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32" selected>มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==33){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33" selected>มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==41){ ?>
+<!--************************************************************************************-->
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41" selected>มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==42){ ?>
+<!--************************************************************************************-->	
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42" selected>มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}elseif($data_studentrow["ds_OriginalClass"]==43){ ?>
+<!--************************************************************************************-->
+										
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43" selected>มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php		}else{ ?>
+<!--************************************************************************************-->	
+										<optgroup label="อนุบาล">
+											
+											<option value="1">อนุบาล 1</option>
+											<option value="2">อนุบาล 2</option>
+											<option value="3">อนุบาล 3</option>
+										</optgroup>
+										<optgroup label="ประถมศึกษา">
+												<option value="11">ประถมศึกษาปีที่ 1</option>
+												<option value="12">ประถมศึกษาปีที่ 2</option>
+												<option value="13">ประถมศึกษาปีที่ 3</option>
+												<option value="21">ประถมศึกษาปีที่ 4</option>
+												<option value="22">ประถมศึกษาปีที่ 5</option>
+												<option value="23">ประถมศึกษาปีที่ 6</option>
+										</optgroup>
+										<optgroup label="มัธยมศึกษาตอนต้น">
+												<option value="31">มัธยมศึกษาปีที่ 1</option>
+												<option value="32">มัธยมศึกษาปีที่ 2</option>
+												<option value="33">มัธยมศึกษาปีที่ 3</option>
+										</optgroup>											
+										<optgroup label="มัธยมศึกษาปลาย">
+												<option value="41">มัธยมศึกษาปีที่ 4</option>
+												<option value="42">มัธยมศึกษาปีที่ 5</option>
+												<option value="43">มัธยมศึกษาปีที่ 6</option>
+										</optgroup>					
+<!--************************************************************************************-->						
+			<?php	}      ?>					
+
+								</select>
+						</div>
+					</div>	
+
+					
+				</div>
+				
+				<!--<div class="row">
+					<div class="col-<?php //echo $grid;?>-12">
+						<center><button type="submit" class="btn btn-info">แก้ไข...ข้อมูลนักเรียน</button></center>
+					</div>
+				</div>-->
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<center><button type="button" id="submit_button" class="btn btn-info">บันทึก..ข้อมูลนักเรียน</button>&nbsp;<a href="./?evaluation_mod=sturc_dataall"><button type="button" class="btn btn-danger">ย้อนกลับ</button></a></center>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+<input type="hidden" name="stu_id" value="<?php echo $set_stuid;?>" id="stu_id">
+<input type="hidden" name="enter" value="up_stu" id="enter" >
+</form>
+<!--**********************************************************-->
+<div id="print_data_stu"></div>
+<!--**********************************************************-->
+<?php
+	$stu_depend_stuSql="SELECT * FROM `depend_stu` WHERE `ds_stuid`='{$set_stuid}'";
+	$stu_depend_stu=new notrow_datastu($stu_depend_stuSql);
+	foreach($stu_depend_stu->datastu_array as $rc_key=>$stu_depend_stuRow){}
+
+?>
+
+<form class="form-horizontal" name="data_addstu" method="post" action="view/mod/student/code/profile/profile_modify.php">
+<div class="row">
+	<div class="col-<?php echo $grid;?>-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">ข้อมูลเพิ่มเติม นักเรียน</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">โรคประจำตัว</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="ds_CongenitalDisease" id="ds_CongenitalDisease" class="form-control"  placeholder="โรคประจำตัว" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_CongenitalDisease"]?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>	
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">การแพ้อาหาร</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="ds_FoodAllergies" id="ds_FoodAllergies" class="form-control"  placeholder="การแพ้อาหาร" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_FoodAllergies"]?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>	
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">การแพ้ยา</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" name="ds_DrugAllergy" id="ds_DrugAllergy"  class="form-control"  placeholder="การแพ้ยา" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_DrugAllergy"]?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>	
+					</div>
+					
+					<div class="col-<?php echo $grid;?>-6">
+									<div class="form-group">
+										<label>นักเรียนอาศัยอยู่กับ</label>
+										<select name="ds_status" id="ds_status" data-placeholder="นักเรียนอาศัยอยู่กับ..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+								<?php
+									$data_relySql="SELECT `dr_key`,`dr_txt`FROM `data_rely`";
+									$data_relyRs=new row_datastu($data_relySql);
+									foreach($data_relyRs->datastu_array as $rc_key=>$data_relyRow){
+										if($stu_depend_stuRow["ds_status"]==$data_relyRow["dr_key"]){
+											$dst_selected="selected";
+										}else{
+											$dst_selected="";
+										}
+										?>
+												<option value="<?php echo $data_relyRow["dr_key"];?>"<?php echo $dst_selected;?>><?php echo $data_relyRow["dr_txt"];?></option>
+							<?php	}   ?>		
+							
+										</select>
+									</div>					
+					</div>
+
+				</div>	
+<!--**********************************************************-->
+		<div id="print_ds"><?php
+			if($stu_depend_stuRow["ds_status"]==5){ ?>
+<!--**********************************************************-->
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-6">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-2">ชื่อหอพัก</label>
+					<div class="col-<?php echo $grid;?>-10">
+						<div class="input-group">
+							<input type="text" name="ds_dormitoryName" id="ds_dormitoryName" class="form-control"  placeholder="ชื่อ หอพัก" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_dormitoryName"];?>"; >
+						</div>
+					</div>
+				</div>
+            </fieldset>	
+		</div>
+		<div class="col-<?php echo $grid;?>-3">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-3">เลขที่</label>
+						<div class="col-<?php echo $grid;?>-9">
+							<div class="input-group">
+								<input type="text" name="ds_dormitoryHno" id="ds_dormitoryHno" class="form-control" placeholder="เลขที่ หอพัก" size="100" maxlength="30" value="<?php echo $stu_depend_stuRow["ds_dormitoryHno"];?>">
+							</div>
+						</div>
+				</div>
+            </fieldset>						
+		</div>
+		<div class="col-<?php echo $grid;?>-3">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+						<div class="col-<?php echo $grid;?>-10">
+							<div class="input-group">
+								<input type="text" name="ds_dormitoryMoo" id="ds_dormitoryMoo" class="form-control" placeholder="หมู่ที่ หอพัก" size="100" maxlength="3" value="<?php echo $stu_depend_stuRow["ds_dormitoryMoo"];?>">
+							</div>
+						</div>
+				</div>
+            </fieldset>						
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-3">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+						<div class="col-<?php echo $grid;?>-10">
+							<div class="input-group">
+								<input type="text" name="ds_dormitorySoi" id="ds_dormitorySoi" class="form-control" placeholder="ซอย หอพัก" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_dormitorySoi"];?>">
+							</div>
+						</div>
+				</div>
+            </fieldset>						
+		</div>
+		<div class="col-<?php echo $grid;?>-5">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-3">ชื่อเจ้าของหรือผู้ปกครอง</label>
+						<div class="col-<?php echo $grid;?>-9">
+							<div class="input-group">
+								<input type="text" name="ds_dormitoryMyName" id="ds_dormitoryMyName" class="form-control" placeholder="ชื่อเจ้าของหรือผู้ปกครอง" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_dormitoryMyName"];?>">
+							</div>
+						</div>
+				</div>
+            </fieldset>			
+		</div>
+		<div class="col-<?php echo $grid;?>-4">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-2">โทรศัพท์</label>
+						<div class="col-<?php echo $grid;?>-10">
+							<div class="input-group">
+								<input type="text" name="ds_dormitoryPhone" id="ds_dormitoryPhone" class="form-control" placeholder="โทรศัพท์" size="100" maxlength="15" value="<?php echo $stu_depend_stuRow["ds_dormitoryPhone"];?>">
+							</div>
+						</div>
+				</div>
+            </fieldset>			
+		</div>
+		
+		
+	</div>
+	
+	
+	
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-3">
+			<fieldset class="content-group">
+				<div class="form-group">
+					<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+						<div class="col-<?php echo $grid;?>-10">
+							<div class="input-group">
+								<input type="text" name="ds_dormitoryRoad" id="ds_dormitoryRoad" class="form-control" placeholder="ถนน หอพัก" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_dormitoryPhone"];?>">
+							</div>
+						</div>
+				</div>
+            </fieldset>						
+		</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select  name="ds_dormitoryProvince" id="ds_dormitoryProvince" data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_depend_stuRow["ds_dormitoryProvince"]==$provincesRow["PROVINCE_ID"]){
+											$srp_selected="selected";
+										}else{
+											$srp_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $srp_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>											
+			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select name="ds_dormitoryAmphur" id="ds_dormitoryAmphur" data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_depend_stuRow["ds_dormitoryProvince"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_depend_stuRow["ds_dormitoryAmphur"]==$amphuresRow["AMPHUR_ID"]){
+									$sa_selected="selected";
+								}else{
+									$sa_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $sa_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select name="ds_dormitoryTumbon" id="ds_dormitoryTumbon" data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_depend_stuRow["ds_dormitoryAmphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_depend_stuRow["ds_dormitoryTumbon"]==$districts_print["DISTRICT_ID"]){
+											$stum_selected="selected";
+										}else{
+											$stum_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $stum_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>	
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3"> 
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="ds_dormitoryZipcode"><input type="text" name="ds_dormitoryZipcode" id="ds_dormitoryZipcodecopy" class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_depend_stuRow["ds_dormitoryZipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>		
+		
+	</div>
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+<!--**********************************************************-->				
+	<?php	}else{
+				//************************************	
+			}
+		?></div>
+<!--**********************************************************-->
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+					
+									<div class="form-group">
+										<label>การเดินทางมาโรงเรียน</label>
+										<select name="ds_trip" id="ds_trip" data-placeholder="การเดินทางมาโรงเรียน..." class="select-size-<?php echo $grid;?>">
+											<option></option>
+							<?php
+								$data_gohomeSql="SELECT `dgh_id`,`dgh_txt` FROM `data_gohome`";
+								$data_gohomeRs=new row_datastu($data_gohomeSql);
+								foreach($data_gohomeRs->datastu_array as $rc_key=>$data_gohomeRow){ 
+									if($stu_depend_stuRow["ds_trip"]==$data_gohomeRow["dgh_id"]){
+										$trip_selected="selected";
+									}else{
+										$trip_selected="";
+									}
+								?>
+												<option value="<?php echo $data_gohomeRow["dgh_id"];?>" <?php echo $trip_selected;?>><?php echo $data_gohomeRow["dgh_txt"];?></option>
+						<?php	} ?>				
+										</select>
+									</div>
+					
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">อื่น ๆ</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<?php
+											if($stu_depend_stuRow["ds_triptxt"]==""){ ?>
+<!--**********************************************************************************************************-->	
+											<div id="ds_triptxt"><input type="text" name="ds_triptxt" id="ds_triptxtcopy"   class="form-control"  placeholder="อื่น ๆ" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_triptxt"];?>" readonly="readonly"></div>
+<!--**********************************************************************************************************-->												
+									<?php	}else{ ?>
+<!--**********************************************************************************************************-->	
+											<div id="ds_triptxt"><input type="text" name="ds_triptxt" id="ds_triptxtcopy"  class="form-control"  placeholder="อื่น ๆ" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_triptxt"];?>"></div>
+<!--**********************************************************************************************************-->												
+									<?php	}      ?>
+										
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+					
+									<div class="form-group">
+										<label>สถานภาพบิดา-มารดา</label>
+										<select data-placeholder="สถานภาพบิดา-มารดา..."  name="ds_FMstatus" id="ds_FMstatus" class="select-size-<?php echo $grid;?>">
+											<option></option>
+						<?php
+							$data_familySql="SELECT `family_key`,`family_txt` FROM `data_family`";
+							$data_familyRs=new row_datastu($data_familySql);
+							foreach($data_familyRs->datastu_array as $rc_key=>$data_familyRow){ 
+								if($stu_depend_stuRow["ds_FMstatus"]==$data_familyRow["family_key"]){
+									$dsm_selected="selected";
+								}else{
+									$dsm_selected="";
+								}
+							?>
+								
+												<option value="<?php echo $data_familyRow["family_key"];?>" <?php echo $dsm_selected;?>><?php echo $data_familyRow["family_txt"];?></option>
+					<?php	} ?>					
+										</select>
+									</div>
+					
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+								<fieldset class="content-group">
+									<div class="form-group">
+									<label class="control-label col-<?php echo $grid;?>-2">การแพ้พิษ</label>
+										<div class="col-<?php echo $grid;?>-10">
+											<div class="input-group">
+												<input type="text" name="ds_allergic" id="ds_allergic" class="form-control" placeholder="การแพ้พิษ" size="100" maxlength="100" value="<?php echo $stu_depend_stuRow["ds_allergic"];?>">
+												<small>อาการแพ้พิษจากแมลง เช่น แพ้พิษมด ผึ้ง เป็นต้น</small>
+											</div>
+										</div>
+									</div>
+								</fieldset>	
+					</div>
+				</div>
+
+				<!--<div class="row">
+					<div class="col-<?php //echo $grid;?>-12">
+						<center><button type="submit" class="btn btn-info">แก้ไข...ข้อมูลเพิ่มเติม นักเรียน</button></center>
+					</div>
+				</div>-->
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<center><button type="button" class="btn btn-info" id="data_addstu">บันทึก...ข้อมูลเพิ่มเติม นักเรียน</button>&nbsp;<a href="./?evaluation_mod=sturc_dataall"><button type="button" class="btn btn-danger">ย้อนกลับ</button></a></center>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+<input type="hidden" name="stu_id"  value="<?php echo $set_stuid;?>" id="stu_id_pda">
+<input type="hidden" name="enter" value="up_stuadd" id="enter_pda">
+</form>
+
+<div id="print_data_addstu"></div>
+
+<?php
+
+
+	$stu_fatherSql="SELECT * FROM `stu_father` WHERE `stu_id`='{$set_stuid}'";
+	$stu_father=new notrow_datastu($stu_fatherSql);
+	foreach($stu_father->datastu_array as $rc_key=>$stu_fatherRow){}
+	
+	$stu_father_addwordSql="SELECT * FROM `stu_father_addword` WHERE `stu_id`='{$set_stuid}'";
+	$stu_father_addword=new notrow_datastu($stu_father_addwordSql);
+	foreach($stu_father_addword->datastu_array as $rc_key=>$stu_father_addwordRow){}
+	
+	
+	$stu_father_addressSql="SELECT * FROM `stu_father_address` WHERE `stu_id`='{$set_stuid}';";
+	$stu_father_address=new notrow_datastu($stu_father_addressSql);
+	foreach($stu_father_address->datastu_array as $rc_key=>$stu_father_addressRow){}
+	
+?>
+
+
+
+<form class="form-horizontal" name="father_add" method="post" action="view/mod/student/code/profile/profile_modify.php">
+<div class="row">
+	<div class="col-<?php echo $grid;?>-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">ข้อมูลบิดา</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<div class="form-group">
+							<label>คำนำหน้า</label>
+							<select name="father_prefix" id="father_prefix" data-placeholder="คำนำหน้าภาษาไทย.." class="select-size-<?php echo $grid;?>">
+								<option></option>
+								<optgroup label="คำนำหน้า..">
+					<?php
+						$npthailSql="SELECT `IDPrefix`,`prefixname`,`prefix_SName` 
+						             FROM `rc_prefix` 
+									 WHERE `IDPrefix`!='1' and `IDPrefix`!='2' and `IDPrefix`!='4' and `IDPrefix`!='5' and `IDPrefix`!='7'and `IDPrefix`!='8'and `IDPrefix`!='9'";
+						$npthail=new row_datastu($npthailSql);
+						foreach($npthail->datastu_array as $rc_key=>$npthailRow){
+							if($stu_fatherRow["father_prefix"]==$npthailRow["IDPrefix"]){
+								$fp_selected="selected";
+							}else{
+								$fp_selected="";
+							}
+
+							?>
+									<option value="<?php echo $npthailRow["IDPrefix"]?>" <?php echo $fp_selected;?>><?php echo $npthailRow["prefixname"]?></option>
+									
+				<?php	}?>					
+			
+								</optgroup>
+							</select>
+						</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" name="father_fname" id="father_fname" value="<?php echo $stu_fatherRow["father_fname"]?>" placeholder="ชื่อ ไทย" size="100" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="นามสกุล ไทย" size="100" name="father_sname"  id="father_sname" value="<?php echo $stu_fatherRow["father_sname"]?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+		
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<div class="form-group">
+							<label>คำนำหน้า</label>
+							<select name="father_prefix_en" id="father_prefix_en"  data-placeholder="คำนำหน้าภาษาอังกฤษ.." class="select-size-<?php echo $grid;?>">
+								<option></option>
+								<optgroup label="คำนำหน้าภาษาอังกฤษ..">
+											
+					<?php
+						$npenSql="SELECT `IDPrefix`,`prefixname`,`prefix_SName` 
+						             FROM `rc_prefix` 
+									 WHERE `IDPrefix`='7'";
+						$npen=new row_datastu($npenSql);
+						foreach($npen->datastu_array as $rc_key=>$npenRow){
+							if($stu_fatherRow["father_prefix_en"]==$npenRow["IDPrefix"]){
+								$fpe_selected="selected";
+							}else{
+								$fpe_selected="";
+							}
+							?>
+									<option value="<?php echo $npenRow["IDPrefix"]?>"<?php echo $fpe_selected;?>><?php echo $npenRow["prefixname"]?></option>
+									
+				<?php	}?>												
+			
+								</optgroup>
+							</select>
+						</div>				
+					</div>				
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ชื่อ อังกฤษ" size="100" name="father_fname_en" id="father_fname_en" value="<?php echo $stu_fatherRow["father_fname_en"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="นามสกุล อังกฤษ" size="100" name="father_sname_en" id="father_sname_en" value="<?php echo $stu_fatherRow["father_sname_en"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-5">รหัสประจำตัวประชาชน</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="รหัสประจำตัวประชาชน" size="100" name="father_code" id="father_code" value="<?php echo $stu_fatherRow["father_code"];?>" maxlength="13">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">วัน/เดือน/ปี เกิด</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text"  class="form-control pickadate-accessibility" placeholder="คลิกเลือก วัน/เดือน/ปี เกิด" size="100" name="af_birthday" id="af_birthday" value="<?php echo $stu_fatherRow["af_birthday"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-2">
+									<div class="form-group">
+										<label>กรุ๊ปเลือด</label>
+										<select data-placeholder="กรุ๊ปเลือด..." class="select-size-<?php echo $grid;?>" name="sf_blood" id="sf_blood">
+											<option></option>
+						<?php
+							if($stu_fatherRow["sf_blood"]=="A"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A" selected="selected">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_fatherRow["sf_blood"]=="B"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B" selected="selected">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_fatherRow["sf_blood"]=="O"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O" selected="selected">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_fatherRow["sf_blood"]=="AB"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB" selected="selected">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}else{ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}   ?>
+										</select>
+									</div>					
+					</div>					
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>เชื้อชาติ</label>
+										<select data-placeholder="เชื้อชาติ..." name="sf_nation" id="sf_nation" class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="เชื้อชาติ">
+						<?php
+								if($stu_fatherRow["sf_nation"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($stu_fatherRow["sf_nation"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>						
+						
+											</optgroup>
+										</select>
+									</div>
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>สัญชาติ</label>
+										<select data-placeholder="สัญชาติ..." name="sf_sun" id="sf_sun" class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="สัญชาติ">
+
+						<?php
+								if($stu_fatherRow["sf_sun"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($stu_fatherRow["sf_sun"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>
+
+											</optgroup>	
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ศาสนา</label>
+										<select data-placeholder="ศาสนา..." name="sf_IDReligion" id="sf_IDReligion" class="select-size-<?php echo $grid;?>">
+											<option></option>
+											<optgroup label="ศาสนา">
+							<?php
+								$ReligionSql="SELECT `IDReligion`,`Religion` FROM `rc_religion`";
+								$Religion=new row_datastu($ReligionSql);
+								foreach($Religion->datastu_array as $rc_key=>$Religion_print){ 
+								if($stu_fatherRow["sf_IDReligion"]==$Religion_print["IDReligion"]){
+									$stu_Religion="selected";
+								}else{
+									$stu_Religion="";
+								}
+								?>
+											<option value="<?php echo $Religion_print["IDReligion"];?>" <?php echo $stu_Religion;?>><?php echo $Religion_print["Religion"];?></option>
+							<?php	} ?>					
+
+											</optgroup>	
+										</select>
+									</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เบอร์โทรศัทพ์" size="100" name="father_phone" id="father_phone" maxlength="13" value="<?php echo $stu_fatherRow["father_phone"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				
+
+				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อาชีพ</label>
+										<select data-placeholder="อาชีพ..." class="select-size-<?php echo $grid;?>" name="father_career" id="father_career">
+											<option></option>
+											
+					<?php
+						$data_careerSql="SELECT `dc_key`, `dc_txt` FROM `data_career` ORDER BY `data_career`.`dc_key` ASC";
+						$data_career=new row_datastu($data_careerSql);
+						foreach($data_career->datastu_array as $rc_key=>$data_careerRow){
+								if($stu_fatherRow["father_career"]==$data_careerRow["dc_key"]){
+									$fc_selected="selected";
+								}else{
+									$fc_selected="";
+								}
+							?>
+												<option value="<?php echo $data_careerRow["dc_key"];?>" <?php echo $fc_selected;?>><?php echo $data_careerRow["dc_txt"];?></option>
+					<?php	}   ?>						
+
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ช่วงรายได้</label>
+										<select data-placeholder="ช่วงรายได้..." class="select-size-<?php echo $grid;?>" name="father_salary" id="father_salary">
+											<option></option>
+											
+					<?php
+						$data_incomSql="SELECT `di_key`, `di_txt` FROM `data_incom` ORDER BY `data_incom`.`di_key` ASC";
+						$data_incom=new row_datastu($data_incomSql);
+						foreach($data_incom->datastu_array as $rc_key=>$data_incomRow){ 
+							if($stu_fatherRow["father_salary"]==$data_incomRow["di_key"]){
+								$fs_selected="selected";
+							}else{
+								$fs_selected="";
+							}
+						?>
+												<option value="<?php echo $data_incomRow["di_key"];?>" <?php echo $fs_selected;?>><?php echo $data_incomRow["di_txt"];?></option>
+					<?php	}   ?>							
+											
+										</select>
+									</div>					
+					</div>
+					<!--<div class="col-<?php //echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php //echo $grid;?>-4">รายได้/เดือน</label>							
+								<div class="col-<?php //echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Left addon" size="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>-->
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>วุฒิการศึกษา</label>
+										<select data-placeholder="วุฒิการศึกษา..." class="select-size-<?php echo $grid;?>" name="father_study" id="father_study">
+											<option></option>
+											
+					<?php
+						$data_studySql="SELECT `study_id`, `study_txt` FROM `data_study` ORDER BY `data_study`.`study_id` ASC";
+						$data_study=new row_datastu($data_studySql);
+						foreach($data_study->datastu_array as $rc_key=>$data_studyRow){
+							if($stu_fatherRow["father_study"]==$data_studyRow["study_id"]){
+								$fstudy_selected="selected";
+							}else{
+								$fstudy_selected="";
+							}
+							?>
+												<option value="<?php echo $data_studyRow["study_id"];?>" <?php echo $fstudy_selected;?>><?php echo $data_studyRow["study_txt"];?></option>
+					<?php	}   ?>						
+
+										</select>
+									</div>					
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">สถานที่ทำงาน</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="สถานที่ทำงาน" size="100" maxlength="100" name="father_workplace" id="father_workplace" value="<?php echo $stu_fatherRow["father_workplace"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">ตำแหน่ง/ภาวะงาน</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ตำแหน่ง/ภาวะงาน" size="100" maxlength="100" name="father_wp_pro" id="father_wp_pro" value="<?php echo $stu_fatherRow["father_wp_pro"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				<hr>ที่อยู่ที่ทำงาน<hr>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เลขที่" size="100" maxlength="100" name="father_addwordhno" id="father_addwordhno" value="<?php echo $stu_father_addwordRow["father_addwordhno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="หมู่ที่" size="100" maxlength="100" name="father_addwordmoo" id="father_addwordmoo" value="<?php echo $stu_father_addwordRow["father_addwordmoo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ซอย" size="100" maxlength="100" name="father_addwordsoi" id="father_addwordsoi" value="<?php echo $stu_father_addwordRow["father_addwordsoi"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ถนน" size="100" maxlength="100" name="father_addwordroad" id="father_addwordroad" value="<?php echo $stu_father_addwordRow["father_addwordroad"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>" name="father_addwordprovince" id="father_addwordprovince">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_father_addwordRow["father_addwordprovince"]==$provincesRow["PROVINCE_ID"]){
+											$faw_selected="selected";
+										}else{
+											$faw_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $faw_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="father_addwordamphur" id="father_addwordamphur">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_father_addwordRow["father_addwordprovince"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_father_addwordRow["father_addwordamphur"]==$amphuresRow["AMPHUR_ID"]){
+									$fawd_selected="selected";
+								}else{
+									$fawd_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $fawd_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="father_addwordtumbon" id="father_addwordtumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_father_addwordRow["father_addwordamphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_father_addwordRow["father_addwordtumbon"]==$districts_print["DISTRICT_ID"]){
+											$fawt_selected="selected";
+										}else{
+											$fawt_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $fawt_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="father_addwordzipcode"><input type="text" name="father_addwordzipcode" id="father_addwordzipcodecopy"  class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_father_addwordRow["father_addwordzipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์ที่ทำงาน</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เบอร์โทรศัทพ์ที่ทำงาน" size="100" name="father_wp_tel" id="father_wp_tel" value="<?php echo $stu_fatherRow["father_wp_tel"];?>" maxlength="15">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+				<hr>ที่อยู่ บิดา<hr>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">บ้านเลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="บ้านเลขที่" size="100" maxlength="100" name="father_hno" id="father_hno" value="<?php echo $stu_father_addressRow["father_hno"];?>" maxlength="10">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="หมู่ที่" size="100" maxlength="100" name="father_moo" id="father_moo" value="<?php echo $stu_father_addressRow["father_moo"];?>" maxlength="20">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ซอย" size="100" maxlength="100" name="father_soi" id="father_soi" value="<?php echo $stu_father_addressRow["father_soi"];?>" maxlength="50">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ถนน" size="100" maxlength="100" name="father_road" id="father_road" value="<?php echo $stu_father_addressRow["father_road"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>" name="father_province" id="father_province">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_father_addressRow["father_province"]==$provincesRow["PROVINCE_ID"]){
+											$fp_selected="selected";
+										}else{
+											$fp_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $fp_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="father_amphur" id="father_amphur">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_father_addressRow["father_province"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_father_addressRow["father_amphur"]==$amphuresRow["AMPHUR_ID"]){
+									$fa_selected="selected";
+								}else{
+									$fa_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $fa_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="father_tumbon" id="father_tumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_father_addressRow["father_amphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_father_addressRow["father_tumbon"]==$districts_print["DISTRICT_ID"]){
+											$ft_selected="selected";
+										}else{
+											$ft_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $ft_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="father_zipcode"><input type="text" name="father_zipcode" id="father_zipcodecopy" class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_father_addressRow["father_zipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					
+				</div><hr>
+				<!--<div class="row">
+					<div class="col-<?php //echo $grid;?>-12">
+						<center><button type="submit" class="btn btn-info">แก้ไข...บิดา</button></center>
+					</div>
+				</div>-->
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<center><button type="button" class="btn btn-info" id="father_add">บันทึกข้อมูล...บิดา</button>&nbsp;<a href="./?evaluation_mod=sturc_dataall"><button type="button" class="btn btn-danger">ย้อนกลับ</button></a></center>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+<input type="hidden" name="stu_id" id="stu_id_pfa" value="<?php echo $set_stuid;?>">
+<input type="hidden" name="enter" id="enter_pfa" value="up_father">
+</form>
+<div id="print_father_add"></div>
+<?php
+
+	$stu_motherSql="SELECT * FROM `stu_mother` WHERE`stu_id`='{$set_stuid}';";
+	$stu_mother=new notrow_datastu($stu_motherSql);
+	foreach($stu_mother->datastu_array as $rc_key=>$stu_motherRow){}
+
+	$stu_mother_addressSql="SELECT * FROM `stu_mother_address` WHERE `stu_id`='{$set_stuid}'";
+	$stu_mother_address=new notrow_datastu($stu_mother_addressSql);
+	foreach($stu_mother_address->datastu_array as $rc_key=>$stu_mother_addressRow){}	
+
+	$stu_mother_addwordSql="SELECT * FROM `stu_mother_addword` WHERE `stu_id`='{$set_stuid}';";
+	$stu_mother_addword=new notrow_datastu($stu_mother_addwordSql);
+	foreach($stu_mother_addword->datastu_array as $rc_key=>$stu_mother_addwordRow){}
+		
+?>
+
+<form class="form-horizontal" name="mother_modify" method="post" action="view/mod/student/code/profile/profile_modify.php">
+<div class="row">
+	<div class="col-<?php echo $grid;?>-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">ข้อมูลมารดา</div>
+			<div class="panel-body">
+				
+			
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<div class="form-group">
+							<label>คำนำหน้า</label>
+							<select name="mother_prefix"  id="mother_prefix" data-placeholder="คำนำหน้าภาษาไทย.." class="select-size-<?php echo $grid;?>">
+								<option></option>
+								<optgroup label="คำนำหน้า..">
+					<?php
+						$npthailSql="SELECT `IDPrefix`,`prefixname`,`prefix_SName` 
+						             FROM `rc_prefix` 
+									 WHERE `IDPrefix`!='1' and `IDPrefix`!='2' and `IDPrefix`!='3' and `IDPrefix`!='7' and `IDPrefix`!='8'and `IDPrefix`!='9'";
+						$npthail=new row_datastu($npthailSql);
+						foreach($npthail->datastu_array as $rc_key=>$npthailRow){
+								if($stu_motherRow["mother_prefix"]==$npthailRow["IDPrefix"]){
+									$mp_selected="selected";
+								}else{
+									$mp_selected="";
+								}
+						?>
+									<option value="<?php echo $npthailRow["IDPrefix"]?>" <?php echo $mp_selected;?>><?php echo $npthailRow["prefixname"]?></option>
+									
+				<?php	}?>					
+			
+								</optgroup>
+							</select>
+						</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ ไทย</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ชื่อ ไทย" size="100" name="mother_fname" id="mother_fname" value="<?php echo $stu_motherRow["mother_fname"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล ไทย</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="นามสกุล ไทย" size="100" name="mother_sname" id="mother_sname" value="<?php echo $stu_motherRow["mother_sname"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+		
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<div class="form-group">
+							<label>คำนำหน้า</label>
+							<select name="mother_prefix_en" id="mother_prefix_en"  data-placeholder="คำนำหน้าภาษาอังกฤษ.." class="select-size-<?php echo $grid;?>">
+								<option></option>
+								<optgroup label="คำนำหน้าภาษาอังกฤษ..">
+											
+					<?php
+						$npenSql="SELECT `IDPrefix`,`prefixname`,`prefix_SName` 
+						             FROM `rc_prefix` 
+									 WHERE `IDPrefix`='8' or `IDPrefix`='9'";
+						$npen=new row_datastu($npenSql);
+						foreach($npen->datastu_array as $rc_key=>$npenRow){
+								if($stu_motherRow["mother_prefix_en"]==$npenRow["IDPrefix"]){
+									$mpe_selected="selected";
+								}else{
+									$mpe_selected="";
+								}
+							?>
+									<option value="<?php echo $npenRow["IDPrefix"]?>"<?php echo $mpe_selected;?>><?php echo $npenRow["prefixname"]?></option>
+									
+				<?php	}?>												
+			
+								</optgroup>
+							</select>
+						</div>				
+					</div>				
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ชื่อ อังกฤษ" size="100" name="mother_fname_en" id="mother_fname_en" value="<?php echo $stu_motherRow["mother_fname_en"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="นามสกุล อังกฤษ" size="100" name="mother_sname_en" id="mother_sname_en" value="<?php echo $stu_motherRow["mother_sname_en"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>			
+		
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-5">รหัสประจำตัวประชาชน </label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="รหัสประจำตัวประชาชน" size="100" name="mother_code" id="mother_code" maxlength="13" value="<?php echo $stu_motherRow["mother_code"]?>" >
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">วัน/เดือน/ปี เกิด</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control pickadate-accessibility"  placeholder="คลิกเลือก วัน/เดือน/ปี เกิด" size="100" name="mother_birthday" id="mother_birthday" value="<?php echo $stu_motherRow["mother_birthday"]?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-2">
+									<div class="form-group">
+										<label>กรุ๊ปเลือด</label>
+										<select data-placeholder="กรุ๊ปเลือด..." class="select-size-<?php echo $grid;?>" name="mother_blood" id="mother_blood">
+											<option></option>
+						<?php
+							if($stu_motherRow["mother_blood"]=="A"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A" selected="selected">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_motherRow["mother_blood"]=="B"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B" selected="selected">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_motherRow["mother_blood"]=="O"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O" selected="selected">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_motherRow["mother_blood"]=="AB"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB" selected="selected">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}else{ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}   ?>
+										</select>
+									</div>					
+					</div>					
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>เชื้อชาติ</label>
+										<select data-placeholder="เชื้อชาติ..." class="select-size-<?php echo $grid;?>" name="mother_nation" id="mother_nation">
+											<option></option>
+											<optgroup label="เชื้อชาติ">
+						<?php
+								if($stu_motherRow["mother_nation"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($stu_motherRow["mother_nation"]==$stusun_sturow["id"]){
+										$mn_selected="selected";
+									}else{
+										$mn_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $mn_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>						
+						
+											</optgroup>
+										</select>
+									</div>
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>สัญชาติ</label>
+										<select data-placeholder="สัญชาติ..." class="select-size-<?php echo $grid;?>" name="mother_sun" id="mother_sun">
+											<option></option>
+											<optgroup label="สัญชาติ">
+
+						<?php
+								if($stu_motherRow["mother_sun"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($stu_motherRow["mother_sun"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>
+
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ศาสนา</label>
+										<select data-placeholder="ศาสนา..." class="select-size-<?php echo $grid;?>" name="mother_IDReligion" id="mother_IDReligion">
+											<option></option>
+											<optgroup label="ศาสนา">
+							<?php
+								$ReligionSql="SELECT `IDReligion`,`Religion` FROM `rc_religion`";
+								$Religion=new row_datastu($ReligionSql);
+								foreach($Religion->datastu_array as $rc_key=>$Religion_print){ 
+								if($stu_motherRow["mother_IDReligion"]==$Religion_print["IDReligion"]){
+									$m_Religion="selected";
+								}else{
+									$m_Religion="";
+								}
+								?>
+											<option value="<?php echo $Religion_print["IDReligion"];?>" <?php echo $m_Religion;?>><?php echo $Religion_print["Religion"];?></option>
+							<?php	} ?>					
+
+											</optgroup>
+										</select>
+									</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เบอร์โทรศัทพ์" size="100" name="mother_phone" id="mother_phone" value="<?php echo $stu_motherRow["mother_phone"];?>" maxlength="10">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				
+
+				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อาชีพ</label>
+										<select data-placeholder="อาชีพ..." class="select-size-<?php echo $grid;?>" name="mother_career" id="mother_career">
+											<option></option>
+					<?php
+						$data_careerSql="SELECT `dc_key`, `dc_txt` FROM `data_career` ORDER BY `data_career`.`dc_key` ASC";
+						$data_career=new row_datastu($data_careerSql);
+						foreach($data_career->datastu_array as $rc_key=>$data_careerRow){
+								if($stu_motherRow["mother_career"]==$data_careerRow["dc_key"]){
+									$mc_selected="selected";
+								}else{
+									$mc_selected="";
+								}
+							?>
+												<option value="<?php echo $data_careerRow["dc_key"];?>"<?php echo $mc_selected;?>><?php echo $data_careerRow["dc_txt"];?></option>
+					<?php	}   ?>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ช่วงรายได้</label>
+										<select data-placeholder="ช่วงรายได้..." class="select-size-<?php echo $grid;?>" name="mother_salary" id="mother_salary">
+											<option></option>
+					<?php
+						$data_incomSql="SELECT `di_key`, `di_txt` FROM `data_incom` ORDER BY `data_incom`.`di_key` ASC";
+						$data_incom=new row_datastu($data_incomSql);
+						foreach($data_incom->datastu_array as $rc_key=>$data_incomRow){ 
+							if($stu_motherRow["mother_salary"]==$data_incomRow["di_key"]){
+								$salary_selected="selected";
+							}else{
+								$salary_selected="";
+							}
+						?>
+												<option value="<?php echo $data_incomRow["di_key"];?>"<?php echo $salary_selected;?>><?php echo $data_incomRow["di_txt"];?></option>
+					<?php	}   ?>
+					
+										</select>
+									</div>					
+					</div>
+					<!--<div class="col-<?php //echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php //echo $grid;?>-4">รายได้/เดือน</label>							
+								<div class="col-<?php //echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Left addon" size="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>-->
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>วุฒิการศึกษา</label>
+										<select data-placeholder="วุฒิการศึกษา..." class="select-size-<?php echo $grid;?>" name="mother_study" id="mother_study">
+											<option></option>
+					<?php
+						$data_studySql="SELECT `study_id`, `study_txt` FROM `data_study` ORDER BY `data_study`.`study_id` ASC";
+						$data_study=new row_datastu($data_studySql);
+						foreach($data_study->datastu_array as $rc_key=>$data_studyRow){
+							if($stu_motherRow["mother_study"]==$data_studyRow["study_id"]){
+								$ms_selected="selected";
+							}else{
+								$ms_selected="";
+							}
+
+							?>
+												<option value="<?php echo $data_studyRow["study_id"];?>"<?php echo $ms_selected;?>><?php echo $data_studyRow["study_txt"];?></option>
+					<?php	}   ?>	
+										</select>
+									</div>					
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">สถานที่ทำงาน</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="สถานที่ทำงาน" size="100" maxlength="100" name="mother_workplace" id="mother_workplace" value="<?php echo $stu_motherRow["mother_workplace"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">ตำแหน่ง/ภาวะงาน</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ตำแหน่ง/ภาวะงาน" size="100" maxlength="10" name="mother_wp_pro" id="mother_wp_pro" value="<?php echo $stu_motherRow["mother_wp_pro"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				
+				<hr>ที่อยู่ที่ทำงาน<hr>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เลขที่" size="100" maxlength="20" name="mother_wordhno" id="mother_wordhno" value="<?php echo $stu_mother_addwordRow["mother_wordhno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="หมู่ที่" size="100" maxlength="50" name="mother_wordmoo" id="mother_wordmoo" value="<?php echo $stu_mother_addwordRow["mother_wordmoo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ซอย" size="100" maxlength="100" name="mother_wordsoi" id="mother_wordsoi" value="<?php echo $stu_mother_addwordRow["mother_wordsoi"];?>"> 
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ถนน" size="100" maxlength="100" name="mother_wordroad" id="mother_wordroad" value="<?php echo $stu_mother_addwordRow["mother_wordroad"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>" name="mother_wordprovince" id="mother_wordprovince">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_mother_addwordRow["mother_wordprovince"]==$provincesRow["PROVINCE_ID"]){
+											$mwp_selected="selected";
+										}else{
+											$mwp_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $mwp_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="mother_wordamphur" id="mother_wordamphur">
+											<option></option>
+
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_mother_addwordRow["mother_wordprovince"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_mother_addwordRow["mother_wordamphur"]==$amphuresRow["AMPHUR_ID"]){
+									$sa_selected="selected";
+								}else{
+									$sa_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $sa_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="mother_wordtumbon" id="mother_wordtumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_mother_addwordRow["mother_wordamphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_mother_addwordRow["mother_wordtumbon"]==$districts_print["DISTRICT_ID"]){
+											$stum_selected="selected";
+										}else{
+											$stum_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $stum_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="mother_wordzipcode"><input type="text" name="mother_wordzipcode" id="mother_wordzipcodecopy"  class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_mother_addwordRow["mother_wordzipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์ที่ทำงาน</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เบอร์โทรศัทพ์ที่ทำงาน" size="100" name="mother_wp_tel" id="mother_wp_tel" value="<?php echo $stu_motherRow["mother_wp_tel"];?>" maxlength="15">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+				<hr>ที่อยู่ มารดา<hr>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">บ้านเลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="บ้านเลขที่" size="100" maxlength="10" name="mother_hno" id="mother_hno" value="<?php echo $stu_mother_addressRow["mother_hno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="หมู่ที่" size="100" maxlength="20" name="mother_moo" id="mother_moo" value="<?php echo $stu_mother_addressRow["mother_moo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Left addon" size="50" maxlength="100" name="mother_soi" id="mother_soi" value="<?php echo $stu_mother_addressRow["mother_soi"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ถนน" size="100" maxlength="100" name="mother_road" id="mother_road" value="<?php echo $stu_mother_addressRow["mother_road"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>" name="mother_province" id="mother_province">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_mother_addressRow["mother_province"]==$provincesRow["PROVINCE_ID"]){
+											$mp_selected="selected";
+										}else{
+											$mp_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $mp_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="mother_amphur" id="mother_amphur">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_mother_addressRow["mother_province"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_mother_addressRow["mother_amphur"]==$amphuresRow["AMPHUR_ID"]){
+									$ma_selected="selected";
+								}else{
+									$ma_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $ma_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="mother_tumbon" id="mother_tumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_mother_addressRow["mother_amphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_mother_addressRow["mother_tumbon"]==$districts_print["DISTRICT_ID"]){
+											$mt_selected="selected";
+										}else{
+											$mt_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $mt_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>	
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="mother_zipcode"><input type="text" name="mother_zipcode" id="mother_zipcodecopy" class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_mother_addressRow["mother_zipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					
+				</div><hr>
+				<!--<div class="row">
+					<div class="col-<?php //echo $grid;?>-12">
+						<center><button type="submit" class="btn btn-info">บันทึกข้อมูล...มารดา</button></center>
+					</div>
+				</div>-->
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<center><button type="button" class="btn btn-info" id="mother_modify">บันทึกข้อมูล...มารดา</button>&nbsp;<a href="./?evaluation_mod=sturc_dataall"><button type="button" class="btn btn-danger">ย้อนกลับ</button></a></center>
+					</div>
+				</div>
+		</div>	
+	</div>
+	</div>
+</div>
+<input type="hidden" name="stu_id" value="<?php echo $set_stuid;?>" id="stu_id_mm">
+<input type="hidden" name="enter" value="up_mother" id="enter_mm">
+</form>
+<div id="print_mother_modify"></div>
+<?php
+
+	$stu_guardianSql="SELECT * FROM `stu_guardian` WHERE `stu_id`='{$set_stuid}';";
+	$stu_guardian=new notrow_datastu($stu_guardianSql);
+	foreach($stu_guardian->datastu_array as $rc_key=>$stu_guardianRow){}
+	
+	$stu_guardian_addressSql="SELECT * FROM `stu_guardian_address` WHERE `stu_id`='{$set_stuid}'";
+	$stu_guardian_address=new notrow_datastu($stu_guardian_addressSql);
+	foreach($stu_guardian_address->datastu_array as $rc_key=>$stu_guardian_addressRow){}
+	
+	$stu_guardian_addwordSql="SELECT * FROM `stu_guardian_addword` WHERE `stu_id`='{$set_stuid}'";
+	$stu_guardian_addword=new notrow_datastu($stu_guardian_addwordSql);
+	foreach($stu_guardian_addword->datastu_array as $rc_key=>$stu_guardian_addwordRow){}
+	
+?>
+
+<form class="form-horizontal" name="parent_modify" method="post" action="view/mod/student/code/profile/profile_modify.php">
+<div class="row">
+	<div class="col-<?php echo $grid;?>-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">ข้อมูลผู้ปกครอง</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-6">
+									<!--<div class="form-group">
+										<label>ความสัมพันธ์  (บิดา - มารดา)</label>
+										<select data-placeholder="ความสัมพันธ์ (ผู้ปกครอง)..." class="select-size-<?php //echo $grid;?>" name="parent_family" id="parent_family" required="required">
+											<option></option>
+											<optgroup label="ความสัมพันธ์ ">
+					<?php
+					/*	$data_familySql="SELECT `family_key`, `family_txt` FROM `data_family`";
+						$data_family=new row_datastu($data_familySql);
+						foreach($data_family->datastu_array as $rc_key=>$data_familyprint){
+							if($stu_guardianRow["parent_family"]==$data_familyprint["family_key"]){
+								$family_selected="selected";
+							}else{
+								$family_selected="";
+							}
+							
+							?>
+												<option value="<?php //echo $data_familyprint["family_key"];?>" <?php //echo $family_selected;?>><?php //echo $data_familyprint["family_txt"];?></option>
+				<?php	} */?>						
+											</optgroup>
+
+										</select>
+									</div>-->					
+					</div>
+					<div class="col-<?php echo $grid;?>-6">
+									<div class="form-group">
+										<label>ผู้ปกครอง</label>
+										<select data-placeholder="ผู้ปกครอง..." name="parent_status" id="parent_status" class="select-size-<?php echo $grid;?>"  required="required">
+											<option></option>
+								<?php
+									$data_relySql="SELECT `dr_key`,`dr_txt`FROM `data_rely` WHERE `dr_key` !='1'";
+									$data_relyRs=new row_datastu($data_relySql);
+									foreach($data_relyRs->datastu_array as $rc_key=>$data_relyRow){
+										if($stu_guardianRow["parent_status"]==$data_relyRow["dr_key"]){
+											$parent_selected="selected";
+										}else{
+											$parent_selected="";
+										}
+										?>
+												<option value="<?php echo $data_relyRow["dr_key"];?>"<?php echo $parent_selected;?>><?php echo $data_relyRow["dr_txt"];?></option>
+							<?php	}   ?>		
+
+
+										</select>
+									</div>						
+					</div>
+				</div>
+			
+<!--********************************************************************************************-->		
+			<div id="print_parent">
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php
+				if($stu_guardianRow["parent_status"]==1){
+					//-----------------------------------------------------------------------------
+				}elseif($stu_guardianRow["parent_status"]==2){
+					//-----------------------------------------------------------------------------
+				}elseif($stu_guardianRow["parent_status"]==3){
+					//-----------------------------------------------------------------------------
+				}elseif($stu_guardianRow["parent_status"]==5){
+					//-----------------------------------------------------------------------------
+				}else{ ?>
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+<!--********************************************************************************************-->		
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<div class="form-group">
+							<label>คำนำหน้า</label>
+							<select name="parent_prefix" id="parent_prefix" data-placeholder="คำนำหน้าภาษาไทย.." class="select-size-<?php echo $grid;?>">
+								<option></option>
+								<optgroup label="คำนำหน้า..">
+					<?php
+						$npthailSql="SELECT `IDPrefix`,`prefixname`,`prefix_SName` 
+						             FROM `rc_prefix` 
+									 WHERE `IDPrefix`!='1' and `IDPrefix`!='2'  and `IDPrefix`!='7' and `IDPrefix`!='8'and `IDPrefix`!='9'";
+						$npthail=new row_datastu($npthailSql);
+						foreach($npthail->datastu_array as $rc_key=>$npthailRow){ 
+							if($stu_guardianRow["parent_prefix"]==$npthailRow["IDPrefix"]){
+								$pprefix_selected="selected";
+							}else{
+								$pprefix_selected="";
+							}
+						
+						?>
+									<option value="<?php echo $npthailRow["IDPrefix"]?>" <?php echo $pprefix_selected;?>><?php echo $npthailRow["prefixname"]?></option>
+									
+				<?php	}?>					
+			
+								</optgroup>
+							</select>
+						</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ชื่อ ไทย" size="100" name="parent_fname" id="parent_fname" value="<?php echo $stu_guardianRow["parent_fname"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="นามสกุล ไทย" size="100" name="parent_sname" id="parent_sname" value="<?php echo $stu_guardianRow["parent_sname"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+		
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<div class="form-group">
+							<label>คำนำหน้า</label>
+							<select name="parent_prefix_en" id="" data-placeholder="คำนำหน้าภาษาอังกฤษ.." class="select-size-<?php echo $grid;?>">
+								<option></option>
+								<optgroup label="คำนำหน้าภาษาอังกฤษ...">
+					<?php
+						$npthailSql="SELECT `IDPrefix`,`prefixname`,`prefix_SName` 
+						             FROM `rc_prefix` 
+									 WHERE  `IDPrefix`='7' or `IDPrefix`='8' or `IDPrefix`='9'";
+						$npthail=new row_datastu($npthailSql);
+						foreach($npthail->datastu_array as $rc_key=>$npthailRow){ 
+							if($stu_guardianRow["parent_prefix_en"]==$npthailRow["IDPrefix"]){
+								$ppe_selected="selected";
+							}else{
+								$ppe_selected="";
+							}
+						?>
+									<option value="<?php echo $npthailRow["IDPrefix"]?>" <?php echo $ppe_selected;?>><?php echo $npthailRow["prefixname"]?></option>
+									
+				<?php	}?>					
+			
+								</optgroup>
+							</select>
+						</div>				
+					</div>				
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ชื่อ</label>							
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ชื่อ อังกฤษ" size="100" name="parent_fname_en" id="parent_fname_en" value="<?php echo $stu_guardianRow["parent_fname_en"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">นามสกุล</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="นามสกุล อังกฤษ" size="100" name="parent_sname_en" id="parent_sname_en" value="<?php echo $stu_guardianRow["parent_sname_en"];?>" maxlength="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-5">รหัสประจำตัวประชาชน</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="รหัสประจำตัวประชาชน" size="100" name="parent_code" id="parent_code" value="<?php echo $stu_guardianRow["parent_code"];?>" maxlength="13"> 
+									</div>
+								</div>
+							</div>
+                        </fieldset>
+					</div>
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-3">วัน/เดือน/ปี เกิด</label>
+								<div class="col-<?php echo $grid;?>-9">
+									<div class="input-group">
+										<input type="text" class="form-control pickadate-accessibility" placeholder="คลิกเลือก วัน/เดือน/ปี เกิด" size="100" name="guardian_birthday" id="guardian_birthday" value="<?php echo $stu_guardianRow["guardian_birthday"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-2">
+									<div class="form-group">
+										<label>กรุ๊ปเลือด</label>
+										<select data-placeholder="กรุ๊ปเลือด..." class="select-size-<?php echo $grid;?>" name="parent_blood" id="parent_blood">
+											<option></option>
+						<?php
+							if($stu_guardianRow["parent_blood"]=="A"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A" selected="selected">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_guardianRow["parent_blood"]=="B"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B" selected="selected">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_guardianRow["parent_blood"]=="O"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O" selected="selected">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}elseif($stu_guardianRow["parent_blood"]=="AB"){ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB" selected="selected">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}else{ ?>
+											<option></option>
+											<optgroup label="กรุ๊ปเลือด">
+												<option value="A">กรุ๊ปเลือด A</option>
+												<option value="B">กรุ๊ปเลือด B</option>
+												<option value="O">กรุ๊ปเลือด O</option>
+												<option value="AB">กรุ๊ปเลือด AB</option>
+											</optgroup>								
+					<?php		}   ?>
+										</select>
+									</div>					
+					</div>					
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>เชื้อชาติ</label>
+										<select data-placeholder="เชื้อชาติ..." class="select-size-<?php echo $grid;?>" name="parent_nation" id="parent_nation">
+											<option></option>
+											<optgroup label="เชื้อชาติ">
+						<?php
+								if($stu_guardianRow["parent_nation"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($stu_guardianRow["parent_nation"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>						
+						
+											</optgroup>
+										</select>
+									</div>
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>สัญชาติ</label>
+										<select data-placeholder="สัญชาติ..." class="select-size-<?php echo $grid;?>" name="parent_sun" id="parent_sun">
+											<option></option>
+											<optgroup label="สัญชาติ">
+
+						<?php
+								if($stu_guardianRow["parent_sun"]=="188"){ ?>
+												<option value="188" selected="selected">ไทย / Thailand</option>
+						<?php	}else{ ?>
+												<option value="188">ไทย / Thailand</option>
+						<?php	}      ?>				
+						
+							<?php
+								$stusun_stu="SELECT `id`,`country_name_th`,`country_name_en` FROM `db_country`where `id`!='188' order by convert ( `country_name_th` using tis620) asc";
+								$stusun_sturs=new row_datastu($stusun_stu);
+								foreach($stusun_sturs->datastu_array as $rc_key=>$stusun_sturow){ 
+									if($stu_guardianRow["parent_sun"]==$stusun_sturow["id"]){
+										$stu_selected="selected";
+									}else{
+										$stu_selected="";
+									}
+								?>
+											<option value="<?php echo $stusun_sturow["id"] ;?>" <?php echo $stu_selected;?>><?php echo $stusun_sturow["country_name_th"]." / ".$stusun_sturow["country_name_en"];?></option>
+							<?php		 } ?>
+
+											</optgroup>	
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ศาสนา</label>
+										<select data-placeholder="ศาสนา..." class="select-size-<?php echo $grid;?>" name="parent_IDReligion" id="parent_IDReligion">
+											<option></option>
+											<optgroup label="ศาสนา">
+							<?php
+								$ReligionSql="SELECT `IDReligion`,`Religion` FROM `rc_religion`";
+								$Religion=new row_datastu($ReligionSql);
+								foreach($Religion->datastu_array as $rc_key=>$Religion_print){ 
+								if($stu_guardianRow["parent_IDReligion"]==$Religion_print["IDReligion"]){
+									$stu_Religion="selected";
+								}else{
+									$stu_Religion="";
+								}
+								?>
+											<option value="<?php echo $Religion_print["IDReligion"];?>" <?php echo $stu_Religion;?>><?php echo $Religion_print["Religion"];?></option>
+							<?php	} ?>					
+
+											</optgroup>	
+										</select>
+									</div>				
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เบอร์โทรศัทพ์" size="100" name="parent_phone" id="parent_phone" value="<?php echo $stu_guardianRow["parent_phone"];?>"maxlength="10">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>
+				
+
+				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อาชีพ</label>
+										<select data-placeholder="อาชีพ..." class="select-size-<?php echo $grid;?>" name="parent_career" id="parent_career">
+											<option></option>
+					<?php
+						$data_careerSql="SELECT `dc_key`, `dc_txt` FROM `data_career` ORDER BY `data_career`.`dc_key` ASC";
+						$data_career=new row_datastu($data_careerSql);
+						foreach($data_career->datastu_array as $rc_key=>$data_careerRow){
+								if($stu_guardianRow["parent_career"]==$data_careerRow["dc_key"]){
+									$pc_selected="selected";
+								}else{
+									$pc_selected="";
+								}
+							?>
+												<option value="<?php echo $data_careerRow["dc_key"];?>" <?php echo $pc_selected;?>><?php echo $data_careerRow["dc_txt"];?></option>
+					<?php	}   ?>	
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ช่วงรายได้</label>
+										<select data-placeholder="ช่วงรายได้..." class="select-size-<?php echo $grid;?>" name="parent_salary" id="parent_salary">
+											<option></option>
+					<?php
+						$data_incomSql="SELECT `di_key`, `di_txt` FROM `data_incom` ORDER BY `data_incom`.`di_key` ASC";
+						$data_incom=new row_datastu($data_incomSql);
+						foreach($data_incom->datastu_array as $rc_key=>$data_incomRow){ 
+							if($stu_guardianRow["parent_salary"]==$data_incomRow["di_key"]){
+								$ps_selected="selected";
+							}else{
+								$ps_selected="";
+							}
+						?>
+												<option value="<?php echo $data_incomRow["di_key"];?>" <?php echo $ps_selected;?>><?php echo $data_incomRow["di_txt"];?></option>
+					<?php	}   ?>
+										</select>
+									</div>					
+					</div>
+					<!--<div class="col-<?php //echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php //echo $grid;?>-4">รายได้/เดือน</label>							
+								<div class="col-<?php //echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Left addon" size="100">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>-->
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>วุฒิการศึกษา</label>
+										<select data-placeholder="วุฒิการศึกษา..." class="select-size-<?php echo $grid;?>" name="parent_study" id="parent_study">
+											<option></option>
+										<?php
+						$data_studySql="SELECT `study_id`, `study_txt` FROM `data_study` ORDER BY `data_study`.`study_id` ASC";
+						$data_study=new row_datastu($data_studySql);
+						foreach($data_study->datastu_array as $rc_key=>$data_studyRow){ 
+							if($stu_guardianRow["parent_study"]==$data_studyRow["study_id"]){
+								$study_selected="selected";
+							}else{
+								$study_selected="";
+							}
+						?>
+												<option value="<?php echo $data_studyRow["study_id"];?>" <?php echo $study_selected;?>><?php echo $data_studyRow["study_txt"];?></option>
+					<?php	}   ?>	
+										</select>
+									</div>					
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">สถานที่ทำงาน</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="สถานที่ทำงาน" size="100" maxlength="100" name="parent_workplace" id="parent_workplace" value="<?php echo $stu_guardianRow["parent_workplace"];?>"> 
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+					<div class="col-<?php echo $grid;?>-4">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">ตำแหน่ง/ภาวะงาน</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ตำแหน่ง/ภาวะงาน" size="100" maxlength="100" name="parent_wp_pro" id="parent_wp_pro" value="<?php echo $stu_guardianRow["parent_wp_pro"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+				
+				<hr>ที่อยู่ที่ทำงาน<hr>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เลขที่" size="100" maxlength="10" name="parent_addwordhno" id="parent_addwordhno" value="<?php echo $stu_guardian_addwordRow["parent_addwordhno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="หมู่ที่" size="100" maxlength="20" name="parent_addwordmoo" id="parent_addwordmoo" value="<?php echo $stu_guardian_addwordRow["parent_addwordmoo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ซอย" size="100" maxlength="50" name="parent_addwordsoi" id="parent_addwordsoi" value="<?php echo $stu_guardian_addwordRow["parent_addwordsoi"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ถนน" size="100" maxlength="100" name="parent_addwordroad" id="parent_addwordroad" value="<?php echo $stu_guardian_addwordRow["parent_addwordroad"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>" name="parent_addwordprovince" id="parent_addwordprovince">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_guardian_addwordRow["parent_addwordprovince"]==$provincesRow["PROVINCE_ID"]){
+											$pap_selected="selected";
+										}else{
+											$pap_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $pap_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="parent_addwordamphur" id="parent_addwordamphur">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_guardian_addwordRow["parent_addwordprovince"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_guardian_addwordRow["parent_addwordamphur"]==$amphuresRow["AMPHUR_ID"]){
+									$pad_selected="selected";
+								}else{
+									$pad_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $pad_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="parent_addwordtumbon" id="parent_addwordtumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_guardian_addwordRow["parent_addwordamphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_guardian_addwordRow["parent_addwordtumbon"]==$districts_print["DISTRICT_ID"]){
+											$pat_selected="selected";
+										}else{
+											$pat_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $pat_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="parent_addwordzipcode"><input type="text" name="parent_addwordzipcode" id="parent_addwordzipcodecopy" class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_guardian_addwordRow["parent_addwordzipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-5">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">เบอร์โทรศัทพ์ที่ทำงาน</label>							
+								<div class="col-<?php echo $grid;?>-7">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="เบอร์โทรศัทพ์ที่ทำงาน" size="100" name="parent_wp_tel" id="parent_wp_tel" value="<?php echo $stu_guardianRow["parent_wp_tel"];?>" maxlength="15">
+									</div>
+								</div>
+							</div>
+                        </fieldset>					
+					</div>
+				</div>				
+				<hr>ที่อยู่ ผู้ปกครอง<hr>
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">บ้านเลขที่</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="บ้านเลขที่" size="100" maxlength="10" name="parent_hno" id="parent_hno" value="<?php echo $stu_guardian_addressRow["parent_hno"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">หมู่ที่</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="หมู่ที่" size="100" maxlength="20"  name="parent_moo" id="parent_moo" value="<?php echo $stu_guardian_addressRow["parent_moo"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ซอย</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ซอย" size="100" maxlength="50"  name="parent_soi" id="parent_soi" value="<?php echo $stu_guardian_addressRow["parent_soi"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-2">ถนน</label>
+								<div class="col-<?php echo $grid;?>-10">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="ถนน" size="100" maxlength="100"  name="parent_road" id="parent_road" value="<?php echo $stu_guardian_addressRow["parent_road"];?>">
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>จังหวัด</label>
+										<select data-placeholder="จังหวัด..." class="select-size-<?php echo $grid;?>" name="parent_province" id="parent_province">
+											<option></option>
+											<optgroup label="จังหวัด">
+											
+								<?php
+									$data_provinces="SELECT `PROVINCE_ID`,`PROVINCE_NAME`,`PROVINCE_NAME_ENG` FROM `provinces` order by convert ( `PROVINCE_NAME` using tis620) asc";
+									$txt_provinces=new row_datastu($data_provinces);
+									foreach($txt_provinces->datastu_array as $rc_key=>$provincesRow){
+										if($stu_guardian_addressRow["parent_province"]==$provincesRow["PROVINCE_ID"]){
+											$pp_selected="selected";
+										}else{
+											$pp_selected="";
+										}
+										?>
+									
+												<option value="<?php echo $provincesRow["PROVINCE_ID"];?>" <?php echo $pp_selected;?>><?php echo $provincesRow["PROVINCE_NAME"]." / ".$provincesRow["PROVINCE_NAME_ENG"];?></option>
+								<?php	} ?>			 
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>อำเภอ</label>
+										<select data-placeholder="อำเภอ..." class="select-size-<?php echo $grid;?>" name="parent_amphur" id="parent_amphur">
+											<option></option>
+											<optgroup label="อำเภอ">
+											
+							<?php
+								$amphuresSql="SELECT `AMPHUR_ID`,`AMPHUR_NAME`,`AMPHUR_NAME_ENG` FROM `amphures` WHERE `PROVINCE_ID`='{$stu_guardian_addressRow["parent_province"]}'";
+								$amphuresRs=new row_datastu($amphuresSql);
+								foreach($amphuresRs->datastu_array as $rc_key=>$amphuresRow){ 
+								if($stu_guardian_addressRow["parent_amphur"]==$amphuresRow["AMPHUR_ID"]){
+									$pa_selected="selected";
+								}else{
+									$pa_selected="";
+								}
+								?>
+												<option value="<?php echo $amphuresRow["AMPHUR_ID"];?>" <?php echo $pa_selected;?>><?php echo $amphuresRow["AMPHUR_NAME"]." / ".$amphuresRow["AMPHUR_NAME_ENG"];?></option>
+						<?php	}   ?>				
+											</optgroup>
+										</select>
+									</div>					
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+									<div class="form-group">
+										<label>ตำบล</label>
+										<select data-placeholder="ตำบล..." class="select-size-<?php echo $grid;?>" name="parent_tumbon" id="parent_tumbon">
+											<option></option>
+											<optgroup label="ตำบล">
+								<?php
+									$districtsSql="SELECT `DISTRICT_ID`,`DISTRICT_NAME`,`DISTRICT_NAME_ENG` FROM `districts` WHERE `AMPHUR_ID`='{$stu_guardian_addressRow["parent_amphur"]}';";
+									$districts=new row_datastu($districtsSql);
+									foreach($districts->datastu_array as $rc_key=>$districts_print){ 
+										if($stu_guardian_addressRow["parent_tumbon"]==$districts_print["DISTRICT_ID"]){
+											$pt_selected="selected";
+										}else{
+											$pt_selected="";
+										}
+									
+									?>
+											<option value="<?php echo $districts_print["DISTRICT_ID"];?>" <?php echo $pt_selected;?>><?php echo $districts_print["DISTRICT_NAME"]." / ".$districts_print["DISTRICT_NAME_ENG"];?></option>
+							<?php	} ?>
+
+											</optgroup>
+										</select>
+									</div>						
+					</div>
+					<div class="col-<?php echo $grid;?>-3">
+						<fieldset class="content-group">
+							<div class="form-group">
+								<label class="control-label col-<?php echo $grid;?>-4">รหัสไปรษณีย์</label>
+								<div class="col-<?php echo $grid;?>-8">
+									<div class="input-group">
+										<div id="parent_zipcode"><input type="text" name="parent_zipcode" id="parent_zipcodecopy"  class="form-control" readonly="readonly" placeholder="รหัสไปรษณีย์" size="100" maxlength="6" value="<?php echo $stu_guardian_addressRow["parent_zipcode"];?>"></div>
+									</div>
+								</div>
+							</div>
+                        </fieldset>						
+					</div>
+					
+				</div><hr>		
+<!--********************************************************************************************-->	
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->						
+		<?php	}      ?>
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->				
+			</div>
+<!--********************************************************************************************-->					
+				<!--<div class="row">
+					<div class="col-<?php //echo $grid;?>-12">
+						<center><button type="submit" class="btn btn-info">บันทึกข้อมูล..ผู้ปกครอง</button></center>
+					</div>
+				</div>-->
+				<div class="row">
+					<div class="col-<?php  echo $grid;?>-12">
+						<center><button type="button" id="parent_modify" class="btn btn-info">บันทึกข้อมูล..ผู้ปกครอง</button>&nbsp;<a href="./?evaluation_mod=sturc_dataall"><button type="button" class="btn btn-danger">ย้อนกลับ</button></a></center>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<input type="hidden" name="stu_id" value="<?php echo $set_stuid;?>" id="stu_id_pm">
+<input type="hidden" name="enter" value="up_guardian" id="enter_pm">
+</form>
+<div id="print_parent_modify"></div>
+
+
+
+
+
+
