@@ -5,7 +5,7 @@
 ?>
 
 <?php
-	$txt_t=1;
+	$txt_t=2;
 	$txt_y=2566;
 	$static03C=new static_stuRC($txt_t,$txt_y,3,1);
 	$static11C=new static_stuRC($txt_t,$txt_y,11,1);
