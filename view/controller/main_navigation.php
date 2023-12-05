@@ -589,6 +589,12 @@
 
 
 										<li class="navigation-header"><span>รายงาน / แสดงข้อมูล</span> <i class="icon-menu" title="Main pages"></i></li>
+	<?php
+			if(($copy_evaluation_mod=="student_late_mail")){ ?>
+										<li class="active"><a href="./?evaluation_mod=student_late_mail">ออกหนังสือแจ้งเตือนการมาสาย</a></li>
+	<?php	}else{ ?>
+										<li><a href="./?evaluation_mod=student_late_mail">ออกหนังสือแจ้งเตือนการมาสาย</a></li>
+	<?php	} ?>
 									</ul>									
 								</li>
 								
