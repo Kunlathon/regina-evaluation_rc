@@ -1,6 +1,5 @@
 <?php
     header('Content-Type: text/html; charset=UTF-8');
-    
 //รันระยะเวลาเรียน เทอม และ ปีการศึกษา
     class SetTimeSL{ 
         public $STSL_Type,$STSL_T,$STSL_Y;
@@ -561,7 +560,6 @@
         }
     //student count late end
 ?>
-
 
 <?php
     class count_late_mail{

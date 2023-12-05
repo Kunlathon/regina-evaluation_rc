@@ -1,5 +1,6 @@
 <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
+   
     class Student_late extends CI_Controller{
         public function student_late_save(){
             $this->load->view('student_late/student_late_save');
@@ -32,8 +33,10 @@
             $this->load->view('student_late/student_late_load/late_load');
         }
 
-        
-
+        public function load_date_late_mail($type_load){
+            $run_type_load_mail=array('type_load'=>$type_load);
+            $this->load->view('student_late/student_late_mail/load_date_late_mail',$run_type_load_mail);
+        }
 
     }
 ?>

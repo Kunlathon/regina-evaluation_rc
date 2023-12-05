@@ -57,15 +57,15 @@
 
         }
             $set_time_system=new RunDateTime("date_all",$ssy_date_start,$ssy_date_end);
-        if((isset($_POST["manage"]))){
-            $manage=filter_input(INPUT_POST,'manage');
-        }else{
-            if((isset($_GET["manage"]))){
-                $manage=filter_input(INPUT_GET,'manage');
+            if((isset($_POST["manage"]))){
+                $manage=filter_input(INPUT_POST,'manage');
             }else{
-                $manage="add_file";
-            }
-        }   ?>
+                if((isset($_GET["manage"]))){
+                    $manage=filter_input(INPUT_GET,'manage');
+                }else{
+                    $manage="add_file";
+                }
+            }   ?>
 
 
             <div class="row">
@@ -299,7 +299,7 @@
                         foreach($headingsArray as $columnKey => $columnHeading) {
                             $namedDataArray[$r][$columnHeading] = $dataRow[$row][$columnKey];
                         }
-                    }
+                    }else{}
                 }			
 /** PHPExcel End***********************/ ?>
 
@@ -320,23 +320,17 @@
                         $error_count=0;
                         foreach($namedDataArray as $Student_Row){
 
-                            if((isset($Student_Row["วันที่สาย"]))){
+                            if((isset($Student_Row["วันที่สาย Ep.(05/11/2560)"]))){
 
-                                //$DateLate=$Student_Row["วันที่สาย"];
+                                //$DateLate=$Student_Row["วันที่สาย Ep.(05/11/2560)"];
 
-                                //$dateString = '$Student_Row["วันที่สาย"]';
-                                $dateObject = DateTime::createFromFormat('d/m/Y', $Student_Row["วันที่สาย"]);
+                                //$dateString = '$Student_Row["วันที่สาย Ep.(05/11/2560)"]';
+                                $dateObject = DateTime::createFromFormat('d/m/Y', $Student_Row["วันที่สาย Ep.(05/11/2560)"]);
                                 $DateLate = $dateObject->format('d/m/Y');
                                 
-                               
-                               
                                 $DateLate=str_replace("/","-",$DateLate);
                                 $DateLate= date("Y-m-d",strtotime("-543 year",strtotime($DateLate)));
                               
-                    
-
-
-
                             }else{
                                 $DateLate="-";
                             }
