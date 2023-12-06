@@ -212,12 +212,13 @@
 
                                     <fieldset class="content-group">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered datatable-basic">
+                                            <table class="table table-bordered table-hover datatable-basic" style="font-size: 14px;">
                                                 <thead>
                                                     <tr>
                                                         <th><div>ลำดับ</div></th>
                                                         <th><div>รหัสนักเรียน</div></th>
                                                         <th><div>ชื่อ-สกุล</div></th>
+                                                        <th><div>สาย</div></th>
 
                     <?php
                         if(($count_status=="B")){
@@ -281,12 +282,32 @@
                                                         <td><div><?php echo $CountStudent;?></div></td>
                                                         <td><div><?php echo $SLL_Student_Key;?></div></td>
                                                         <td><div><?php echo $SLL_Student_Name." ชั้น ".$SLL_class." ห้อง ".$SLL_room." เลขที่ ".$SLL_no;?></div></td>
-                        <?php
+                                                        <td><div><span class="badge bg-indigo-300 text-center" style="font-size: 12px;"><?php echo $count_late;?></span></div></td>
+                       <?php
                             if(($count_status=="B")){
+                                $count_out_mail=0;
                                 $print_out_mail=new ManageSetCountLate("condition","-","-",$count_status,"-");
-                                foreach($print_out_mail->CalllMSCL_Print() as $rc=>$out_mail_Row){  ?>
+                                foreach($print_out_mail->CalllMSCL_Print() as $rc=>$out_mail_Row){
+                                    $count_out_mail=$count_out_mail+1;
+                                    ?>
 
-                                                            <td><div></div></td>
+                        <?php
+                                 if(($count_late>=$out_mail_Row["sscl_CountA"] and $count_late>=$out_mail_Row["sscl_CountB"])){  ?>
+                                                        <td>
+                                                            <div>
+<form name="form_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" id="form_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" method="post" action="<?php echo $golink;?>/student_late/print_data_late/<?php echo $SLL_Student_Key;?>/<?php echo $ssy_t;?>/<?php echo $ssy_y;?>" enctype="multipart/form-data" accept-charset="UTF-8" target="_blank">
+                                                                <button type="submit" name="submit_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" id="submit_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" class="btn text-danger-300 text-center border-indigo btn-flat" data-popup="tooltip-custom" title="หนังสือเตือนครั้งที่ <?php echo $count_out_mail;?>"><i class="icon-printer4"></i></button>
+                                                                <input type="hidden" name="key" id="key" value="<?php echo $SLL_Student_Key;?>">
+                                                                <input type="hidden" name="term" id="term" value="<?php echo $ssy_t;?>">
+                                                                <input type="hidden" name="year" id="year" value="<?php echo $ssy_y;?>">
+</form>
+                                                            </div>
+                                                        </td>
+                        <?php    }else{ ?>
+                                                        <td><div></div></td>
+                        <?php    } ?>
+
+
                                                             
                         <?php   }
                             }elseif(($count_status=="A")){

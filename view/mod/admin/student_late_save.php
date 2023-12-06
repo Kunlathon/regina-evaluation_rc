@@ -4,23 +4,24 @@
 	include("view/database/pdo_student_late.php");
 	include("view/database/class_student_late.php");
 ?>
-<div class="row">
-	<div class="col-<?php echo $grid;?>-12">
-		<div class="breadcrumb-line breadcrumb-line-component">
-			<ul class="breadcrumb">
-				<h4> <span class="text-semibold">นักเรียนมาสาย </span>การจัดการข้อมูลนักเรียนมาสาย</h4>
-			</ul>
-			<ul class="breadcrumb-elements">
-				<div class="heading-btn-group">
-					<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
-					<a class="btn btn-link  text-size-small"><span>/</span></a>
-					<a class="btn btn-link  text-size-small"><span>การจัดการข้อมูลนักเรียนมาสาย</span></a>
-				</div>
-			</ul>
-		</div>
-	</div>
-</div><br>
-
+    <fieldset class="content-group">
+        <div class="row">
+            <div class="col-<?php echo $grid;?>-12">
+                <div class="breadcrumb-line breadcrumb-line-component">
+                    <ul class="breadcrumb">
+                        <h4> <span class="text-semibold">นักเรียนมาสาย </span>การจัดการข้อมูลนักเรียนมาสาย</h4>
+                    </ul>
+                    <ul class="breadcrumb-elements">
+                        <div class="heading-btn-group">
+                            <a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
+                            <a class="btn btn-link  text-size-small"><span>/</span></a>
+                            <a class="btn btn-link  text-size-small"><span>การจัดการข้อมูลนักเรียนมาสาย</span></a>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </fieldset>
     <?php
         $Time_Student_Set=new SetTimeSL("Row","-","-");    
         foreach($Time_Student_Set->PrintSetTime() as $rc_key=>$Time_Student_Print){
@@ -67,7 +68,29 @@
                 }
             }   ?>
 
-
+        <fieldset class="content-group">
+            <div class="row">
+                <div class="col-<?php echo $grid;?>-12">
+                    <div class="btn-group">
+                        <label> 
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/?evaluation_mod=student_late_save'" name="button_student_late_save" id="button_student_late_save" class="btn bg-primary-700">การจัดการข้อมูลนักเรียนมาสาย</button>							
+                        </label>                
+                    </div>   
+                    <div class="btn-group">
+                        <label>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/?evaluation_mod=student_late_load'" name="button_student_late_load" id="button_student_late_load" class="btn bg-info-700">ประมวลผลข้อมูลนักเรียนมาสาย</button>							
+                        </label>                
+                    </div>  
+                    <div class="btn-group">
+                        <label>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/?evaluation_mod=student_late_mail'" name="button_student_late_mail" id="button_student_late_mail" class="btn bg-pink-700">ออกหนังสือแจ้งเตือนการมาสาย</button>							
+                        </label>                
+                    </div>  
+                </div>
+            </div>    
+	    </fieldset>
+    
+        <fieldset class="content-group">
             <div class="row">
                 <div class="col-<?php echo $grid;?>-12">
                     <div class="btn-group">
@@ -93,11 +116,8 @@
 						</label>
 					</div>            
                 </div>
-            </div><br>
-
-
-    
-   
+            </div>
+        </fieldset>   
 
 
     <?php    if(($manage=="add_file")){  ?>
@@ -105,77 +125,81 @@
             <?php
                     if(($set_time_system->Call_DateTime_Start()=="ON")){ ?>
 
-            <div class="row">
-                <div class="col-<?php echo $grid;?>-12">
-                    <div class="tabbable tab-content-bordered">
-                        <ul class="nav nav-tabs bg-pink">
-                            <li class="active"><a href="#student_late-tab1" data-toggle="tab">บันทึกข้อมูลนักเรียนมาสาย</a></li>
-                            <li><a href="#student_late-tab2" data-toggle="tab">คำแนะนำ</a></li>
-                        </ul>
+            <fieldset class="content-group">
+                <div class="row">
+                    <div class="col-<?php echo $grid;?>-12">
+                        <div class="tabbable tab-content-bordered">
+                            <ul class="nav nav-tabs bg-pink">
+                                <li class="active"><a href="#student_late-tab1" data-toggle="tab">บันทึกข้อมูลนักเรียนมาสาย</a></li>
+                                <li><a href="#student_late-tab2" data-toggle="tab">คำแนะนำ</a></li>
+                            </ul>
 
-                        <div class="tab-content">
-                            <div class="tab-pane active has-padding" id="student_late-tab1">
-<form name="form_studnt_late_save_add_file" id="form_studnt_late_save_add_file" action="<?php echo base_url();?>/?evaluation_mod=student_late_save" method="post" enctype="multipart/form-data" >
-                                <div class="row">
-                                    <div class="col-<?php echo $grid;?>-6">
-                                        <fieldset class="content-group">
-                                            <div class="form-group">
-                                                <label class="control-label col-<?php echo $grid;?>-5">ไฟส์อัพโหลดข้อมูลนักเรียนมาสาย</label>
-                                                <div class="col-<?php echo $grid;?>-7">
-                                                <button type="button" name="load_file_sl" id="load_file_sl" class="btn bg-teal"  title="ดาวน์โหลดไฟส์นำเข้า" data-placement="bottom" data-container="body" value="Load"><i class=" icon-file-word"></i></button>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-<?php echo $grid;?>-6">
-                                        <fieldset class="content-group">
-                                            <div class="form-group">
-                                                <label class="control-label col-<?php echo $grid;?>-2">นำเข้าไฟส์</label>
-                                                <div class="col-<?php echo $grid;?>-10">
-                                                    <input type="file" name="student_key" id="student_key" class="file-input" data-show-remove="true" data-show-caption="true" data-show-upload="false">
-                                                    <div id="student_key-null">
-                                                        <span class="help-block">นานสกุลไฟส์<code>file-input</code>.</span>
+                            <div class="tab-content">
+                                <div class="tab-pane active has-padding" id="student_late-tab1">
+    <form name="form_studnt_late_save_add_file" id="form_studnt_late_save_add_file" action="<?php echo base_url();?>/?evaluation_mod=student_late_save" method="post" enctype="multipart/form-data" >
+                                    <div class="row">
+                                        <div class="col-<?php echo $grid;?>-6">
+                                            <fieldset class="content-group">
+                                                <div class="form-group">
+                                                    <label class="control-label col-<?php echo $grid;?>-5">ไฟส์อัพโหลดข้อมูลนักเรียนมาสาย</label>
+                                                    <div class="col-<?php echo $grid;?>-7">
+                                                    <button type="button" name="load_file_sl" id="load_file_sl" class="btn bg-teal"  title="ดาวน์โหลดไฟส์นำเข้า" data-placement="bottom" data-container="body" value="Load"><i class=" icon-file-word"></i></button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-<?php echo $grid;?>-12">
-                                        <fieldset class="content-group">
-                                            <div class="row">
-                                                <div class="col-<?php echo $grid;?>-12">
-                                                    <button type="button" name="button_save_up" id="button_save_up" class="btn btn-success">บันทึก / Save</button>
-                                                    <button type="button" name="button_delete" id="button_delete" class="btn btn-info">ลบ / Delete</button>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-<?php echo $grid;?>-6">
+                                            <fieldset class="content-group">
+                                                <div class="form-group">
+                                                    <label class="control-label col-<?php echo $grid;?>-2">นำเข้าไฟส์</label>
+                                                    <div class="col-<?php echo $grid;?>-10">
+                                                        <input type="file" name="student_key" id="student_key" class="file-input" data-show-remove="true" data-show-caption="true" data-show-upload="false">
+                                                        <div id="student_key-null">
+                                                            <span class="help-block">นานสกุลไฟส์<code>file-input</code>.</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </fieldset>
+                                            </fieldset>
+                                        </div>
                                     </div>
-                                </div>
-            <input type="hidden" name="manage" id="manage" value="into_excel">
-</form>
-                            </div>
 
-                            <div class="tab-pane has-padding" id="student_late-tab2">
-                                                        
+                                    <div class="row">
+                                        <div class="col-<?php echo $grid;?>-12">
+                                            <fieldset class="content-group">
+                                                <div class="row">
+                                                    <div class="col-<?php echo $grid;?>-12">
+                                                        <button type="button" name="button_save_up" id="button_save_up" class="btn btn-success">บันทึก / Save</button>
+                                                        <button type="button" name="button_delete" id="button_delete" class="btn btn-info">ลบ / Delete</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                <input type="hidden" name="manage" id="manage" value="into_excel">
+    </form>
+                                </div>
+
+                                <div class="tab-pane has-padding" id="student_late-tab2">
+                                                            
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
 
             <?php   }elseif(($set_time_system->Call_DateTime_Start()=="OFF")){ ?>
 
-                    <div class="row">
-                        <div class="col-<?php echo $grid;?>-12">
-                            <div class="text-center content-group">
-                                <h1 class="error-title">หมดเวลา</h1>
-                                <h5>สิ้นสุดระยะการลงทะเบียนข้อมูลนักเรียนมาสาย ภาคเรียนที่ <?php echo $ssy_t;?> ปีการศึกษา <?php echo $ssy_y;?></h5>
-                            </div>                
-                        </div>
+            <fieldset class="content-group">
+                <div class="row">
+                    <div class="col-<?php echo $grid;?>-12">
+                        <div class="text-center content-group">
+                            <h1 class="error-title">หมดเวลา</h1>
+                            <h5>สิ้นสุดระยะการลงทะเบียนข้อมูลนักเรียนมาสาย ภาคเรียนที่ <?php echo $ssy_t;?> ปีการศึกษา <?php echo $ssy_y;?></h5>
+                        </div>                
                     </div>
+                </div>
+            </fieldset>
 
             <?php   }else{ ?>
 
@@ -188,6 +212,8 @@
                  if(($set_time_system->Call_DateTime_Start()=="ON")){ ?>
 
         <?php    }elseif(($set_time_system->Call_DateTime_Start()=="OFF")){ ?>
+
+                <fieldset class="content-group">
                     <div class="row">
                         <div class="col-<?php echo $grid;?>-12">
                             <div class="text-center content-group">
@@ -196,6 +222,8 @@
                             </div>                
                         </div>
                     </div>
+                </fieldset>
+
         <?php    }else{} ?>
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
     <?php   }elseif(($manage=="show")){  ?>

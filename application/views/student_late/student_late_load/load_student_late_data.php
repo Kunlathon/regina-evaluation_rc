@@ -124,7 +124,7 @@
             <div class="row">
                 <div class="col-<?php echo $grid;?>-12">
                     <div class="table-responsive">
-                        <table class="table table-condensed datatable-basic">
+                        <table class="table table-bordered table-hover datatable-basic" style="font-size: 14px;">
                             <thead>
                                 <tr>
                                     <th><div>ลำดับ</div></th>

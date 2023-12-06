@@ -38,5 +38,11 @@
             $this->load->view('student_late/student_late_mail/load_date_late_mail',$run_type_load_mail);
         }
 
+        public function print_data_late($key,$term,$year){
+            $data_late_array=array('key'=>$key,'term'=>$term,'year'=>$year);
+            $this->load->view('student_late/print_data_late',$data_late_array);
+        }
+        
+
     }
 ?>

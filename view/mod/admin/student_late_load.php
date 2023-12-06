@@ -26,6 +26,29 @@
 			</div>
 		</div>
 	</fieldset>
+
+    <fieldset class="content-group">
+        <div class="row">
+            <div class="col-<?php echo $grid;?>-12">
+                <div class="btn-group">
+                    <label> 
+                        <button type="button" onclick="location.href='<?php echo base_url();?>/?evaluation_mod=student_late_save'" name="button_student_late_save" id="button_student_late_save" class="btn bg-primary-700">การจัดการข้อมูลนักเรียนมาสาย</button>							
+                    </label>                
+                </div>   
+                <div class="btn-group">
+                    <label>
+                        <button type="button" onclick="location.href='<?php echo base_url();?>/?evaluation_mod=student_late_load'" name="button_student_late_load" id="button_student_late_load" class="btn bg-info-700">ประมวลผลข้อมูลนักเรียนมาสาย</button>							
+                    </label>                
+                </div>  
+                <div class="btn-group">
+                    <label>
+                        <button type="button" onclick="location.href='<?php echo base_url();?>/?evaluation_mod=student_late_mail'" name="button_student_late_mail" id="button_student_late_mail" class="btn bg-pink-700">ออกหนังสือแจ้งเตือนการมาสาย</button>							
+                    </label>                
+                </div>  
+            </div>
+        </div>    
+	</fieldset>
+
 <?php
         $Time_Student_Set=new SetTimeSL("Row","-","-");    
         foreach($Time_Student_Set->PrintSetTime() as $rc_key=>$Time_Student_Print){
@@ -106,13 +129,15 @@
 	<?php
 			if(($manage=="show")){ ?>
 
-	<div id="TimeStartRun">
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div><i class="icon-spinner2 spinner"></i> <span>กำลังประมวลผลข้อมูลแจ้งเตือนการมาสาย</span></div>
-			</div>
-		</div>
-	</div>
+    <fieldset class="content-group">
+        <div id="TimeStartRun">
+            <div class="row">
+                <div class="col-<?php echo $grid;?>-12">
+                    <div><i class="icon-spinner2 spinner"></i> <span>กำลังประมวลผลข้อมูลแจ้งเตือนการมาสาย</span></div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 
 	<?php	}else{} ?>
 
