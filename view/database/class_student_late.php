@@ -22,7 +22,7 @@
                                         $SetTimeSL_Array[]=$SetTimeSLRow;
                                         $SetTimeSL_Error="NotError";
                                     }else{
-                                        $SetTimeSL_Array="-";
+                                        $SetTimeSL_Array[]=$SetTimeSLRow;
                                         $SetTimeSL_Error="Error";
                                     }                                
                                 }
@@ -43,7 +43,7 @@
                                     $SetTimeSL_Array[]=$SetTimeSLRow;
                                     $SetTimeSL_Error="NotError";
                                 }else{
-                                    $SetTimeSL_Array="-";
+                                    $SetTimeSL_Array[]=$SetTimeSLRow;
                                     $SetTimeSL_Error="Error";
                                 }
                             }else{
@@ -63,7 +63,7 @@
                                     $SetTimeSL_Array[]=$SetTimeSLRow;
                                     $SetTimeSL_Error="NotError";
                                 }else{
-                                    $SetTimeSL_Array="-";
+                                    $SetTimeSL_Array[]=$SetTimeSLRow;
                                     $SetTimeSL_Error="Error";
                                 }
                             }else{
@@ -120,7 +120,7 @@
                                         $MMS_Array[]=$manage_mail_row;
                                         $MMS_Error="NoError";
                                     }else{
-                                        $MMS_Array="-";
+                                        $MMS_Array[]=$manage_mail_row;
                                         $MMS_Error="Error";
                                     }
                                 }
@@ -145,7 +145,7 @@
                                         $MMS_Array[]=$manage_mail_row;
                                         $MMS_Error="NoError";
                                     }else{
-                                        $MMS_Array="-";
+                                        $MMS_Array[]=$manage_mail_row;
                                         $MMS_Error="Error";
                                     }
                                 }
@@ -201,7 +201,7 @@
                                     $MSCL_Array[]=$MSCL_Row;
                                     $MSCL_Error="Noerror";
                                 }else{
-                                    $MSCL_Array="-";
+                                    $MSCL_Array[]=$MSCL_Row;
                                     $MSCL_Error="error";
                                 }                                
                             }
@@ -224,7 +224,7 @@
                                     $MSCL_Array[]=$MSCL_Row;
                                     $MSCL_Error="Noerror";
                                 }else{
-                                    $MSCL_Array="-";
+                                    $MSCL_Array[]=$MSCL_Row;
                                     $MSCL_Error="error";
                                 }                                
                             }
@@ -330,7 +330,7 @@
                                         $MDSL_Array[]=$MDSL_Row;
                                         $MDSL_Error="NoError";
                                     }else{
-                                        $MDSL_Array="-";
+                                        $MDSL_Array[]=$MDSL_Row;
                                         $MDSL_Error="Error";
                                     }
                                 }
@@ -354,7 +354,7 @@
                                         $MDSL_Array[]=$MDSL_Row;
                                         $MDSL_Error="NoError";
                                     }else{
-                                        $MDSL_Array="-";
+                                        $MDSL_Array[]=$MDSL_Row;
                                         $MDSL_Error="Error";
                                     }
                                 }
@@ -378,7 +378,7 @@
                                         $MDSL_Array[]=$MDSL_Row;
                                         $MDSL_Error="NoError";
                                     }else{
-                                        $MDSL_Array="-";
+                                        $MDSL_Array[]=$MDSL_Row;
                                         $MDSL_Error="Error";
                                     }
                                 }
@@ -498,6 +498,100 @@
 
 
 <?php
+    //Check_Mail
+    class Check_Mail{
+        public $CMail_Type,$CMail_Data_Start,$CMail_Data_End,$CMail_key,$CMail_id;
+        public $Count_CMail,$Error_CMail,$Array_CMail;
+        function __construct($CMail_Type,$CMail_Data_Start,$CMail_Data_End,$CMail_key,$CMail_id){
+            $Student_Late_Ip=$_SERVER['REMOTE_ADDR'];
+            $Student_Late_Connect= new connect_database_student_late($Student_Late_Ip);
+            $pdo_student_late=$Student_Late_Connect->getconnto_connto_student_late();
+            $this->CMail_Type=$CMail_Type;
+            $this->CMail_Data_Start=$CMail_Data_Start;
+            $this->CMail_Data_End=$CMail_Data_End;
+            $this->CMail_key=$CMail_key;
+            $this->CMail_id=$CMail_id;
+            $Count_CMail=0;
+            $Error_CMail="Error";
+            $Array_CMail=array();
+                if(($this->CMail_Type=="Check")){
+                    try{
+                        $CMail_sql="SELECT COUNT(`sm_id`) AS `int_mail_check` 
+                                    FROM `sl_mail` 
+                                    WHERE `sm_StuKey`='{$this->CMail_key}' 
+                                    AND `sm_DateTime` BETWEEN '{$this->CMail_Data_Start}' AND '{$this->CMail_Data_End}' ";
+                            if(($CMail_rs=$pdo_student_late->query($CMail_sql))){
+                                $CMail_row=$CMail_rs->Fetch(PDO::FETCH_ASSOC);
+                                    if((is_array($CMail_row) and count($CMail_row))){
+                                        $Count_CMail=$CMail_row["int_mail_check"];
+                                        $Error_CMail="NoError";
+                                        $Array_CMail="-";
+                                    }else{
+                                        $Count_CMail=$CMail_row["int_mail_check"];
+                                        $Array_CMail="-";
+                                        $Error_CMail="Error";
+                                    }
+                            }else{
+                                $Array_CMail="-";
+                                $Count_CMail="-";
+                                $Error_CMail="Error";
+                            }      
+                    }catch(PDOException $e){
+                        $Array_CMail="-";
+                        $Count_CMail="-";
+                        $Error_CMail="Error";
+                    }                    
+                }elseif($this->CMail_Type=="Check_key"){
+                    try{
+                        $CMail_sql="SELECT * FROM `sl_mail` 
+                                    JOIN `save_mai` 
+                                    ON(`sl_mail`.`sm_id`=`save_mai`.`sm_id`) 
+                                    WHERE `save_mai`.`sds_key`='{$this->CMail_key}' 
+                                    AND `sl_mail`.`sm_StuKey`='{$this->CMail_key}' 
+                                    AND `save_mai`.`sm_id`='{$this->CMail_id}' 
+                                    AND `sl_mail`.`sm_id`='{$this->CMail_id}';";
+                            if(($CMail_rs=$pdo_student_late->query($CMail_sql))){
+                                $CMail_row=$CMail_rs->Fetch(PDO::FETCH_ASSOC);
+                                    if((is_array($CMail_row) and count($CMail_row))){
+                                        $Array_CMail[]=$CMail_row;
+                                        $Error_CMail="NoError";
+                                        $Count_CMail="-";
+                                    }else{
+                                        $Array_CMail[]=$CMail_row;
+                                        $Count_CMail="-";
+                                        $Error_CMail="Error";
+                                    }                                 
+                            }else{
+                                $Array_CMail="-";
+                                $Count_CMail="-";
+                                $Error_CMail="Error";
+                            }      
+                    }catch(PDOException $e){
+                        $Array_CMail="-";
+                        $Count_CMail="-";
+                        $Error_CMail="Error";
+                    }  
+                }else{
+                    $Array_CMail="-";
+                    $Count_CMail="-";
+                    $Error_CMail="-";
+                }
+            $pdo_student_late=null;
+            $this->Array_CMail=$Array_CMail;
+            $this->Count_CMail=$Count_CMail;
+            $this->Error_CMail=$Error_CMail;
+        }function mail_check_count(){
+            return $this->Count_CMail;
+        }function mail_check_error(){
+            return $this->Error_CMail;
+        }function mail_check_print(){
+            return $this->Array_CMail;
+        }
+    }
+
+?>
+
+<?php
     //student count late
         class CountLateStudent{
             public $CLS_Type,$CLS_Key,$CLS_Date_Start,$CLS_Date_End;
@@ -521,7 +615,7 @@
                                         if((isset($student_late_row["int_student_late"]))){
                                             $int_student_late=$student_late_row["int_student_late"];
                                         }else{
-                                            $int_student_late=0;
+                                            $int_student_late=$student_late_row["int_student_late"];
                                         }
                                 }else{
                                     $int_student_late=0;
@@ -541,7 +635,7 @@
                                         if((isset($student_late_row["int_student_late"]))){
                                             $int_student_late=$student_late_row["int_student_late"];
                                         }else{
-                                            $int_student_late=0;
+                                            $int_student_late=$student_late_row["int_student_late"];
                                         }
                                 }else{
                                     $int_student_late=0;
@@ -584,7 +678,7 @@
                                     if((is_array($CountLateMailRow) and count($CountLateMailRow))){
                                         $int_count_late=$CountLateMailRow["Int_Late_M"];
                                     }else{
-                                        $int_count_late=0;
+                                        $int_count_late=$CountLateMailRow["Int_Late_M"];
                                     }
                             }else{
                                 $int_count_late=0;
@@ -603,7 +697,7 @@
                                     if((is_array($CountLateMailRow) and count($CountLateMailRow))){
                                         $int_count_late=$CountLateMailRow["Int_Late_M"];
                                     }else{
-                                        $int_count_late=0;
+                                        $int_count_late=$CountLateMailRow["Int_Late_M"];
                                     }
                             }else{
                                 $int_count_late=0;
@@ -622,7 +716,7 @@
                                     if((is_array($CountLateMailRow) and count($CountLateMailRow))){
                                         $int_count_late=$CountLateMailRow["Int_Late_M"];
                                     }else{
-                                        $int_count_late=0;
+                                        $int_count_late=$CountLateMailRow["Int_Late_M"];
                                     }
                             }else{
                                 $int_count_late=0;

@@ -293,16 +293,37 @@
 
                         <?php
                                  if(($count_late>=$out_mail_Row["sscl_CountA"] and $count_late>=$out_mail_Row["sscl_CountB"])){  ?>
+                                                        
+                        <?php
+                            $Test_out_mail=new Check_Mail("Check_key","-","-",$SLL_Student_Key,$ssy_y.$ssy_t.$SLL_Student_Key.$count_out_mail);
+                                foreach($Test_out_mail->mail_check_print() as $rc=>$Test_out_mail_print){ 
+                                    if((isset($Test_out_mail_print["sm_id"]))){ ?>
                                                         <td>
                                                             <div>
 <form name="form_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" id="form_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" method="post" action="<?php echo $golink;?>/student_late/print_data_late/<?php echo $SLL_Student_Key;?>/<?php echo $ssy_t;?>/<?php echo $ssy_y;?>" enctype="multipart/form-data" accept-charset="UTF-8" target="_blank">
-                                                                <button type="submit" name="submit_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" id="submit_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" class="btn text-danger-300 text-center border-indigo btn-flat" data-popup="tooltip-custom" title="หนังสือเตือนครั้งที่ <?php echo $count_out_mail;?>"><i class="icon-printer4"></i></button>
+                                                                <button type="submit" name="submit_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" id="submit_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" class="btn text-success-300 text-center border-indigo btn-flat" data-popup="tooltip-custom" title="หนังสือเตือนครั้งที่ <?php echo $count_out_mail;?>"><i class="icon-printer4"></i></button>
                                                                 <input type="hidden" name="key" id="key" value="<?php echo $SLL_Student_Key;?>">
                                                                 <input type="hidden" name="term" id="term" value="<?php echo $ssy_t;?>">
                                                                 <input type="hidden" name="year" id="year" value="<?php echo $ssy_y;?>">
 </form>
                                                             </div>
                                                         </td>
+                        <?php       }else{ ?>
+                                                        <td>
+                                                            <div>
+                                                                <button type="button" name="button_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" id="button_print_mail<?php echo $SLL_Student_Key.$count_out_mail;?>" class="btn text-danger-300 text-center border-indigo btn-flat" data-popup="tooltip-custom" title="ยังไม่ได้ออกหนังสือเตือนครั้งที่ <?php echo $count_out_mail;?>"><i class="icon-cross3"></i></button>
+                                                            </div>
+                                                        </td>
+                        <?php       }
+                                }
+                        ?>                                
+                                                        
+                                                        
+
+
+
+
+
                         <?php    }else{ ?>
                                                         <td><div></div></td>
                         <?php    } ?>
