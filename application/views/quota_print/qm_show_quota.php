@@ -96,6 +96,9 @@
 						}elseif($txt_level==33){
 							$class_new=41;
 							$class_new_txt="มัธยมศึกษาปีที่ 4";
+						}elseif(($txt_level==3)){
+							$class_new=11;
+							$class_new_txt="ประถมศึกษาปีที่ 1";
 						}else{
 							$class_new='-';
 							$class_new_txt='-';

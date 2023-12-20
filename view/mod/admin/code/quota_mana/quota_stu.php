@@ -46,7 +46,30 @@
 	
 
 <?php
-	if($copy_level==23){ ?>
+		if(($copy_level==3)){ ?>
+<!--======================================================-->	
+<select class="select-search" name="data_stu" id="data_stu" data-placeholder="ค้นหารายชื่อ...">
+				<option></option>
+			<optgroup label="รายชื่อนักเรียนชั้น อ.3 ปีการศึกษา <?php echo $copy_year;?>">
+				
+<!--******************************************************************************************************-->	
+	<?php
+		$call_datastuSql="select `regina_stu_data`.`rsd_studentid`,`regina_stu_data`.`rsd_prefix`,`regina_stu_data`.`rsd_name` ,`regina_stu_data`.`rsd_surname`  
+						  from `regina_stu_data` join `regina_stu_class` on(`regina_stu_data`.`rsd_studentid`=`regina_stu_class`.`rsd_studentid`)
+						  where `regina_stu_data`.`rse_student_status`='1'
+						  and `regina_stu_class`.`rsc_year`='{$copy_year}' 
+						  and `regina_stu_class`.`rsc_term`='2' 
+						  and `regina_stu_class`.`rsc_class`='{$copy_level}'";
+		$call_datastuRs=new row_evaluation ($call_datastuSql);
+		foreach($call_datastuRs->print_evaluation_array() as $rc_quota=>$call_datastuRow){ ?>
+	
+				<option value="<?php echo $call_datastuRow["rsd_studentid"];?>"><?php echo $call_datastuRow["rsd_studentid"]." - เด็กหญิง ".$call_datastuRow["rsd_name"]." ".$call_datastuRow["rsd_surname"];?></option>	
+<?php	}   ?>	
+<!--******************************************************************************************************-->		
+			</optgroup>
+		</select>	
+<!--======================================================-->
+<?php	}elseif($copy_level==23){ ?>
 <!--======================================================-->	
 		<select class="select-search" name="data_stu" id="data_stu" data-placeholder="ค้นหารายชื่อ...">
 				<option></option>
@@ -58,7 +81,7 @@
 						  from `regina_stu_data` join `regina_stu_class` on(`regina_stu_data`.`rsd_studentid`=`regina_stu_class`.`rsd_studentid`)
 						  where `regina_stu_data`.`rse_student_status`='1'
 						  and `regina_stu_class`.`rsc_year`='{$copy_year}' 
-						  and `regina_stu_class`.`rsc_term`='1' 
+						  and `regina_stu_class`.`rsc_term`='2' 
 						  and `regina_stu_class`.`rsc_class`='{$copy_level}'";
 		$call_datastuRs=new row_evaluation ($call_datastuSql);
 		foreach($call_datastuRs->print_evaluation_array() as $rc_quota=>$call_datastuRow){ ?>
@@ -79,7 +102,7 @@
 						  from `regina_stu_data` join `regina_stu_class` on(`regina_stu_data`.`rsd_studentid`=`regina_stu_class`.`rsd_studentid`)
 						  where `regina_stu_data`.`rse_student_status`='1'
 						  and `regina_stu_class`.`rsc_year`='{$copy_year}' 
-						  and `regina_stu_class`.`rsc_term`='1' 
+						  and `regina_stu_class`.`rsc_term`='2' 
 						  and `regina_stu_class`.`rsc_class`='{$copy_level}'";
 		$call_datastuRs=new row_evaluation ($call_datastuSql);
 		foreach($call_datastuRs->print_evaluation_array() as $rc_quota=>$call_datastuRow){ 

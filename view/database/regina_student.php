@@ -181,7 +181,7 @@ pdo_admission.php###################
 									if((is_array($DataClassStuRow) && count($DataClassStuRow))){
 										$DataClassStuArray[]=$DataClassStuRow;
 									}else{
-										$DataClassStuArray=null;
+										$DataClassStuArrayp[]=$DataClassStuRow;
 									}
 								}
 							}else{
@@ -202,7 +202,7 @@ pdo_admission.php###################
 									if((is_array($DataClassStuRow) && count($DataClassStuRow))){
 										$DataClassStuArray[]=$DataClassStuRow;
 									}else{
-										$DataClassStuArray=null;
+										$DataClassStuArray[]=$DataClassStuRow;
 									}
 								}
 							}else{
@@ -221,7 +221,7 @@ pdo_admission.php###################
 									if((is_array($DataClassStuRow) && count($DataClassStuRow))){
 										$DataClassStuArray[]=$DataClassStuRow;
 									}else{
-										$DataClassStuArray=null;
+										$DataClassStuArray[]=$DataClassStuRow;
 									}
 								}
 							}else{
@@ -230,6 +230,27 @@ pdo_admission.php###################
 					}catch(PDOException $e){
 						$DataClassStuArray=null;
 					}					
+				}elseif(($this->DCS_Type=="studying")){
+					try{
+						$DataClassStuSql="SELECT * FROM `regina_stu_class` 
+										  WHERE `rsc_year` = '{$this->DCS_Year}' 
+										  AND `rsc_term` = '{$this->DCS_Term}'
+										  AND `rsc_class` = '{$this->DCS_Class}' 
+										  AND `rsc_status` = '1'";
+							if(($DataClassStuRs=$pdodata_regina->query($DataClassStuSql))){
+								while($DataClassStuRow=$DataClassStuRs->Fetch(PDO::FETCH_ASSOC)){
+									if((is_array($DataClassStuRow) && count($DataClassStuRow))){
+										$DataClassStuArray[]=$DataClassStuRow;
+									}else{
+										$DataClassStuArray[]=$DataClassStuRow;
+									}
+								}
+							}else{
+								$DataClassStuArray=null;
+							}				
+					}catch(PDOException $e){
+						$DataClassStuArray=null;
+					}	
 				}else{
 //-------------------------------------------------------------------------		
 					try{
@@ -243,7 +264,7 @@ pdo_admission.php###################
 									if((is_array($DataClassStuRow) && count($DataClassStuRow))){
 										$DataClassStuArray[]=$DataClassStuRow;
 									}else{
-										$DataClassStuArray=null;
+										$DataClassStuArray[]=$DataClassStuRow;
 									}
 								}
 							}else{

@@ -53,6 +53,9 @@
 					<div class="form-group">	
 						<select class="select" name="txt_level" id="txt_level"  data-placeholder="ระดับชั้น..." class="select" required>
 							<option></option>
+							<optgroup label="ปฐมวัย">
+								<option value="3">อนุบาลศึกษาปีที่ 3</option>
+							</optgroup>
 							<optgroup label="ประถมศึกษา">
 								<option value="23">ประถมศึกษาปีที่ 6</option>
 							</optgroup>

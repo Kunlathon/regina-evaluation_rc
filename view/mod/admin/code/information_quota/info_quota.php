@@ -50,6 +50,14 @@
 			
 			
 					switch($copy_level){
+					
+					case "3":
+						$call_levelA="อนุบาล 3";
+						$call_levelB="ประถมศึกษาปีที่ 1";
+						$call_levelC="อ.3";
+						$call_levelF="11";
+					break;
+
 					case "23":
 						$call_levelA="ประถมศึกษาปีที่ 6";
 						$call_levelB="มัธยมศึกษาปีที่ 1";
@@ -161,7 +169,7 @@
 	<div class="col-<?php echo $grid;?>-12">
 		<div class="alert alert-info">
 			<div class="panel-body">
-				รายชื่อนักเรียนได้สิทธิ์โควตาภายใน&nbsp;ระดับชั้น&nbsp;<?php echo $call_levelA;?>&nbsp;ปีการศึกษา<?php echo $copy_yearnew;?>
+				รายชื่อนักเรียนได้สิทธิ์โควตาภายใน&nbsp;ระดับชั้น&nbsp;<?php echo $call_levelA;?>&nbsp;ปีการศึกษา&nbsp;<?php echo $copy_yearnew;?>
 			</div>
 			<div class="table-responsive">
 						<table class="table datatable-button-html5-columns">

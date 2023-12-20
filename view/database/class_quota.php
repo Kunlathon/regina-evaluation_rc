@@ -1,3 +1,133 @@
+<?php
+	class Count_Quota{
+		public $CQ_Type,$CQ_Key,$CQ_Year,$CQ_Class,$CQ_Plan;
+		public $int_count_quota;
+		function __construct($CQ_Year,$CQ_Key,$CQ_Class,$CQ_Plan,$CQ_Type){
+//---------------------------------------------------------------------	
+			$db_requestID=$_SERVER["REMOTE_ADDR"];
+			$connpdo_quota=new conntoppdo_stuquota($db_requestID);
+			$pdo_quota=$connpdo_quota->getconnto_stuquota();				
+//---------------------------------------------------------------------	
+			$this->CQ_Year=$CQ_Year;
+			$this->CQ_Key=$CQ_Key;
+			$this->CQ_Class=$CQ_Class;
+			$this->CQ_Plan=$CQ_Plan;
+			$this->CQ_Type=$CQ_Type;
+//---------------------------------------------------------------------
+				
+				if(($this->CQ_Type=="count_student")){
+					if(($this->CQ_Plan==41)){
+
+					}else{
+						try{
+							$count_quota_sql="SELECT COUNT(`quota_key`) AS `int_count_quota` FROM `internal_quota_rights` 
+											  WHERE `quota_key`='{$this->CQ_Key}' 
+											  AND `quota_year`='{$this->CQ_Year}' 
+											  AND `quota_class`='{$this->CQ_Class}'";
+								if(($count_quota_rs=$pdo_quota->query($count_quota_sql))){
+									$count_quota_row=$count_quota_rs->Fetch(PDO::FETCH_ASSOC);
+										if((is_array($count_quota_row) and count($count_quota_row))){
+											$int_count_quota=$count_quota_row["int_count_quota"];
+										}else{
+											$int_count_quota=$count_quota_row["int_count_quota"];
+										}
+								}else{
+									$int_count_quota="-";
+								}
+						}catch(PDOException $e){
+							$int_count_quota="-";
+						}
+					}
+				}else{
+					$int_count_quota="-";
+				}
+
+				$this->int_count_quota=$int_count_quota;
+				$pdo_quota=null;
+
+		}function RunCountQuota(){
+			return $this->int_count_quota;
+		}
+	}
+?>
+
+
+<?php
+	class Load_Quota_Rc{
+		public $LQR_Type,$LQR_Year,$LQR_Class,$LQR_Term,$LQR_YearNew,$LQR_ClassNew,$LQR_PlanNew,$LQR_Save;
+		public $count_duplicate,$count_error;
+		function __construct($LQR_Type,$LQR_Year,$LQR_Class,$LQR_Term,$LQR_YearNew,$LQR_ClassNew,$LQR_PlanNew,$LQR_Save){
+//---------------------------------------------------------------------	
+			$db_requestID=$_SERVER["REMOTE_ADDR"];
+			$connpdo_quota=new conntoppdo_stuquota($db_requestID);
+			$pdo_quota=$connpdo_quota->getconnto_stuquota();				
+//---------------------------------------------------------------------	
+			$this->LQR_Type=$LQR_Type;
+			$this->LQR_Year=$LQR_Year;
+			$this->LQR_Class=$LQR_Class;
+			$this->LQR_Term=$LQR_Term;
+			$this->LQR_YearNew=$LQR_YearNew;
+			$this->LQR_ClassNew=$LQR_ClassNew;
+			$this->LQR_PlanNew=$LQR_PlanNew;
+			$this->LQR_Save=$LQR_Save;
+			$count_duplicate=0;
+			$count_error=0;
+			$datetime=date("Y-m-d H:i:s");
+				if(($this->LQR_Type=="studying")){
+
+//include
+					include("pdo_data.php");
+					include("pdo_conndatastu.php");
+					include("pdo_admission.php");
+//include end
+
+					$DataStuden=new RcClassStudenYear("studying","-",$this->LQR_Term,$this->LQR_Year,$this->LQR_Class);
+					foreach($DataStuden->RunRcClassStudent() as $rc_key=>$DataStudenRow){
+
+						$test_int_studen_quota=new Count_Quota("count_student",$DataStudenRow["rsd_studentid"],$this->LQR_YearNew,$this->LQR_ClassNew,$this->LQR_PlanNew);
+							if(($test_int_studen_quota->RunCountQuota()>=1)){
+								$count_duplicate=$count_duplicate+1;
+							}else{
+
+								try{
+									$IQR_Add="INSERT INTO `internal_quota_rights`(`quota_key`, `quota_year`, `quota_class`, `quota_plan`, `quota_save`, `quota_time`) 
+											  VALUES ('{$DataStudenRow["rsd_studentid"]}','{$this->LQR_YearNew}','{$this->LQR_ClassNew}','{$this->LQR_PlanNew}','{$this->LQR_Save}','{$datetime}')";
+									$pdo_quota->exec($IQR_Add);
+
+										try{
+											$QR_Add="INSERT INTO `quota_right`(`qr_stuid`, `qr_year`, `qr_level`, `qr_plan`, `qr_datetime`) 
+												     VALUES ('{$DataStudenRow["rsd_studentid"]}','{$this->LQR_YearNew}','{$this->LQR_ClassNew}','{$this->LQR_PlanNew}','{$datetime}')";
+											$pdo_quota->exec($QR_Add);
+											$count_error=$count_error+0;
+										}catch(PDOException $e){
+											$count_error=$count_error+0;
+										}
+
+								}catch(PDOException $e){
+									$count_error=$count_error+1;
+								}
+
+							}
+
+					}
+
+				}else{
+					$count_duplicate=$count_duplicate+1;
+					$count_error=$count_error+1;
+				}
+			$this->count_duplicate=$count_duplicate;
+			$this->count_error=$count_error;
+			$pdo_quota=null;
+		}function Copying_quota_duplicate(){
+			return $this->count_duplicate;
+		}function Copying_quota_error(){
+			return  $this->count_error;
+		}
+	}
+
+?>
+
+
 <?php 
 	class IntoUpQuotaRc{//การจัดการสิทธิ์โควตารายบุคคล
 		public $IUQR_StuKey,$IUQR_ClassNew,$IUQR_QuotaNew,$IUQR_Year,$IUQR_YearNew;
@@ -1185,7 +1315,7 @@
 						if(is_array($iqr_row) && count($iqr_row)){
 							$iqr_array[]=$iqr_row;
 						}else{
-							$iqr_array=null;
+							$iqr_array[]=$iqr_row;
 						}
 					}
 				}else{
@@ -1744,6 +1874,7 @@
 <?php
 
 		class row_evaluation{
+			public $evaluation_array;
 			public $txt_evaluation;
 			function __construct($txt_evaluation){
 				$this->txt_evaluation=$txt_evaluation;
@@ -1783,6 +1914,7 @@
 
 <?php
 	class DoQuotaRequest{
+		public $Request_stuid,$Request_year,$Request_level,$Request_datetime,$Request_qr_stuid,$Request_qce_key,$PQR_system;
 		public $PQR_key,$PQR_year,$PQR_level;
 		function __construct($PQR_key,$PQR_year,$PQR_level){
 //---------------------------------------------------------------------	
@@ -1861,4 +1993,4 @@
 			}
 		}
 	}
-?>
+?> 
