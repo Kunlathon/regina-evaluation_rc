@@ -13,7 +13,12 @@
 		}public function print_quota($RcYear,$RcId){
 			$set_stuid=array('RcYear'=>$RcYear,'RcId'=>$RcId);
 			$this->load->view('quota_print/print_quota',$set_stuid);
-		}public function delete_form(){
+		}public function print_quota_admin($RcYear,$RcId,$Rc_qr_plan,$Rc_qce_key){
+			$set_stuid=array('RcYear'=>$RcYear,'RcId'=>$RcId,'Rc_qr_plan'=>$Rc_qr_plan,'Rc_qce_key'=>$Rc_qce_key);
+			$this->load->view('quota_print/print_quota',$set_stuid);
+		}
+		
+		public function delete_form(){
 			$this->load->view('quota_print/delete_form');
 		}public function qm_show_quota(){
 			$this->load->view('quota_print/qm_show_quota');

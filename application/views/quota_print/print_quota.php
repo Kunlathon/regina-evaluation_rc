@@ -256,9 +256,10 @@
 					$leve_name="มัธยมศึกษาปีที่ 4";
 					$leve_ID="41";
 				break;
+				default:	
 					$leve_name="-";
 					$leve_ID="-";
-				default:	
+				
 			}
 	//ระดับชั้น	
 
@@ -2059,10 +2060,10 @@ if($key_key==12){ ?>
 					if($log_row["int_uesr"]>=1){ ?>
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 <style>
-.psrA{
-	margin: auto;
-	border: 3px solid #73AD21;
-}
+	.psrA{
+		margin: auto;
+		border: 3px solid #73AD21;
+	}
 </style>
 
 <html lang="en" dir="ltr">
@@ -2250,15 +2251,19 @@ if($key_key==12){ ?>
 				return "$strDay $strMonthThai $strYear";
 			}
 	//--------------------------------------------------------
-		$qce_key=filter_input(INPUT_POST,'qce_key');
+		/*$qce_key=filter_input(INPUT_POST,'qce_key');
 		$qr_plan=filter_input(INPUT_POST,'qr_plan');
-		$stuID=filter_input(INPUT_POST,'request_stuid');
+		$stuID=filter_input(INPUT_POST,'request_stuid');*/
+		$qce_key=$Rc_qce_key;
+		$qr_plan=$Rc_qr_plan;
+		$stuID=$RcId;
+
 		/*$qce_key="ON";
 		$qr_plan="12";
 		$stuID="16839";*/
 	//ระดับชั้น
 		$call_stu=new stu_levelpdo($stuID,$txt_year,"1");
-		if($call_stu->IDLevel==null or $call_stu->IDLevel=="0"){
+		if(($call_stu->IDLevel==null or $call_stu->IDLevel=="0")){
 			$call_stu=new stu_levelpdo($stuID,$txt_year,"2");		
 		}else{
 			//************************************************
@@ -2276,9 +2281,9 @@ if($key_key==12){ ?>
 					$leve_name="มัธยมศึกษาปีที่ 4";
 					$leve_ID="41";
 				break;
+				default:				
 					$leve_name="-";
 					$leve_ID="-";
-				default:	
 			}
 			
 			if(($qr_plan==0)){
@@ -2289,7 +2294,7 @@ if($key_key==12){ ?>
 			
 	//ระดับชั้น	
 
-		if($qce_key==null or $qce_key=="-"){
+		if(($qce_key==null or $qce_key=="-")){
 			$key_key="-";
 		}elseif($qce_key=="NO"){
 			$key_key="-";
@@ -2307,7 +2312,7 @@ if($key_key==12){ ?>
 		$count_quota_reques=new row_quotanotarray($count_quota_requesSql);
 		foreach($count_quota_reques->print_quotanotarray() as $quot_key=>$count_quota_requesRow){
 			$count_rs=$count_quota_requesRow["count_rs"];
-			if($count_rs>=1){
+			if(($count_rs>=1)){
 				$up_quota_requesSql="UPDATE `quota_request` SET `qr_stuid`='{$qr_plan}',`qce_key`='{$key_key}' 
 									WHERE `request_stuid`='{$stuID}' and `request_year`='{$next_year}' and `request_level`='{$leve_ID}'";
 				$up_quota_reques=new insert_quota($up_quota_requesSql);
@@ -3904,7 +3909,7 @@ if($key_key==12){ ?>
 						
 			<?php
 				$RunQuotaCapitalC=new Run_quota_capital($stuID,$qr_year,$qr_level);
-					if($RunQuotaCapitalC->Print_quota_capital_key()=="1"){ ?>
+					if(($RunQuotaCapitalC->Print_quota_capital_key()=="1")){ ?>
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 				<?php
 					$sumpay=0;

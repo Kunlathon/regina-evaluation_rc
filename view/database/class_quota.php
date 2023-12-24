@@ -81,33 +81,42 @@
 					include("pdo_admission.php");
 //include end
 
-					$DataStuden=new RcClassStudenYear("studying","-",$this->LQR_Term,$this->LQR_Year,$this->LQR_Class);
+					$DataStuden=new RcClassStudenYear("studying_no_status","-",$this->LQR_Term,$this->LQR_Year,$this->LQR_Class);
 					foreach($DataStuden->RunRcClassStudent() as $rc_key=>$DataStudenRow){
 
-						$test_int_studen_quota=new Count_Quota("count_student",$DataStudenRow["rsd_studentid"],$this->LQR_YearNew,$this->LQR_ClassNew,$this->LQR_PlanNew);
-							if(($test_int_studen_quota->RunCountQuota()>=1)){
-								$count_duplicate=$count_duplicate+1;
-							}else{
+						if(($DataStudenRow["rsc_status"]==11)){
 
-								try{
-									$IQR_Add="INSERT INTO `internal_quota_rights`(`quota_key`, `quota_year`, `quota_class`, `quota_plan`, `quota_save`, `quota_time`) 
-											  VALUES ('{$DataStudenRow["rsd_studentid"]}','{$this->LQR_YearNew}','{$this->LQR_ClassNew}','{$this->LQR_PlanNew}','{$this->LQR_Save}','{$datetime}')";
-									$pdo_quota->exec($IQR_Add);
+						}elseif(($DataStudenRow["rsc_status"]==1)){
+							$test_int_studen_quota=new Count_Quota("count_student",$DataStudenRow["rsd_studentid"],$this->LQR_YearNew,$this->LQR_ClassNew,$this->LQR_PlanNew);
+								if(($test_int_studen_quota->RunCountQuota()>=1)){
+									$count_duplicate=$count_duplicate+1;
+								}else{
 
-										try{
-											$QR_Add="INSERT INTO `quota_right`(`qr_stuid`, `qr_year`, `qr_level`, `qr_plan`, `qr_datetime`) 
-												     VALUES ('{$DataStudenRow["rsd_studentid"]}','{$this->LQR_YearNew}','{$this->LQR_ClassNew}','{$this->LQR_PlanNew}','{$datetime}')";
-											$pdo_quota->exec($QR_Add);
-											$count_error=$count_error+0;
-										}catch(PDOException $e){
-											$count_error=$count_error+0;
-										}
+									try{
+										$IQR_Add="INSERT INTO `internal_quota_rights`(`quota_key`, `quota_year`, `quota_class`, `quota_plan`, `quota_save`, `quota_time`) 
+												VALUES ('{$DataStudenRow["rsd_studentid"]}','{$this->LQR_YearNew}','{$this->LQR_ClassNew}','{$this->LQR_PlanNew}','{$this->LQR_Save}','{$datetime}')";
+										$pdo_quota->exec($IQR_Add);
 
-								}catch(PDOException $e){
-									$count_error=$count_error+1;
+											try{
+												$QR_Add="INSERT INTO `quota_right`(`qr_stuid`, `qr_year`, `qr_level`, `qr_plan`, `qr_datetime`) 
+														VALUES ('{$DataStudenRow["rsd_studentid"]}','{$this->LQR_YearNew}','{$this->LQR_ClassNew}','{$this->LQR_PlanNew}','{$datetime}')";
+												$pdo_quota->exec($QR_Add);
+												$count_error=$count_error+0;
+											}catch(PDOException $e){
+												$count_error=$count_error+0;
+											}
+
+									}catch(PDOException $e){
+										$count_error=$count_error+1;
+									}
+
 								}
+						}else{
+							$count_error=$count_error+1;
+						}
 
-							}
+
+
 
 					}
 
@@ -158,7 +167,7 @@
 							if(is_array($TestInternalSaveRightsRow) && count($TestInternalSaveRightsRow)){
 								$CountSaveRights=$TestInternalSaveRightsRow["CountSaveRights"];
 							}else{
-								$CountSaveRights=0;
+								$CountSaveRights=$TestInternalSaveRightsRow["CountSaveRights"];
 							}
 					}else{
 						$CountSaveRights=0;
@@ -706,6 +715,7 @@
 
 <?php
 	class InUpSendDocuments{
+		public $SystemSendDocuments;
 		public $IUSD_key,$IUSD_year,$IUSD_sd_send_documents,$IUSD_SdStudentIDCard,$IUSD_SdParentIDCard,$IUSD_surrender,$IUSD_FinancialDocuments;
 		function __construct($IUSD_key,$IUSD_year,$IUSD_sd_send_documents,$IUSD_SdStudentIDCard,$IUSD_SdParentIDCard,$IUSD_surrender,$IUSD_FinancialDocuments){
 //---------------------------------------------------------------------	
@@ -777,6 +787,7 @@
 
 <?php
 	class PrintSendDocuments{
+		public $PSD_data;
 		public $PSD_key,$PSD_year;
 		function __construct($PSD_key,$PSD_year){
 //---------------------------------------------------------------------	
@@ -1217,6 +1228,7 @@
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 <?php
 	class IntoQuotaRight{
+		public $IntoQuotaRightDate;
 		public $qr_stuid,$qr_year,$qr_level,$qr_plan;
 		function __construct($qr_stuid,$qr_year,$qr_level,$qr_plan){
 //----------------------------------------------------------
@@ -1255,6 +1267,7 @@
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 <?php
 	class DeleteQuotaRight{
+		public $IntoQuotaRightDate;
 		public $qr_stuid,$qr_year;
 		function __construct($qr_stuid,$qr_year){
 //----------------------------------------------------------
@@ -1291,6 +1304,7 @@
 
 <?php
 	class internal_quota_rights{
+		public $iqr_array;
 		public $iqr_key,$iqr_year,$iqr_class;
 		function __construct($iqr_key,$iqr_year,$iqr_class){
 //----------------------------------------------------------
@@ -1339,8 +1353,8 @@
 ?>
 <?php
 	class quota_request{
-		public $txt_year;
-		public $txt_class;
+		public $txt_year,$txt_class;
+		public $request_array;
 		
 		function __construct($txt_year,$txt_class){
 			$this->txt_year=$txt_year;
@@ -1386,6 +1400,7 @@
 
 <?php
 			class notrow_evaluation{
+			public $evaluation_array;
 			public $txt_evaluation;
 			function __construct($txt_evaluation){
 				$this->txt_evaluation=$txt_evaluation;
