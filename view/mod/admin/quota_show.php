@@ -18,7 +18,7 @@
 <div class="row">
 	<div class="col-<?php echo $grid;?>-12">
 		<div class="alert alert-info">
-<form name="quota_show" method="post" >		
+
 			<div class="row">
 				<div class="col-<?php echo $grid;?>-6">
 					<div class="form-group">	
@@ -49,6 +49,7 @@
 						<select name="txt_level" id="txt_level"  data-placeholder="ระดับชั้น..." class="select" required>
 							<option></option>
 							<optgroup label="อนุบาล">
+								<option value="2">อนุบาล ฝากเรียน</option>								
 								<option value="3">อนุบาล 3</option>
 							</optgroup>
 							<optgroup label="ประถมศึกษา">
@@ -61,7 +62,7 @@
 					</div>				
 				</div>
 			</div>
-</form>			
+	
 		</div>
 	</div>
 </div>

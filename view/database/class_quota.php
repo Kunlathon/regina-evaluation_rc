@@ -402,6 +402,7 @@
 <?php
 	class IntoTheTest{
 		public $ITT_SudKey,$ITT_Class,$ITT_Plan,$ITT_Year;
+		public $IntoTheTestError;
 		function __construct($ITT_SudKey,$ITT_Class,$ITT_Plan,$ITT_Year){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -831,6 +832,7 @@
 <?php
 	class PrintInternalSaveRights{
 		public $RISR_Key,$RISR_Year,$RISR_MaintainRights;
+		public $ISR_isr_key,$ISR_isr_year,$ISR_isr_YearNew,$ISR_isr_ClassNew,$ISR_isr_PlanNew,$ISR_isr_MaintainRights,$ISR_isr_MaintainRightsTxT,$ISR_isr_quota_np,$ISR_isr_quota_name,$ISR_isr_quota_surname,$ISR_isr_quota_phone,$ISR_isr_quota_relationship,$ISR_isr_quota_datetime;
 		function __construct($RISR_Key,$RISR_Year,$RISR_MaintainRights){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -930,7 +932,7 @@
 //---------------------------------------------------------------------				
 			}
 		}
-	}
+	}      
 ?>
 
 
@@ -938,6 +940,7 @@
 <?php
 	class Run_quota_capital{
 		public $qc_key,$qc_year,$qc_class;
+		public $qc_qcs_txt,$qc_qcs_key;
 		function __construct($qc_key,$qc_year,$qc_class){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -990,7 +993,7 @@
 			}else{
 //---------------------------------------------------------------------				
 			}			
-		}
+		} 
 	}
 ?>
 
@@ -999,6 +1002,7 @@
 <?php
 	class InternalSaveRightsInto{
 		public 	$isr_key,$isr_year,$isr_YearNew,$isr_ClassNew,$isr_PlanNew,$isr_MaintainRights,$isr_MaintainRightsTxT,$isr_quota_np,$isr_quota_name,$isr_quota_surname,$isr_quota_phone,$isr_quota_relationship,$isr_quota_datetime;
+		public $InternalSaveRightsIntoDate;
 		function __construct($isr_key,$isr_year,$isr_YearNew,$isr_ClassNew,$isr_PlanNew,$isr_MaintainRights,$isr_MaintainRightsTxT,$isr_quota_np,$isr_quota_name,$isr_quota_surname,$isr_quota_phone,$isr_quota_relationship,$isr_quota_datetime){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -1046,6 +1050,7 @@
 <?php
 	class InternalSaveRightsDelete{
 		public 	$isr_key,$isr_year;
+		public $InternalSaveRightsIntoDate;
 		function __construct($isr_key,$isr_year){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -1081,6 +1086,7 @@
 <?php
 	class InternalSaveRightsTest{
 		public 	$isr_key,$isr_year;
+		public  $num_internal;
 		function __construct($isr_key,$isr_year){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -1122,6 +1128,7 @@
 <?php
 	class InternalSaveRightsPrint{
 		public 	$isr_key,$isr_year;
+		public $InternalSaveRightsArray;
 		function __construct($isr_key,$isr_year){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -1164,6 +1171,7 @@
 <?php
 	class RowQuotaRight{
 		public $RQR_key,$RQR_year,$RQR_level;
+		public $qr_stuid,$qr_year,$qr_level,$qr_plan,$qr_datetime;
 		function __construct($RQR_key,$RQR_year,$RQR_level){
 //---------------------------------------------------------------------	
 			$db_requestID=$_SERVER["REMOTE_ADDR"];
@@ -1219,7 +1227,7 @@
 				$this->qr_datetime;
 			}else{
 //------------------------------------------------------------------------				
-			}
+			} 
 		}
 	}
 ?>
@@ -1440,6 +1448,7 @@
 //regina_stu_data
 	class regina_stu_data{
 		public $stu_id;
+		public $rsd_studentid,$rsd_Identification,$sd_prefix,$rsd_name,$rsd_surname;
 		
 		function __construct($stu_id){
 			$this->stu_id=$stu_id;
@@ -1496,10 +1505,8 @@
 
 <?php
 	class stu_levelpdo{
-		public $stu_id;
-		public $stu_year;
-		public $stu_term;
-		
+		public $stu_id,$stu_year,$stu_term;
+		public $rsd_studentid,$IDLevel,$Sort_name,$Lname,$planname,$rsc_room,$rsc_num,$rc_plan;
 		function __construct($stu_id,$stu_year,$stu_term){
 			$this->stu_id=$stu_id;
 			$this->stu_year=$stu_year;
@@ -1551,6 +1558,7 @@
 
 <?php
   class plan_quota{
+	public $PlanQuotaArray;
     function __construct(){
       $PlanQuotaArray=array();
       $connpdo_eveluation=new conntopdo_evaluationto("mysql");
@@ -1579,6 +1587,7 @@
 <?php
 		class insert_quota{
 			public $quota_sql;
+			public $system_insertQuota;
 			function __construct($quota_sql){
 				$this->quota_sql=$quota_sql;
 				
@@ -1605,6 +1614,7 @@
 <?php
 	class print_datasturc{
 		public $txt_year,$txt_class;
+		public $array_datasturc;
 		function __construct($txt_year,$txt_class){
 			$this->txt_year=$txt_year;
 			$this->txt_class=$txt_class;
@@ -1615,14 +1625,18 @@
 			                      `regina_stu_data`.`rsd_surname`,`regina_stu_data`.`rsd_nameEn`,`regina_stu_data`.`rsd_surnameEn`,`regina_stu_class`.`rsc_year`,`regina_stu_class`.`rsc_class`
 								   from  `regina_stu_data` join `regina_stu_class` on (`regina_stu_data`.`rsd_studentid`=`regina_stu_class`.`rsd_studentid`)
                                    join `rc_prefix`on (`regina_stu_data`.`rsd_prefix`=`rc_prefix`.`IDPrefix` ) WHERE `regina_stu_data`.`rse_student_status`='1' 
-                                   and `regina_stu_class`.`rsc_status`='1' and `regina_stu_class`.`rsc_year`='{$this->txt_year}'
+                                   and `regina_stu_class`.`rsc_status`='1'  and `regina_stu_class`.`rsc_year`='{$this->txt_year}'
 								   and `regina_stu_class`.`rsc_class`='{$this->txt_class}';";
 				if($datasturcRs=$pdo_eveluation->query($datasturcSql)){
 					while($datasturcRow=$datasturcRs->Fetch(PDO::FETCH_ASSOC)){
-						$array_datasturc[]=$datasturcRow;
+						if((is_array($datasturcRow) and count($datasturcRow))){
+							$array_datasturc[]=$datasturcRow;
+						}else{
+							$array_datasturc[]=$datasturcRow;
+						}
 					}
 				}else{
-					//******************************************************************
+					$array_datasturc[]=null;
 				}
 					$pdo_eveluation=Null;
 					$this->array_datasturc=$array_datasturc;
@@ -1633,8 +1647,9 @@
 ?>
 
 <?php
-	class print_datasturc_dts{
+	class print_datasturc_k{
 		public $txt_year,$txt_class;
+		public $array_datasturc;
 		function __construct($txt_year,$txt_class){
 			$this->txt_year=$txt_year;
 			$this->txt_class=$txt_class;
@@ -1645,14 +1660,50 @@
 			                      `regina_stu_data`.`rsd_surname`,`regina_stu_data`.`rsd_nameEn`,`regina_stu_data`.`rsd_surnameEn`,`regina_stu_class`.`rsc_year`,`regina_stu_class`.`rsc_class`
 								   from  `regina_stu_data` join `regina_stu_class` on (`regina_stu_data`.`rsd_studentid`=`regina_stu_class`.`rsd_studentid`)
                                    join `rc_prefix`on (`regina_stu_data`.`rsd_prefix`=`rc_prefix`.`IDPrefix` ) WHERE `regina_stu_data`.`rse_student_status`='1' 
-                                   and `regina_stu_class`.`rsc_status`='11' and `regina_stu_class`.`rsc_year`='{$this->txt_year}'
+                                   and `regina_stu_class`.`rsc_status`='11'  and `regina_stu_class`.`rsc_year`='{$this->txt_year}'
+								   and `regina_stu_class`.`rsc_class`='{$this->txt_class}';";
+				if(($datasturcRs=$pdo_eveluation->query($datasturcSql))){
+					while($datasturcRow=$datasturcRs->Fetch(PDO::FETCH_ASSOC)){
+						if((is_array($datasturcRow) and count($datasturcRow))){
+							$array_datasturc[]=$datasturcRow;
+						}else{
+							$array_datasturc[]=$datasturcRow;
+						}
+					}
+				}else{
+					$array_datasturc[]=null;
+				}
+					$pdo_eveluation=Null;
+					$this->array_datasturc=$array_datasturc;
+		}function echo_datasturc(){
+			return $this->array_datasturc;
+		}
+	}
+?>
+
+
+<?php
+	class print_datasturc_dts{
+		public $txt_year,$txt_class;
+		public $array_datasturc;
+		function __construct($txt_year,$txt_class){
+			$this->txt_year=$txt_year;
+			$this->txt_class=$txt_class;
+			$array_datasturc=array();
+			$connpdo_eveluation=new conntopdo_evaluationto("mysql");
+			$pdo_eveluation=$connpdo_eveluation->getconnto_evaluationto_evaluationect();
+			$datasturcSql="select distinct(`regina_stu_data`.`rsd_studentid`),`regina_stu_data`.`rsd_Identification`,`rc_prefix`.`prefixname`,`regina_stu_data`.`rsd_name`,
+			                      `regina_stu_data`.`rsd_surname`,`regina_stu_data`.`rsd_nameEn`,`regina_stu_data`.`rsd_surnameEn`,`regina_stu_class`.`rsc_year`,`regina_stu_class`.`rsc_class`
+								   from  `regina_stu_data` join `regina_stu_class` on (`regina_stu_data`.`rsd_studentid`=`regina_stu_class`.`rsd_studentid`)
+                                   join `rc_prefix`on (`regina_stu_data`.`rsd_prefix`=`rc_prefix`.`IDPrefix` ) WHERE `regina_stu_data`.`rse_student_status`='1'
+								   and `regina_stu_class`.`rsc_year`='{$this->txt_year}'
 								   and `regina_stu_class`.`rsc_class`='{$this->txt_class}';";
 				if($datasturcRs=$pdo_eveluation->query($datasturcSql)){
 					while($datasturcRow=$datasturcRs->Fetch(PDO::FETCH_ASSOC)){
 						$array_datasturc[]=$datasturcRow;
 					}
 				}else{
-					//******************************************************************
+					$array_datasturc=null;
 				}
 					$pdo_eveluation=Null;
 					$this->array_datasturc=$array_datasturc;
@@ -1666,6 +1717,7 @@
 
 	class row_quotanotarray{
 		public $txt_quotanotarray;
+		public $quotanotarray;
 		function __construct($txt_quotanotarray){
 			$this->txt_quotanotarray=$txt_quotanotarray;
 			$quotanotarray=array();
@@ -1710,6 +1762,7 @@
 
 	class row_quotaarray{
 		public $txt_quotanotarray;
+		public $quotaarray;
 		function __construct($txt_quotanotarray){
 			$this->txt_quotanotarray=$txt_quotanotarray;
 			$quotaarray=array();
@@ -1754,6 +1807,7 @@
 
 		class print_evaluation{
 			public $txt_evaluation;
+			public $evaluation_notarray;
 			function __construct($txt_evaluation){
 				$this->txt_evaluation=$txt_evaluation;
 				$evaluation_notarray=array();
@@ -1794,6 +1848,7 @@
 //print_plan->pdo
 	class print_plan{
 		public $plan;
+		public $plan_Name,$plan_LName;
 		function __construct($plan){
 			$this->plan=$plan;
 			$connpdo_eveluation=new conntopdo_evaluationto("mysql");
@@ -1834,13 +1889,14 @@
 			$this->plan_Name;
 			$this->plan_LName;
 		}
-	}
+	} 
 ?>
 
 <?php
 //print_plan->pdo
 	class print_plan2{
 		public $plan;
+		public $plan_Name,$plan_LName;
 		function __construct($plan){
 			$this->plan=$plan;
 
@@ -1883,7 +1939,7 @@
 				$this->plan_Name;
 				$this->plan_LName;	
 		}
-	}
+	} 
 ?>
 
 <?php

@@ -1,10 +1,7 @@
 <?php
     class qrcode_scb{
-        public $BillerId;
-        public $Ref1;
-        public $Ref2;
-        public $Amount;
-        public $Width;
+        public $BillerId,$Ref1,$Ref2,$Amount,$Width;
+        public $qrcode;
         //public $Height;
         function __construct($BillerId,$Ref1,$Ref2,$Amount,$Width){
             $this->BillerId=$BillerId;

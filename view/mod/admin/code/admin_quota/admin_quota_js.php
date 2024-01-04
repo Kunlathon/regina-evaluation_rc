@@ -10,7 +10,8 @@
 	<script>
 		$(document).ready(function(){
 			$("#gowork").click(function(){
-				document.location="./?evaluation_mod=quota_show";
+				//document.location="./?evaluation_mod=quota_show";
+				history.back();
 			})
 		})
 	</script>
