@@ -79,6 +79,7 @@
 	//Print rssubject group / join
 	class PrintRsSubjectGJ{
 		public $PRSGJ_Type,$PRSGJ_ClassA,$PRSGJ_ClassB,$PRSGJ_year,$PRSGJ_RSDno;
+		public $RsSubjectGJ_Print,$RsSubjectGJ_Error;
 		function __construct($PRSGJ_Type,$PRSGJ_ClassA,$PRSGJ_ClassB,$PRSGJ_year,$PRSGJ_RSDno){
 			$this->PRSGJ_Type=$PRSGJ_Type;
 			$this->PRSGJ_ClassA=$PRSGJ_ClassA;
@@ -203,6 +204,7 @@
 <?php
 	class PrintSummerPlan{
 		public $PSP_Y,$PSP_CA,$PSP_CB;
+		public $PSP_Print;
 		function __construct($PSP_Y,$PSP_CA,$PSP_CB){
 			$this->PSP_Y=$PSP_Y;
 			$this->PSP_CA=$PSP_CA;
@@ -221,7 +223,7 @@
 								if((is_array($PrintSummerPlanRow) && count($PrintSummerPlanRow))){
 									$PSP_Print[]=$PrintSummerPlanRow;
 								}else{
-									$PSP_Print="-";
+									$PSP_Print[]=$PrintSummerPlanRow;
 								}
 							}
 						}else{

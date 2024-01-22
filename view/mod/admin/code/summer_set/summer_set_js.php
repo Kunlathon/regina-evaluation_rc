@@ -1,3 +1,5 @@
+	<script src="<?php echo $golink;?>/view/js_css_code/vue_js/vue.global.js"></script>
+	
 	<!-- Theme JS files colors_danger-->
 	<script src="<?php echo $golink;?>/Template/global_assets/js/core/libraries/jquery_ui/core.min.js"></script>
 	<script src="<?php echo $golink;?>/Template/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
@@ -201,9 +203,4 @@
 
 	<!-- /theme JS files -->
 
-	
-	<script>
-		$(document).ready(function(){
-			
-		})
-	</script>
+

@@ -390,7 +390,17 @@
 						<div class="col-<?php echo $grid;?>-12">
 							<fieldset class="content-group">
 								<div class="form-group">								
-								
+									<label class="control-label col-<?php echo $grid;?>-5"></label>
+									<div class="col-<?php echo $grid;?>-7">
+										<div class="row">
+											<div class="col-<?php echo $grid;?>-6" style="float:left;">
+												<button type="button" name="Save_cs" id="Save_cs" class="btn btn-success">บันทึก Save</button>
+											</div>
+											<div class="col-<?php echo $grid;?>-6" id="form_Clear_cs" style="float:right;">
+												<button type="button" v-on:click.once="Clear_cs"  class="btn btn-danger">เคลียร์ Clear</button>
+											</div>
+										</div>
+									</div>	
 								</div>
 							</fieldset>						
 						</div>
