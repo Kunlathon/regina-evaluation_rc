@@ -639,7 +639,7 @@
 			}elseif($evaluation_mod=="weekend_student"){
 				include("view/mod/admin/code/weekend_student/weekend_student_js.php");
 			}elseif($evaluation_mod=="qsa_family_day"){
-				include("view/mod/admin/code/qrcode_school_activities/qrcode_school_activities_js.php");
+				include("view/mod/admin/code/qsa_family_day/qsa_family_day_js.php");
 			}elseif(($evaluation_mod=="concert_pay" or $evaluation_mod=="concert_paying")){
 				include("view/mod/admin/code/concert_pay/concert_pay_js.php");
 			}elseif(($evaluation_mod=="concert_predicate")){

@@ -28,6 +28,36 @@
     }
 ?>
 
+<?php
+    class scb_code{
+        public $BillerId,$Ref1,$Ref2,$Amount,$Width;
+        public $qrcode;
+        //public $Height;
+        function __construct($BillerId,$Ref1,$Ref2,$Amount,$Width){
+            $this->BillerId=$BillerId;
+            $this->Ref1=$Ref1;
+            $this->Ref2=$Ref2;
+            $this->Amount=$Amount;
+            $this->Width=$Width;
+            //$this->Height=$Height;
+            $copy_amount=number_format($this->Amount=$Amount, 2, '.', '');
+            $pay_amount=str_replace('.','',$copy_amount);
+            $qrcode='%7C'.$this->BillerId.'%0D'.$this->Ref1.'%0D'.$this->Ref2.'%0D'.$pay_amount;
+                if(isset($qrcode)){
+                    $this->qrcode=$qrcode;
+                }else{
+                    //-------------------
+                }
+        }public function call_qrcode_scb(){
+            if(isset($this->qrcode)){
+                return $this->qrcode;
+            }else{
+                //-----------------------
+            }
+        }
+    }
+?>
+
 
 <?php
    /* $txt01="099400043439110";

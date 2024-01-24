@@ -17,3 +17,6 @@
 	<script src="Template/global_assets/js/plugins/notifications/bootbox.min.js"></script>
 	<script src="Template/global_assets/js/plugins/notifications/sweet_alert.min.js"></script>
 	<!-- /theme JS files -->
+	
+
+	

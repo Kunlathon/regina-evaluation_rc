@@ -162,6 +162,7 @@
 <?php
 	class TestRegisterSummer{
 		public $TRS_Key,$TRS_Year;
+		public $TRS_Count;
 		function __construct($TRS_Key,$TRS_Year){
 			$this->TRS_Key=$TRS_Key;
 			$this->TRS_Year=$TRS_Year;
@@ -244,6 +245,7 @@
 <?php
 	class Print_Rssubject_Data{
 		public $PRD_Year,$PRD_Class,$PRD_Plan,$PRD_RST_on;
+		public $Pint_Rssubject,$Rssubject_Error;
 		function __construct($PRD_Year,$PRD_Class,$PRD_Plan,$PRD_RST_on){
 			$this->PRD_Year=$PRD_Year;
 			$this->PRD_Class=$PRD_Class;
@@ -302,6 +304,7 @@
 	//System Summer
 	class SystemSummer{
 		public $SS_Type,$test_system,$OFFONDateTime,$EndDateTime,$data_yaer,$data_term,$data_summer,$time_add,$DeletePay_Sud,$DeletePay_Admin,$End4143_notrun;
+		public $SS_Error,$SS_Array;
 		function __construct($SS_Type,$test_system,$OFFONDateTime,$EndDateTime,$data_yaer,$data_term,$data_summer,$time_add,$DeletePay_Sud,$DeletePay_Admin,$End4143_notrun){
 			$this->SS_Type=$SS_Type;
 			$this->test_system=$test_system;
@@ -369,6 +372,7 @@
 <?php
 	class SystemYear{
 		public $SY_Type,$SY_id,$SY_year;
+		public $ST_Error,$ST_Array;
 		function __construct($SY_Type,$SY_id,$SY_year){
 			$this->SY_Type=$SY_Type;
 			$this->SY_id=$SY_id;
@@ -453,6 +457,7 @@
 <?php
 	class TestScore{
 		public $TS_Score,$TS_Type,$TS_ScoreFull;
+		public $TxtScoreTh,$KeyScore,$TS_Full;
 		function __construct($TS_Score,$TS_Type,$TS_ScoreFull){
 //----------------------------------------------------------------------------------		
 		$this->TS_Score=$TS_Score;
@@ -1089,6 +1094,7 @@
 <?php
 	class DataStuPaySummer{
 		public $DSPS_Key,$DSPS_Year,$DSPS_Class;
+		public $StuPayini;
 		function __construct($DSPS_Key,$DSPS_Year,$DSPS_Class){
 //----------------------------------------------------------------------------------			
 			$this->DSPS_Key=$DSPS_Key;
@@ -1137,6 +1143,7 @@
 <?php
 	class DataRsStudentRow{
 		public $DRSD_Year,$DRSD_Class;
+		public $DataRsStudentArray;
 		function __construct($DRSD_Year,$DRSD_Class){
 			$this->DRSD_Year=$DRSD_Year;
 			$this->DRSD_Class=$DRSD_Class;
@@ -1571,6 +1578,7 @@
 <?php
 	class CountMoneyPaySummer{
 		public $SMPS_no,$SMPS_year;
+		public $count_rckey;
 		function __construct($SMPS_no,$SMPS_year){
 			$this->SMPS_no=$SMPS_no;
 			$this->SMPS_year=$SMPS_year;
@@ -1641,6 +1649,7 @@
 <?php
 	class ShowCountSummer{
 		public $SCS_No,$SCS_year;
+		public $SCS_RSC_count;
 		function __construct($SCS_No,$SCS_year){
 			$this->SCS_No=$SCS_No;
 			$this->SCS_year=$SCS_year;
@@ -1676,6 +1685,7 @@
 <?php
 	class PrintSummerData{
 		public $PSD_Key,$PSD_Year;
+		public $PrintSummerDataArray;
 		function __construct($PSD_Key,$PSD_Year){
 			$this->PSD_Key=$PSD_Key;
 			$this->PSD_Year=$PSD_Year;
@@ -1721,6 +1731,7 @@
 <?php
 	class Delete_Summer{
 		public $DS_Key,$DS_Year;
+		public $DS_Error;
 		function __construct($DS_Key,$DS_Year){
 			$this->DS_Key=$DS_Key;
 			$this->DS_Year=$DS_Year;

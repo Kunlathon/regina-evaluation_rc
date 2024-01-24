@@ -33,7 +33,7 @@
 				
 			<select class="select-menu-color" name="ad_sudkey" id="ad_sudkey" data-placeholder="รายชื่อนักเรียน..." required="required">
 					<option></option>
-				<optgroup label="รายชื่อนักเรียน...">
+				<optgroup label="รายชื่อนักเรียน <?php echo "ภาคเรียนที่ ".$ad_term." ปีการศึกษา".$ad_year;?>">
 
 			<?php
 				$Print_DataSud=new PrintReginaYear($ad_year,$ad_term);

@@ -42,7 +42,7 @@
 			<select class="select-menu-color" name="ad_sudkey" id="ad_sudkey" data-placeholder="รายชื่อนักเรียน..." required="required">
 					<option></option>
 				<optgroup label="รายชื่อนักเรียน...">
-						
+					<option></option>	
 				</optgroup>			
 			</select>
 		</div>

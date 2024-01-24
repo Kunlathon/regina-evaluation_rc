@@ -350,7 +350,7 @@
 	
 	<div class="row">
 		<div class="col-<?php echo $grid;?>-12" style="text-align: center;">
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModa2">เพิ่มข้อมูล</button>
+			<button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModa2">เพิ่มข้อมูล</button>
 		</div>
 	</div>
 	
@@ -394,7 +394,7 @@
 									<div class="col-<?php echo $grid;?>-7">
 										<div class="row">
 											<div class="col-<?php echo $grid;?>-6" style="float:left;">
-												<button type="button" name="Save_cs" id="Save_cs" class="btn btn-success">บันทึก Save</button>
+												<button type="button" name="Save_cs" id="Save_cs" class="btn btn-success" value="create">บันทึก Save</button>
 											</div>
 											<div class="col-<?php echo $grid;?>-6" id="form_Clear_cs" style="float:right;">
 												<button type="button" v-on:click.once="Clear_cs"  class="btn btn-danger">เคลียร์ Clear</button>
@@ -417,38 +417,68 @@
 	
 		<script>
 			$(document).ready(function(){
-				$('#sweet_combine').on('click', function() {
-					swal({
-						title: "Are you sure?",
-						text: "You will not be able to recover this imaginary file!",
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "Yes, delete it!",
-						cancelButtonText: "No, cancel pls!",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
+				$('#Save_cs').on('click', function() {
+
+					var sy_id=$("#sy_id").val();
+					var sy_th=parseInt(sy_id)+parseInt(543);
+					var number_test=/^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+					var action=$("#Save_cs").val();
+
+						if(sy_id===""){
 							swal({
-								title: "Deleted!",
-								text: "Your imaginary file has been deleted.",
-								confirmButtonColor: "#66BB6A",
-								type: "success"
-							});
-						}
-						else {
-							swal({
-								title: "Cancelled",
-								text: "Your imaginary file is safe :)",
+								title: "พบข้อผิดพลาด",
+								text: "กรุณาระบุข้อมูล",
 								confirmButtonColor: "#2196F3",
 								type: "error"
 							});
+						}else{
+							if(number_test.test(sy_id)){
+								if(action==="create"){
+
+									$.post("<?php echo $golink;?>/summer/process_summer_set/"+action,{
+										action:action,
+										sy_id:sy_id,
+										sy_th:sy_th
+									},function(Run_summer_set){
+										var txt_summer_set=Run_summer_set.trim();
+
+											if(txt_summer_set==="no_error"){
+												location.reload();
+											}else if(txt_summer_set==="error"){
+												swal({
+													title: "บันทึกไม่สำเร็จ",
+													confirmButtonColor: "#2196F3",
+													type: "error"
+												});
+											}else{
+												swal({
+													title: "พบข้อผิดพลาด",
+													text: "รูปแบบการทำงานไม่ถูกต้อง",
+													confirmButtonColor: "#2196F3",
+													type: "error"
+												});
+											}
+									})
+
+								}else{
+									swal({
+										title: "พบข้อผิดพลาด",
+										text: "รูปแบบการทำงานไม่ถูกต้อง",
+										confirmButtonColor: "#2196F3",
+										type: "error"
+									});
+								}
+							}else{
+								swal({
+									title: "พบข้อผิดพลาด",
+									text: "กรุณาระบุค่าตัวเลข",
+									confirmButtonColor: "#2196F3",
+									type: "error"
+								});
+							}
 						}
-					});
-				});				
-				
+				})				
+			
 			})	
 		</script>	
 	

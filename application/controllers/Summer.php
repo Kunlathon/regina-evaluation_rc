@@ -1,4 +1,6 @@
 <?php
+
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Summer extends CI_Controller{
 	
@@ -36,6 +38,11 @@ class Summer extends CI_Controller{
 	public function print_summer_count($PSC_Year,$PSC_Class){
 		$RunSummer=array('PSC_Year'=>$PSC_Year,'PSC_Class'=>$PSC_Class);
 		$this->load->view('summer/print_summer_count/print_summer_count',$RunSummer);
+	}
+
+	public function process_summer_set($txt_process){
+		$Row_Summer=array('txt_process'=>$txt_process);
+		$this->load->view('summer/summer_set/summer_set_process',$Row_Summer);
 	}
 
 
