@@ -3,6 +3,7 @@
 <?php
 	class count_pdodata{
 		public $id_system;
+		public $conndb_pdodata;
 		function __construct($id_system){
 			$this->id_system=$id_system;
 				if($this->id_system=="127.0.0.1" or $this->id_system=="localhost" or $this->id_system=="::1"){
@@ -46,8 +47,8 @@
 		private $connto_evaluationto_evaluation;
 		private $dsn_mysql="mysql:host=localhost;dbname=regina_student;charset=utf8;port=3399";
 		private $dsn_sqlite="sqlite:my_sqlite.db";
-		/*private $user="regina_student";
-		private $password="student2019";*/
+		//private $user="regina_student";
+		//private $password="student2019";
 		private $user="root";
 		private $password="053282395";
 

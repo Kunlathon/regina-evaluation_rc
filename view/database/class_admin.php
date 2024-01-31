@@ -89,6 +89,7 @@
 
 	class LavaLClassAdmin{
 		public $PL_key;
+		public $LavaTh;
 		function __construct($PL_key){
 //-------------------------------------------------------------------------
 			$this->PL_key=$PL_key;
@@ -153,6 +154,7 @@
 <?php
 class print_teacher{
 	public $key_rc;
+	public $mynameTh,$mynameEn;
 	function __construct($key_rc){
 		$this->key_rc=$key_rc;
 		$db_evaluationID=$_SERVER['REMOTE_ADDR'];
@@ -255,6 +257,7 @@ class print_teacher{
 <?php
 	class price_datapay{
 		public $pd_sud,$pd_class,$pd_year;
+		public $pap_nopay,$datapay;
 		function __construct($pd_sud,$pd_class,$pd_year){
 			$this->pd_sud=$pd_sud;
 			$this->pd_class=$pd_class;
@@ -299,8 +302,8 @@ class print_teacher{
 ?>
 <?php
 	class pay_bookall{
-		public $txt_year;
-		public $txt_status;
+		public $txt_year,$txt_status;
+		public $pay_bookarray;
 		function __construct($txt_year,$txt_status){
 			$this->txt_year=$txt_year;
 			$this->txt_status=$txt_status;
@@ -320,7 +323,7 @@ class print_teacher{
 						$pay_bookarray[]=$pay_bookallRow;
 					}
 				}else{
-					$pay_bookarray=Null;
+					$pay_bookarray[]=Null;
 				}
 					if(isset($pay_bookarray)){
 						$this->pay_bookarray=$pay_bookarray;
@@ -342,6 +345,7 @@ class print_teacher{
 <?php
 	class offonbook{
 		public $txt_year;
+		public $po_status;
 		function __construct($txt_year){
 			$this->txt_year=$txt_year;
 			$db_evaluationID=$_SERVER['REMOTE_ADDR'];
@@ -373,8 +377,8 @@ class print_teacher{
 
 <?php
 	class payrc_book{
-		public $txt_year;
-		public $txt_sud;
+		public $txt_year,$txt_sud;
+		public $ps_id,$ps_txt;
 		function __construct($txt_year,$txt_sud){
 			$this->txt_year=$txt_year;
 			$this->txt_sud=$txt_sud;
@@ -417,6 +421,7 @@ class print_teacher{
 <?php
 	class int_idcount{
 		public $txt_intid;
+		public $count_key;
 		function __construct($txt_intid){
 			$this->txt_intid=$txt_intid;
 				if($this->txt_intid<=9){
@@ -648,11 +653,8 @@ class print_teacher{
 <?php
 	//static_stuRc
 		class  static_stuRCcolor{
-			public $ssrc_t;
-			public $ssrc_y;
-			public $ssrc_c;
-			public $ssrc_s;
-			public $ssrc_h;
+			public $ssrc_t,$ssrc_y,$ssrc_c,$ssrc_s,$ssrc_h;
+			public $count_stu;
 
 			function __construct($ssrc_t,$ssrc_y,$ssrc_c,$ssrc_s,$ssrc_h){
 				$this->ssrc_t=$ssrc_t;
@@ -924,6 +926,7 @@ class print_teacher{
 //regina_stu_data
 	class regina_stu_data{
 		public $stu_id;
+		public $rsd_studentid,$rsd_Identification,$sd_prefix,$rsd_name,$rsd_surname;
 		function __construct($stu_id){
 			$this->stu_id=$stu_id;
 			$db_evaluationID=$_SERVER['REMOTE_ADDR'];
@@ -940,18 +943,18 @@ class print_teacher{
 						$rsd_name=$regina_stu_dataRow["rsd_name"];
 						$rsd_surname=$regina_stu_dataRow["rsd_surname"];
 					}else{
-						$rsd_studentid="";
-						$rsd_Identification="";
-						$sd_prefix="";
-						$rsd_name="";
-						$rsd_surname="";
+						$rsd_studentid=null;
+						$rsd_Identification=null;
+						$sd_prefix=null;
+						$rsd_name=null;
+						$rsd_surname=null;
 					}
 			}else{
-				$rsd_studentid="";
-				$rsd_Identification="";
-				$sd_prefix="";
-				$rsd_name="";
-				$rsd_surname="";
+				$rsd_studentid=null;
+				$rsd_Identification=null;
+				$sd_prefix=null;
+				$rsd_name=null;
+				$rsd_surname=null;
 			}
 				if(isset($rsd_studentid)){
 					$this->rsd_studentid=$rsd_studentid;
@@ -970,7 +973,7 @@ class print_teacher{
 				$this->sd_prefix;
 				$this->rsd_name;
 				$this->rsd_surname;
-			}else{
+			}else{ 
 				//-----------------------------------------------
 			}
 		}
@@ -979,9 +982,8 @@ class print_teacher{
 
 //stu_level
 	class stu_levelpdo{
-		public $stu_id;
-		public $stu_year;
-		public $stu_term;
+		public $stu_id,$stu_year,$stu_term;
+		public $rsd_studentid,$IDLevel,$Sort_name,$Lname,$planname,$rsc_room,$rsc_num,$rc_plan;
 
 		function __construct($stu_id,$stu_year,$stu_term){
 			$this->stu_id=$stu_id;
@@ -1011,14 +1013,14 @@ class print_teacher{
 				$this->rsc_num=$stu_levelRow["rsc_num"];
 				$this->rc_plan=$stu_levelRow["rsc_plan"];
 			}else{
-				$this->rsd_studentid="";
-				$this->IDLevel="";
-				$this->Sort_name="";
-				$this->Lname="";
-				$this->planname="";
-				$this->rsc_room="";
-				$this->rsc_num="";
-				$this->rc_plan="";
+				$this->rsd_studentid=null;
+				$this->IDLevel=null;
+				$this->Sort_name=null;
+				$this->Lname=null;
+				$this->planname=null;
+				$this->rsc_room=null;
+				$this->rsc_num=null;
+				$this->rc_plan=null;
 			}
 			$pdo_evaluation=Null;
 		}	function __destruct(){
@@ -1030,7 +1032,7 @@ class print_teacher{
 			$this->rsc_room;
 			$this->rsc_num;
 			$this->rc_plan;
-		}
+		} 
 
 	}
 
@@ -1038,6 +1040,7 @@ class print_teacher{
 
 	class insert_datastupdo{
 		public $evaluation_sql;
+		public $system_insert;
 		function __construct($evaluation_sql){
 			$this->evaluation_sql=$evaluation_sql;
 
@@ -1064,6 +1067,7 @@ class print_teacher{
 //print_prefix->pdo
 	class print_prefix{
 		public $prefix;
+		public $prefix_prefixname,$prefix_prefix_SName,$prefix_prefix_EName;
 		function __construct($prefix){
 			$this->prefix=$prefix;
 
@@ -1107,7 +1111,7 @@ class print_teacher{
 				$this->prefix_prefix_EName;				
 			}else{
 //----------------------------------------------------------------------------				
-			}
+			} 
 		}
 	}
 
@@ -1115,10 +1119,8 @@ class print_teacher{
 
 //data_sturoom->pdo
 	class data_stuall{
-		public $sr_t;
-		public $sr_y;
-		public $sr_lA;
-		public $sr_lB;
+		public $sr_t,$sr_y,$sr_lA,$sr_lB;
+		public $printdata_stuall;
 		//public $sr_r;
 		function __construct($sr_t,$sr_y,$sr_lA,$sr_lB){
 			$this->sr_t=$sr_t;
@@ -1161,10 +1163,8 @@ class print_teacher{
 
 //data_regina_stu_class
 	class regina_stu_class{
-		public $rsc_stuId;
-		public $rsc_t;
-		public $rsc_y;
-		public $rsc_l;
+		public $rsc_stuId,$rsc_t,$rsc_y,$rsc_l;
+		public $student_statusTxt;
 		function __construct($rsc_stuId,$rsc_t,$rsc_y,$rsc_l){
 			$this->rsc_stuId=$rsc_stuId;
 			$this->rsc_t=$rsc_t;
@@ -1198,10 +1198,8 @@ class print_teacher{
 	}
 
 	class data_stunew{
-		public $sr_t;
-		public $sr_y;
-		public $sr_l;
-		public $sr_key;
+		public $sr_t,$sr_y,$sr_l,$sr_key;
+		public $printdata_stuallnew;
 		function __construct($sr_t,$sr_y,$sr_l,$sr_key){
 			$this->sr_t=$sr_t;
 			$this->sr_y=$sr_y;
@@ -1242,14 +1240,12 @@ class print_teacher{
 	}
 
 	class data_stuallnew{
-		public $sr_t;
-		public $sr_y;
-		public $sr_l;
+		public $sr_t,$sr_y,$sr_l;
+		public $printdata_stuallnew;
 		function __construct($sr_t,$sr_y,$sr_l){
 			$this->sr_t=$sr_t;
 			$this->sr_y=$sr_y;
 			$this->sr_l=$sr_l;
-
 
 			$db_evaluationID=$_SERVER['REMOTE_ADDR'];
 			$connpdo_eveluation=new count_pdodata($db_evaluationID);
@@ -1287,10 +1283,8 @@ class print_teacher{
 
 //data_sturoom->pdo
 	class data_sturoom{
-		public $sr_t;
-		public $sr_y;
-		public $sr_l;
-		public $sr_r;
+		public $sr_t,$sr_y,$sr_l,$sr_r;
+		public $printdata_sturoom;
 		function __construct($sr_t,$sr_y,$sr_l,$sr_r){
 			$this->sr_t=$sr_t;
 			$this->sr_y=$sr_y;
@@ -1318,7 +1312,7 @@ class print_teacher{
 					$printdata_sturoom[]=$sturoom_row;
 				}
 			}else{
-
+				$printdata_sturoom[]=null;
 			}
 			$pdo_eveluation=Null;
 			$this->printdata_sturoom=$printdata_sturoom;
@@ -1331,10 +1325,8 @@ class print_teacher{
 
 
 	class data_sturoom2{
-		public $sr_t;
-		public $sr_y;
-		public $sr_l;
-		public $sr_r;
+		public $sr_t,$sr_y,$sr_l,$sr_r;
+		public $printdata_sturoom;
 		function __construct($sr_t,$sr_y,$sr_l,$sr_r){
 			$this->sr_t=$sr_t;
 			$this->sr_y=$sr_y;
@@ -1776,6 +1768,7 @@ class print_teacher{
 //print_notarray
 	class print_arrayrow{
 		public $print_sql;
+		public $txt_array,$print_array;
 		function __construct($print_sql){
 			$this->print_sql=$print_sql;
 			$print_array=array();
@@ -1805,9 +1798,8 @@ class print_teacher{
 
 //stu_level
 	class stu_level{
-		public $stu_id;
-		public $stu_year;
-		public $stu_term;
+		public $stu_id,$stu_year,$stu_term;
+		public $rsd_studentid,$IDLevel,$Sort_name,$Lname,$planname,$rsc_room,$rsc_num,$rc_plan;
 
 		function __construct($stu_id,$stu_year,$stu_term){
 			$this->stu_id=$stu_id;
@@ -1855,8 +1847,7 @@ class print_teacher{
 			$this->rsc_num;
 			$this->rc_plan;
 		}
-	}
-
+	}  
 //stu_level End
 
 
@@ -1868,6 +1859,7 @@ class print_teacher{
 //stu_all
 	class stu_all{
 		public $stu_status;
+		public $data_stuarray;
 		function __construct($stu_status){
 			$this->stu_status=$stu_status;
 			$data_stuSql="select `regina_stu_data`.`rsd_studentid`,`regina_stu_data`.`rsd_Identification`,`rc_prefix`.`prefixname`
@@ -1885,7 +1877,7 @@ class print_teacher{
 				}
 
 			}else{
-
+			
 			}
 				$this->data_stuarray=$data_stuarray;
 		}
@@ -2023,9 +2015,8 @@ class print_teacher{
 
 //stu_room
 	class stu_room{
-		public $stu_year;
-		public $stu_term;
-		public $stu_class;
+		public $stu_year,$stu_term,$stu_class;
+		public $stu_array;
 	    function __construct($stu_year,$stu_term,$stu_class){
 			$this->stu_year=$stu_year;
 			$this->stu_term=$stu_term;
@@ -2059,6 +2050,7 @@ class print_teacher{
 
 	class stu_grade{
 		public $data_grade;
+		public $txt_gradeint,$txt_gradeen;
 		function __construct($data_grade){
 			$this->data_grade=$data_grade;
 			if($this->data_grade==4.00){

@@ -1,4 +1,8 @@
 <?php
+//Update coding by rc0468 on 2024-01-31
+?>
+
+<?php
 	include("view/database/pdo_data.php");
 	include("view/database/class_admin.php");
 	include("view/database/pdo_summer.php");
@@ -262,7 +266,7 @@
 		</div>
 	</div>
 	
-	<div id="show_summer_home"></div>
+	<!--<div id="show_summer_home"></div>-->
 	
 </form>
 
@@ -293,28 +297,56 @@
 				},function(isConfirm){
 					if(isConfirm) {
 						if(test_system!="" &&  OFFONDateTime!="" && EndDateTime!="" && data_yaer!="" && data_term!="" && data_summer!="" && time_add!="" && End4143_notrun!=""){
-							swal({
-								title: "ดำเนินการบันทึก",
-								confirmButtonColor: "#66BB6A",
-								type: "success"
-							},function(){
-								$.post("<?php echo $golink;?>/Summer/Save_Summer_Set_Home",{
-									test_system:test_system,
-									OFFONDateTime:OFFONDateTime,
-									EndDateTime:EndDateTime,
-									data_yaer:data_yaer,
-									data_term:data_term,
-									data_summer:data_summer,
-									time_add:time_add,
-									DeletePay_Sud:DeletePay_Sud,
-									DeletePay_Admin:DeletePay_Admin,
-									End4143_notrun:End4143_notrun
-								},function(home_summer){
-									if(home_summer!=""){
-										$("#show_summer_home").html(home_summer)
-									}else{}
-								})								
-							});
+							
+							$.post("<?php echo $golink;?>/Summer/Save_Summer_Set_Home",{
+								test_system:test_system,
+								OFFONDateTime:OFFONDateTime,
+								EndDateTime:EndDateTime,
+								data_yaer:data_yaer,
+								data_term:data_term,
+								data_summer:data_summer,
+								time_add:time_add,
+								DeletePay_Sud:DeletePay_Sud,
+								DeletePay_Admin:DeletePay_Admin,
+								End4143_notrun:End4143_notrun
+							},function(home_summer){
+
+								swal({
+									title: "สำเร็จ",
+									text: "การตั้งค่าระบบ สำเร็จ",
+									confirmButtonColor: "#32CD32",
+									type: "success"
+								},function(){
+									document.location="<?php echo base_url();?>/?evaluation_mod=summer_set";
+								});	
+
+								/*var home_summer=home_summer.trim();
+									if(home_summer=="No"){
+										swal({
+											title: "สำเร็จ",
+											text: "การตั้งค่าระบบ สำเร็จ33",
+											confirmButtonColor: "#32CD32",
+											type: "success"
+										},function(){
+											document.location="<?php echo base_url();?>/?evaluation_mod=summer_set";
+										});	
+									}else if(home_summer=="Yes"){
+										swal({
+											title: "ไม่สำเร็จ",
+											text: "การตั้งค่าระบบ ไม่สำเร็จ",
+											confirmButtonColor: "#FF0000",
+											type: "error"
+										});	
+									}else{
+
+										swal({
+											title: "เกิดข้อผิดพลาด",
+											text: "เกิดข้อผิดพลาดไม่สามารถดำเนินการได้",
+											confirmButtonColor: "#FF8C00",
+											type: "warning"
+										});
+									}*/
+							})
 							
 						}else{
 							swal({
@@ -394,7 +426,7 @@
 									<div class="col-<?php echo $grid;?>-7">
 										<div class="row">
 											<div class="col-<?php echo $grid;?>-6" style="float:left;">
-												<button type="button" name="Save_cs" id="Save_cs" class="btn btn-success" value="create">บันทึก Save</button>
+												<button type="button" name="Save_cs" id="Save_cs" class="btn btn-success" data-dismiss="modal" value="create">บันทึก Save</button>
 											</div>
 											<div class="col-<?php echo $grid;?>-6" id="form_Clear_cs" style="float:right;">
 												<button type="button" v-on:click.once="Clear_cs"  class="btn btn-danger">เคลียร์ Clear</button>
@@ -424,91 +456,114 @@
 					var number_test=/^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
 					var action=$("#Save_cs").val();
 
-						if(sy_id===""){
-							swal({
-								title: "พบข้อผิดพลาด",
-								text: "กรุณาระบุข้อมูล",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}else{
-							if(number_test.test(sy_id)){
-								if(action==="create"){
 
-									$.post("<?php echo $golink;?>/summer/process_summer_set/"+action,{
-										action:action,
-										sy_id:sy_id,
-										sy_th:sy_th
-									},function(Run_summer_set){
-										var txt_summer_set=Run_summer_set.trim();
+					swal({
+						title: "ต้องการบันทึกใช้หรือไม่",
+						text: "บันทึกการเปลียนแปลงการตั้งค่าปีการศึกษา",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#EF5350",
+						confirmButtonText: "ใช้, ต้องการบันทึก",
+						cancelButtonText: "ไม่ใช้, ไม่ต้องการบันทึก",
+						closeOnConfirm: false,
+						closeOnCancel: false
+					},function(isConfirm_SC){
+						if(isConfirm_SC){
 
-											if(txt_summer_set==="no_error"){
-												location.reload();
-											}else if(txt_summer_set==="error"){
+							if(sy_id===""){
+								swal({
+									title: "พบข้อผิดพลาด",
+									text: "กรุณาระบุข้อมูล",
+									confirmButtonColor: "#2196F3",
+									type: "error"
+								});
+							}else{
+								if(number_test.test(sy_id)){
+									if(action==="create"){
+
+										$.post("<?php echo $golink;?>/summer/process_summer_set/"+action,{
+											action:action,
+											sy_id:sy_id,
+											sy_th:sy_th
+										},function(Run_summer_set){
+
 												swal({
-													title: "บันทึกไม่สำเร็จ",
-													confirmButtonColor: "#2196F3",
-													type: "error"
-												});
-											}else{
-												swal({
-													title: "พบข้อผิดพลาด",
-													text: "รูปแบบการทำงานไม่ถูกต้อง",
-													confirmButtonColor: "#2196F3",
-													type: "error"
-												});
-											}
-									})
+													title: "สำเร็จ",
+													text: "บันทึกข้อมูลปีการศึกษา สำเร็จ",
+													confirmButtonColor: "#32CD32",
+													type: "success"
+												},function(){
+													document.location="<?php echo base_url();?>/?evaluation_mod=summer_set";
+												});	
+											
+											/*var Run_summer_set=Run_summer_set.trim();
 
+												if(Run_summer_set==="no_error"){
+													location.reload();
+												}else if(Run_summer_set==="error"){
+													location.reload();
+												}else{
+													location.reload();
+												}*/
+
+										})
+
+									}else{
+										swal({
+											title: "พบข้อผิดพลาด",
+											text: "รูปแบบการทำงานไม่ถูกต้อง",
+											confirmButtonColor: "#2196F3",
+											type: "error"
+										});
+									}
 								}else{
 									swal({
 										title: "พบข้อผิดพลาด",
-										text: "รูปแบบการทำงานไม่ถูกต้อง",
+										text: "กรุณาระบุค่าตัวเลข",
 										confirmButtonColor: "#2196F3",
 										type: "error"
 									});
 								}
-							}else{
-								swal({
-									title: "พบข้อผิดพลาด",
-									text: "กรุณาระบุค่าตัวเลข",
-									confirmButtonColor: "#2196F3",
-									type: "error"
-								});
 							}
-						}
+
+						}else{}
+					})
+
+
+
 				})				
 			
 			})	
 		</script>	
 	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-					<div class="table-responsive">
-						<table class="table datatable-basic">
-							<thead>
-								<tr>
-									<th><div>ID</div></th>
-									<th><div>ปีการศึกษา (Year)</div></th>
-								</tr>
-							</thead>
-							<tbody>
-	<?php
-		$CallSYRow=new SystemYear("read","-","-");
-			if(($CallSYRow->RunST_Error()=="No")){
-				foreach($CallSYRow->RunST_Array() as $rc =>$ReadSY){  ?>
-								
-								<tr>
-									<td><div><?php echo $ReadSY["sy_id"];?></div></td>
-									<td><div><?php echo $ReadSY["sy_year"];?></div></td>
-								</tr>					
-	<?php		}
-			}else{}?>
-							</tbody>
-						</table>
-					</div>
+
+		<div class="row">
+			<div class="col-<?php echo $grid;?>-12">
+						<div class="table-responsive">
+							<table class="table datatable-basic">
+								<thead>
+									<tr>
+										<th><div>ID</div></th>
+										<th><div>ปีการศึกษา (Year)</div></th>
+									</tr>
+								</thead>
+								<tbody>
+		<?php
+			$CallSYRow=new SystemYear("read","-","-");
+				if(($CallSYRow->RunST_Error()=="No")){
+					foreach($CallSYRow->RunST_Array() as $rc =>$ReadSY){  ?>
+									
+									<tr>
+										<td><div><?php echo $ReadSY["sy_id"];?></div></td>
+										<td><div><?php echo $ReadSY["sy_year"];?></div></td>
+									</tr>					
+		<?php		}
+				}else{}?>
+								</tbody>
+							</table>
+						</div>
+			</div>
 		</div>
-	</div>
 
 </form>
 

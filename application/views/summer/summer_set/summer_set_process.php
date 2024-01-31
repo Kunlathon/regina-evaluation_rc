@@ -15,7 +15,7 @@
 	include("view/database/pdo_summer.php");
 	include("view/database/class_summer.php");	
     //----------------------------------------------------------------------------
-        if($this->session->userdata("rc_user")==null){
+        if(($this->session->userdata("rc_user")==null)){
             $this->session->unset_userdata("rc_user");
             exit("<script>window.location='$golink';</script>");
         }else{ 
@@ -51,6 +51,7 @@
                                         echo "error";
                                     }else{
                                         echo "error";
+
                                     }
                             }
 

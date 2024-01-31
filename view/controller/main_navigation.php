@@ -659,17 +659,19 @@
 								</li>
 
 
-								<li class="navigation-header"><span>Administrator</span> <i class="icon-menu" title="Main pages"></i></li>
-									<li><a href="./?evaluation_mod=work_admin"><i class="icon-wrench"></i> <span>ข้อมูลทางเทคนิค ระบบสารสนเทศนักเรียน</span></a></li>
-									
-
-									
-
+							
 								<li class="navigation-header"><span>การจัดการและการบริหารระบบ</span> <i class="icon-menu" title="Main pages"></i></li>	
-									<li><a href="./?evaluation_mod=stu_check_up"><i class="icon-upload"></i> <span>ตรวจสอบสถานะนักเรียน ใช้ในกรณีฉุกเฉิง</span></a></li>
-									<li><a href="./?evaluation_mod=runing_studentnew"><i class="icon-spinner9"></i> <span>อัพโหลดข้อมูลนักเรียนจากระบบ รับสมัครนักเรียนใหม่</span></a></li>	
-									<li><a href="./?evaluation_mod=load_stu_new"><i class="icon-spinner9"></i> <span>เชื่อมต่อข้อมูลนักเรียนใหม่เข้าสู่ระบบ</span></a></li>									
-									<li><a href="./?evaluation_mod=copy_stu_class"><i class="icon-files-empty2"></i> <span>คัดลอกนักเรียนเลือนภาคเรียน</span></a></li>									
+
+									<li class="navigation-header"><span>การจัดการ / การตั้งค่า</span> <i class="icon-menu" title="Main pages"></i></li>
+
+										<li><a href="./?evaluation_mod=copy_class_year"><i class="icon-files-empty2"></i> <span>คัดลอกนักเรียนเลือนปีการศึกษา</span></a></li>									
+										<li><a href="./?evaluation_mod=copy_stu_class"><i class="icon-files-empty2"></i> <span>คัดลอกนักเรียนเลือนภาคเรียน</span></a></li>
+										<li><a href="./?evaluation_mod=stu_check_up"><i class="icon-upload"></i> <span>อัพโหลดข้อมูลเปรียบเทียบนักเรียน จากทะเบียนวัดผล </span></a></li>									
+										<li><a href="./?evaluation_mod=runing_studentnew"><i class="icon-spinner9"></i> <span>อัพโหลดข้อมูลนักเรียนจากระบบ รับสมัครนักเรียนใหม่</span></a></li>	
+										<li><a href="./?evaluation_mod=load_stu_new"><i class="icon-spinner9"></i> <span>เชื่อมต่อข้อมูลนักเรียนใหม่เข้าสู่ระบบ</span></a></li>									
+														
+									<li class="navigation-header"><span>รายงาน / แสดงข้อมูล</span> <i class="icon-menu" title="Main pages"></i></li>
+										<li><a href="./?evaluation_mod=work_admin"><i class="icon-wrench"></i> <span>ข้อมูลทางเทคนิค ระบบสารสนเทศนักเรียน</span></a></li>
 							</ul>
 						</div>
 					</div>			

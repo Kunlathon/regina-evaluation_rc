@@ -10,10 +10,7 @@
 
 <?php
 	//ส่วนประกอบของโครงสร้างรายงานคะแนนเรียน Summer
-	
-	
-	
-	
+
 	class KeepScoreSet{//Score Full
 		public $KSS_Term,$KSS_Year,$KSS_Class;
 		public $KeepScoreSet_Print;
@@ -70,10 +67,6 @@
 	
 	//ส่วนประกอบของโครงสร้างรายงานคะแนนเรียน Summer by beer 07/04/2023
 ?>
-
-
-
-
 
 <?php
 	//Print rssubject group / join
@@ -2183,6 +2176,7 @@
 <?php
 	class ShowRsSubjectData{
 		public $SRSD_Year,$SRSD_Class;
+		public $SRDArray;
 		function __construct($SRSD_Year,$SRSD_Class){
 			$this->SRSD_Year=$SRSD_Year;
 			$this->SRSD_Class=$SRSD_Class;
@@ -2225,6 +2219,7 @@
 <?php
 	class ShowRsSubjectDataPlan{
 		public $SRSD_Year,$SRSD_Class,$SRSD_Plan;
+		public $SRDArray;
 		function __construct($SRSD_Year,$SRSD_Class,$SRSD_Plan){
 			$this->SRSD_Year=$SRSD_Year;
 			$this->SRSD_Class=$SRSD_Class;
@@ -2269,6 +2264,7 @@
 <?php
 	class SetClassSummer{
 		public $SCS_Class;
+		public $SCS_Set;
 		function __construct($SCS_Class){
 			$this->SCS_Class=$SCS_Class;
 //----------------------------------------------------------------------------------			
@@ -2308,6 +2304,7 @@
 <?php
 	class DataSumSummer{
 		public $DSS_year;
+		public $B_paying,$A_paying;
 		function __construct($DSS_year){
 //----------------------------------------------------------------------------------	
 			$this->DSS_year=$DSS_year;
@@ -2452,6 +2449,7 @@
 <?php
 	class IntoDeleteRcSummerFirst{
 		public $IDRSF_Key,$IDRSF_year,$IDRSF_class,$IDRSF_type;
+		public $ErrorRcSummerFirst;
 		function __construct($IDRSF_Key,$IDRSF_year,$IDRSF_class,$IDRSF_type){
 			$this->IDRSF_Key=$IDRSF_Key;
 			$this->IDRSF_year=$IDRSF_year;
@@ -2514,6 +2512,7 @@
 <?php
 	class PrintRcSummerFirst{//ข้อมุลผู้ชำระเงินค่า Summer
 		public $PRSF_year;
+		public $ArrayRcSummerFirst;
 		function __construct($PRSF_year){
 			$this->PRSF_year=$PRSF_year;
 //----------------------------------------------------------------------------------			
@@ -2556,6 +2555,7 @@
 <?php 
 	class SudSummer{//ข้อมูลนักเรียนที่เรียนทั้งหมด สำหรับวิชาการ
 		public $SSA_Class,$SSA_Year;
+		public $SudSummerArray;
 		function __construct($SSA_Class,$SSA_Year){
 //----------------------------------------------------------------------------------
 			$this->SSA_Class=$SSA_Class;
@@ -2612,6 +2612,7 @@
 <?php
 	Class SudSummerB{//ข้อมูลนักเรียนที่เรียนทั้งหมด
 		public $SS_Class,$SS_year;
+		public $SudSummerArray;
 		function __construct($SS_Class,$SS_year){
 //----------------------------------------------------------------------------------
 			$this->SS_Class=$SS_Class;
@@ -2659,11 +2660,13 @@
 <?php
 	class InformationSummerStudent{
 		public $ISS_Key,$ISS_RMDNO;
+		public $ISSArray;
 		function __construct($ISS_Key,$ISS_RMDNO){
 //----------------------------------------------------------------------------------
 			$this->ISS_Key=$ISS_Key;
 			//$this->ISS_Year=$ISS_Year;
 			$this->ISS_RMDNO=$ISS_RMDNO;
+
 //----------------------------------------------------------------------------------	
 			$db_summerID=$_SERVER['REMOTE_ADDR'];
 			$connpdo_summer=new connected_summer($db_summerID);
@@ -2723,6 +2726,7 @@
 <?php
 	class UpdatePaySummer{
 		public $UPS_key,$UPS_class,$UPS_year;
+		public $ErrorUpdatePaySummer;
 		function __construct($UPS_key,$UPS_class,$UPS_year){
 //----------------------------------------------------------------------------------	
 			$this->UPS_key=$UPS_key;
