@@ -99,3 +99,25 @@
 			})
 		})
 	</script>
+
+	<script>
+		$(document).ready(function(){
+			$("#go_back").on('click',function(){
+				var go_back=$("#go_back").val();
+					if(go_back==="go_back"){
+						document.location ="<?php echo $golink;?>/?evaluation_mod=ad_summer";
+					}else{}				
+			})
+		})
+	</script>
+
+	<script>
+		$(document).ready(function(){
+			$("#go_home").on('click',function(){
+				var go_home=$("#go_home").val();
+					if(go_home==="go_home"){
+						document.location ="<?php echo $golink;?>/?evaluation_mod=home";
+					}else{}
+			})
+		})
+	</script>

@@ -509,7 +509,7 @@
 	
 	//**********************************************
 //-----------------------------------------------------------------	
-	$RsStudentData=new DataRsStudentDataA($user_login,$data_yaer);
+	$RsStudentData=new DataRsStudentDataA($user_login,$data_yaer,$class);   
 	$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
 		if(isset($data_stu->rsd_studentid)){
 			$RC_rsd_studentid=$data_stu->rsd_studentid;

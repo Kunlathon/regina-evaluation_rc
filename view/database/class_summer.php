@@ -28,7 +28,8 @@
 									  from `summer_set_up_score` right join `rssubject_data` on (`summer_set_up_score`.`SSUS_Subject`=`rssubject_data`.`RSD_no`)
 									  where `summer_set_up_score`.`SSUS_Term`='{$this->KSS_Term}' 
 									  and `summer_set_up_score`.`SSUS_Year`='{$this->KSS_Year}' 
-									  and `rssubject_data`.`RSD_class`='{$this->KSS_Class}' 
+									  and `rssubject_data`.`RSD_class`='{$this->KSS_Class}'
+									  and `rssubject_data`.`RSD_year`='{$this->KSS_Year}' 
 									  ORDER BY `rssubject_data`.`RSD_no` ASC";
 						if(($KeepScoreSetRs=$pdo_summer->query($KeepScoreSetSql))){
 							while($KeepScoreSetRow=$KeepScoreSetRs->Fetch(PDO::FETCH_ASSOC)){
@@ -1179,6 +1180,7 @@
 <?php
 	class DataRsStudentDataA{
 		public $DRSD_Key,$DRSD_Year,$DRSD_Class;
+		public $RSDKey,$RSDIDnumber,$mynameTh,$RSDNicknameTh,$RSDSchool,$RSDClass,$RSDPhone;
 		function __construct($DRSD_Key,$DRSD_Year,$DRSD_Class){
 			$this->DRSD_Key=$DRSD_Key;
 			$this->DRSD_Year=$DRSD_Year;
@@ -1250,6 +1252,8 @@
 			}else{}
 		}
 	}
+
+	
 
 ?>
 
@@ -1693,7 +1697,9 @@
 						  from `money_pay_summer` join `rssubject_data` on (`money_pay_summer`.`RSP_no`=`rssubject_data`.`RSD_no`)
 						  join `rssubject_price` on(`money_pay_summer`.`RSP_no`=`rssubject_price`.`RSP_no`)
 						  where `money_pay_summer`.`rs_key`='{$this->PSD_Key}' 
-						  and `money_pay_summer`.`RSP_year`='{$this->PSD_Year}' ORDER BY `rssubject_data`.`RSD_no` ASC";
+						  and `money_pay_summer`.`RSP_year`='{$this->PSD_Year}'
+						  and `rssubject_data`.`RSD_year`='{$this->PSD_Year}'
+						  and `rssubject_price`.`RSP_year`='{$this->PSD_Year}' ORDER BY `rssubject_data`.`RSD_no` ASC";
 					if($PSD_Rs=$pdo_summer->query($PSD_Sql)){
 						while($PSD_Row=$PSD_Rs->Fetch(PDO::FETCH_ASSOC)){
 							if(is_array($PSD_Row) && count($PSD_Row)){

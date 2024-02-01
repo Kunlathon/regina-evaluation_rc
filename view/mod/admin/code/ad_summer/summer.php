@@ -80,7 +80,7 @@
 					confirmButtonColor: "#66BB6A",
 					type: "success"
 				},function(){
-					document.location ="<?php echo $golink;?>/?evaluation_mod=ad_summer";
+					location.reload();
 				});
 		</script>
 <?php

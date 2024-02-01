@@ -279,7 +279,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 			//include("view/database/class_pdo.php");    
@@ -307,30 +307,13 @@
 					<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeA").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
+
 				
-					<button type="button" name="SaveQRCodeA" id="SaveQRCodeA" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
-				
-				</div>
-				
-				<div class="col-<?php echo $grid;?>-3"></div>
+				<div class="col-<?php echo $grid;?>-4"></div>
 			</div>
 			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
 			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
@@ -341,7 +324,7 @@
 		</div>
 	</div>	
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	}elseif((@$StatusPaySummerData->SPS_RMD_on==2)){ ?>
+	<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 	<div class="row">
 		<div class="col-<?php echo $grid;?>-12">
@@ -787,7 +770,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 			//include("view/database/class_pdo.php");    
@@ -815,30 +798,13 @@
 					<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeA").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
+
 				
-					<button type="button" name="SaveQRCodeA" id="SaveQRCodeA" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
-				
-				</div>
-				
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 				
 					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
 	
@@ -856,58 +822,38 @@
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<script>
 				$(document).ready(function (){
-						var TimeAdd_runtime="<?php echo $TimeAdd_runtime;?>";
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},function() {
-							setTimeout(function() {
-								if(TimeAdd_runtime=="OFF"){
-									swal({
-										title: "หมดเวลายกเลิกการลงทะเบียน",
-										text: "ขออภัยไม่สามารถยกเลิกได้ เนื่องจากสิ้นสุดระยะเวลายกเลิกลงทะเบียน",
-										confirmButtonColor: "#2196F3",
-										type: "warning"
-									});
-								}else if(TimeAdd_runtime=="ON"){
-									swal({
-										title: "ยกเลิกสำเร็จ",
-										confirmButtonColor: "#2196F3"
-									},function (RunSummer){
-										$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-											URSC_Year:URSCYear,
-											URSC_Key:URSCKey,
-											URSC_Txtth:URSCTxtTh,
-											URSC_Name:URSCName
-										},function(RS){
-											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-											}else{}
-										})
-									});									
-								}else{
-									swal({
-										title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-										//text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});									
-								}
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 	
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
@@ -1014,43 +960,38 @@
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<script>
 				$(document).ready(function (){
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},
-						function() {
-							setTimeout(function() {
-								swal({
-									title: "ยกเลิกสำเร็จ",
-									confirmButtonColor: "#2196F3"
-								},function (RunSummer){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-										URSC_Year:URSCYear,
-										URSC_Key:URSCKey,
-										URSC_Txtth:URSCTxtTh,
-										URSC_Name:URSCName
-									},function(RS){
-										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-										}else{}
-									})
-								});
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
-					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 	<?php	}else{ ?>
@@ -1599,7 +1540,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 		//	include("view/database/class_pdo.php");    
@@ -1627,30 +1568,13 @@
 				<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน&nbsp;ค่าลงทะเบียน</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeC").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
+			
 				
-					<button type="button" name="SaveQRCodeC" id="SaveQRCodeC" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
-				
-				</div>				
-				
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 				
 					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
 
@@ -1668,58 +1592,38 @@
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<script>
 				$(document).ready(function (){
-						var TimeAdd_runtime="<?php echo $TimeAdd_runtime;?>";
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},function() {
-							setTimeout(function() {
-								if(TimeAdd_runtime=="OFF"){
-									swal({
-										title: "หมดเวลายกเลิกการลงทะเบียน",
-										text: "ขออภัยไม่สามารถยกเลิกได้ เนื่องจากสิ้นสุดระยะเวลายกเลิกลงทะเบียน",
-										confirmButtonColor: "#2196F3",
-										type: "warning"
-									});
-								}else if(TimeAdd_runtime=="ON"){
-									swal({
-										title: "ยกเลิกสำเร็จ",
-										confirmButtonColor: "#2196F3"
-									},function (RunSummer){
-										$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-											URSC_Year:URSCYear,
-											URSC_Key:URSCKey,
-											URSC_Txtth:URSCTxtTh,
-											URSC_Name:URSCName
-										},function(RS){
-											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-											}else{}
-										})
-									});									
-								}else{
-									swal({
-										title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-										//text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});									
-								}
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
 		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 		<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
 		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
@@ -1881,43 +1785,38 @@
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<script>
 				$(document).ready(function (){
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},
-						function() {
-							setTimeout(function() {
-								swal({
-									title: "ยกเลิกสำเร็จ",
-									confirmButtonColor: "#2196F3"
-								},function (RunSummer){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-										URSC_Year:URSCYear,
-										URSC_Key:URSCKey,
-										URSC_Txtth:URSCTxtTh,
-										URSC_Name:URSCName
-									},function(RS){
-										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-										}else{}
-									})
-								});
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
-					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 		<?php	}else{} ?>
@@ -2309,7 +2208,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 			//include("view/database/class_pdo.php");    
@@ -2337,30 +2236,13 @@
 					<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeA").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
+
 				
-					<button type="button" name="SaveQRCodeA" id="SaveQRCodeA" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
-				
-				</div>
-				
-				<div class="col-<?php echo $grid;?>-3"></div>
+				<div class="col-<?php echo $grid;?>-4"></div>
 			</div>
 			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
 			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
@@ -2616,7 +2498,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 			//include("view/database/class_pdo.php");    
@@ -2644,30 +2526,13 @@
 					<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeA").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
+
 				
-					<button type="button" name="SaveQRCodeA" id="SaveQRCodeA" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
-				
-				</div>
-				
-				<div class="col-<?php echo $grid;?>-3"></div>
+				<div class="col-<?php echo $grid;?>-4"></div>
 			</div>
 			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
 			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
@@ -3124,7 +2989,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 			//include("view/database/class_pdo.php");    
@@ -3152,30 +3017,13 @@
 				<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน123</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeD").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
 				
-					<button type="button" name="SaveQRCodeD" id="SaveQRCodeD" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
 				
-				</div>				
-				
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 				
 					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
 	
@@ -3193,58 +3041,38 @@
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<script>
 				$(document).ready(function (){
-						var TimeAdd_runtime="<?php echo $TimeAdd_runtime;?>";
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},function() {
-							setTimeout(function() {
-								if(TimeAdd_runtime=="OFF"){
-									swal({
-										title: "หมดเวลายกเลิกการลงทะเบียน",
-										text: "ขออภัยไม่สามารถยกเลิกได้ เนื่องจากสิ้นสุดระยะเวลายกเลิกลงทะเบียน",
-										confirmButtonColor: "#2196F3",
-										type: "warning"
-									});
-								}else if(TimeAdd_runtime=="ON"){
-									swal({
-										title: "ยกเลิกสำเร็จ",
-										confirmButtonColor: "#2196F3"
-									},function (RunSummer){
-										$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-											URSC_Year:URSCYear,
-											URSC_Key:URSCKey,
-											URSC_Txtth:URSCTxtTh,
-											URSC_Name:URSCName
-										},function(RS){
-											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-											}else{}
-										})
-									});									
-								}else{
-									swal({
-										title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-										//text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});									
-								}
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 	
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
@@ -3349,45 +3177,42 @@
 
 	
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+
 			<script>
 				$(document).ready(function (){
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},
-						function() {
-							setTimeout(function() {
-								swal({
-									title: "ยกเลิกสำเร็จ",
-									confirmButtonColor: "#2196F3"
-								},function (RunSummer){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-										URSC_Year:URSCYear,
-										URSC_Key:URSCKey,
-										URSC_Txtth:URSCTxtTh,
-										URSC_Name:URSCName
-									},function(RS){
-										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-										}else{}
-									})
-								});
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
-					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
+
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 	<?php	}else{ ?>
@@ -3936,7 +3761,7 @@
 	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
 		<div class="panel panel-body border-top-teal">
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-3">				
+				<div class="col-<?php echo $grid;?>-4">				
 		<?php
 //-----------------------------------------------------------------------------------
 		//	include("view/database/class_pdo.php");    
@@ -3964,30 +3789,13 @@
 				<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
 				
 				</div>
-				<div class="col-<?php echo $grid;?>-3">
-					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน&nbsp;ค่าลงทะเบียน321</button>
+				<div class="col-<?php echo $grid;?>-4">
+					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน&nbsp;ค่าลงทะเบียน</button>
 				</div>
 				
-				<div class="col-<?php echo $grid;?>-3">
-	
-	<script>
-		$(document).ready(function(){
-            $("#SaveQRCodeG").on('click',function(){
-                var ImageB = '<?php echo $payqrcode->call_qrcode_scb();?>';
-                var a = document.createElement('a');
-                a.href = ImageB;
-                a.download = ImageB.substr(ImageB.lastIndexOf('/') + 1);
-                window.win = open(a);
-                setTimeout('win.document.execCommand("SaveAs")', 0);	
-            })
-		})
-	</script>			
+			
 				
-					<button type="button" name="SaveQRCodeG" id="SaveQRCodeG" class="btn btn-default"><i class="icon-qrcode position-left"></i> Save QRCode</button>
-				
-				</div>				
-				
-				<div class="col-<?php echo $grid;?>-3">
+				<div class="col-<?php echo $grid;?>-4">
 				
 					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
 
@@ -4003,60 +3811,42 @@
 	</div>	
 	
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-			<script>
+<script>
 				$(document).ready(function (){
-						var TimeAdd_runtime="<?php echo $TimeAdd_runtime;?>";
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},function() {
-							setTimeout(function() {
-								if(TimeAdd_runtime=="OFF"){
-									swal({
-										title: "หมดเวลายกเลิกการลงทะเบียน",
-										text: "ขออภัยไม่สามารถยกเลิกได้ เนื่องจากสิ้นสุดระยะเวลายกเลิกลงทะเบียน",
-										confirmButtonColor: "#2196F3",
-										type: "warning"
-									});
-								}else if(TimeAdd_runtime=="ON"){
-									swal({
-										title: "ยกเลิกสำเร็จ",
-										confirmButtonColor: "#2196F3"
-									},function (RunSummer){
-										$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-											URSC_Year:URSCYear,
-											URSC_Key:URSCKey,
-											URSC_Txtth:URSCTxtTh,
-											URSC_Name:URSCName
-										},function(RS){
-											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-											}else{}
-										})
-									});									
-								}else{
-									swal({
-										title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-										//text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});									
-								}
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
+	
+
 		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 		<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
 		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
@@ -4218,43 +4008,38 @@
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<script>
 				$(document).ready(function (){
+
+					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+					var URSCKey="<?php echo $user_login;?>";//
+					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+					var URSCName="<?php echo $myname;?>";
+
 					$('#sweet_loader').on('click', function() {
-						var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-						var URSCKey="<?php echo $user_login;?>";//
-						var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-						var URSCName="<?php echo $myname;?>";
 						swal({
 							title: "คุณต้องการยกเลิกหรือไม่",
-							text: "<?php echo $CallSummerDataRow['RSD_txtTh'];?>",
-							type: "info",
+							text: URSCTxtTh,
+							type: "warning",
 							showCancelButton: true,
-							closeOnConfirm: false,
-							confirmButtonColor: "#2196F3",
-							showLoaderOnConfirm: true
-						},
-						function() {
-							setTimeout(function() {
-								swal({
-									title: "ยกเลิกสำเร็จ",
-									confirmButtonColor: "#2196F3"
-								},function (RunSummer){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-										URSC_Year:URSCYear,
-										URSC_Key:URSCKey,
-										URSC_Txtth:URSCTxtTh,
-										URSC_Name:URSCName
-									},function(RS){
-										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-										}else{}
-									})
-								});
-							}, 2000);
+							confirmButtonColor: "#FF7043",
+							confirmButtonText: "ใช้ยกเลิก"
+						},function(){
+							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+								URSC_Year:URSCYear,
+								URSC_Key:URSCKey,
+								URSC_Txtth:URSCTxtTh,
+								URSC_Name:URSCName
+							},function(txt_rc){
+								if(txt_rc!==""){
+									$("#zone_txt_rc").html(txt_rc);
+								}else{}
+							})
 						});
-					});					
-					
+					});
 				})
 			</script>
+
+	
+			<div id="zone_txt_rc"></div>
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 		<?php	}else{} ?>

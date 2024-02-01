@@ -754,6 +754,7 @@ class supplementary_sturs{
 
 	class stu_levelpdo{
 		public $stu_id,$stu_year,$stu_term;
+		public $rsd_studentid,$IDLevel,$Sort_name_E2,$Sort_name,$Lname,$planname,$rsc_room,$rsc_num,$rc_plan;
 		function __construct($stu_id,$stu_year,$stu_term){
 			$this->stu_id=$stu_id;
 			$this->stu_year=$stu_year;

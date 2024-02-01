@@ -137,22 +137,37 @@
 <!--############################################################################-->
 <!--############################################################################-->
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<div class="row">
-	<div class="col-<?php echo $grid;?>-12">
-		<div class="breadcrumb-line breadcrumb-line-component">
-			<ul class="breadcrumb">
-				<h4><span class="text-semibold">ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></h4>
-			</ul>
-			<ul class="breadcrumb-elements">
-				<div class="heading-btn-group">
-					<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
-					<a class="btn btn-link text-size-small"><span>/</span></a>
-					<a href="./?evaluation_mod=ad_summer" class="btn btn-link  text-size-small"><span>ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></a>
-				</div>
-			</ul>
+<fieldset class="content-group">
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-12">
+			<div class="breadcrumb-line breadcrumb-line-component">
+				<ul class="breadcrumb">
+					<h4><span class="text-semibold">ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></h4>
+				</ul>
+				<ul class="breadcrumb-elements">
+					<div class="heading-btn-group">
+						<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
+						<a class="btn btn-link text-size-small"><span>/</span></a>
+						<a href="./?evaluation_mod=ad_summer" class="btn btn-link  text-size-small"><span>ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></a>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>	
+</fieldset>
+
+
+<fieldset class="content-group">
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-12">
+			<div class="btn-group" style="float: right;">
+				<button type="button" name="go_back" id="go_back" value="go_back" class="btn btn-primary"><i class="icon-arrow-left7"></i></button>
+				<button type="button" name="go_home" id="go_home" value="go_home"  class="btn btn-primary"><i class="icon-home"></i></button>
+			</div>
 		</div>
 	</div>
-</div><br>		
+</fieldset>
+
 <div class="row">
 	<div class="col-<?php echo $grid;?>-12">
 		<div class="panel panel-default">
@@ -667,7 +682,7 @@
 											URSC_Name:URSCName
 										},function(RS){
 											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+												location.reload();
 											}else{}
 										})
 									});									
@@ -817,7 +832,7 @@
 										URSC_Name:URSCName
 									},function(RS){
 										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+											location.reload();
 										}else{}
 									})
 								});
@@ -1344,7 +1359,7 @@
 											URSC_Name:URSCName
 										},function(RS){
 											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+												location.reload();
 											}else{}
 										})
 									});									
@@ -1549,7 +1564,7 @@
 										URSC_Name:URSCName
 									},function(RS){
 										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+											location.reload();
 										}else{}
 									})
 								});
@@ -1840,22 +1855,36 @@
 <!--##########################################################-->
 <!--##########################################################-->
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<div class="row">
-	<div class="col-<?php echo $grid;?>-12">
-		<div class="breadcrumb-line breadcrumb-line-component">
-			<ul class="breadcrumb">
-				<h4><span class="text-semibold">ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></h4>
-			</ul>
-			<ul class="breadcrumb-elements">
-				<div class="heading-btn-group">
-					<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
-					<a class="btn btn-link text-size-small"><span>/</span></a>
-					<a href="./?evaluation_mod=ad_summer" class="btn btn-link  text-size-small"><span>ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></a>
-				</div>
-			</ul>
+<fieldset class="content-group">
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-12">
+			<div class="breadcrumb-line breadcrumb-line-component">
+				<ul class="breadcrumb">
+					<h4><span class="text-semibold">ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></h4>
+				</ul>
+				<ul class="breadcrumb-elements">
+					<div class="heading-btn-group">
+						<a href="./?evaluation_mod=home" class="btn btn-link  text-size-small"><span>หน้าแรก</span></a>
+						<a class="btn btn-link text-size-small"><span>/</span></a>
+						<a href="./?evaluation_mod=ad_summer" class="btn btn-link  text-size-small"><span>ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</span></a>
+					</div>
+				</ul>
+			</div>
 		</div>
 	</div>
-</div><br>
+</fieldset>
+
+<fieldset class="content-group">
+	<div class="row">
+		<div class="col-<?php echo $grid;?>-12">
+			<div class="btn-group" style="float: right;">
+				<button type="button" name="go_back" id="go_back" value="go_back" class="btn btn-primary"><i class="icon-arrow-left7"></i></button>
+				<button type="button" name="go_home" id="go_home" value="go_home"  class="btn btn-primary"><i class="icon-home"></i></button>
+			</div>
+		</div>
+	</div>
+</fieldset>
+
 <div class="row">
 	<div class="col-<?php echo $grid;?>-12">
 		<div class="panel panel-default">
@@ -2370,7 +2399,7 @@
 											URSC_Name:URSCName
 										},function(RS){
 											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+												location.reload();
 											}else{}
 										})
 									});									
@@ -2520,7 +2549,7 @@
 										URSC_Name:URSCName
 									},function(RS){
 										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+											location.reload();
 										}else{}
 									})
 								});
@@ -2744,9 +2773,9 @@
 			</div>			
 	<?php	}else{}?>	
 <!--##########################################################-->	
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div class="panel panel-info">
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-info">
 	<?php
 			if(($rc_IDLevel>=12 and $rc_IDLevel<=43)){ ?>
 					<div class="panel-heading">
@@ -2902,6 +2931,7 @@
 					</div>		
 				</div>
 			</div>	
+
 		</div>
 	<!--##########################################################-->					
 				<?php	}else{ ?>
@@ -3047,7 +3077,7 @@
 											URSC_Name:URSCName
 										},function(RS){
 											if(RS !=""){
-												document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+												location.reload();
 											}else{}
 										})
 									});									
@@ -3252,7 +3282,7 @@
 										URSC_Name:URSCName
 									},function(RS){
 										if(RS !=""){
-											document.location="<?php echo base_url();?>?evaluation_mod=ad_summer"
+											location.reload();
 										}else{}
 									})
 								});
