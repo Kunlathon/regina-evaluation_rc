@@ -45,6 +45,10 @@ class Summer extends CI_Controller{
 		$this->load->view('summer/summer_set/summer_set_process',$Row_Summer);
 	}
 
+	public function test_summer_quota($tsq_year,$tsq_id){
+		$Row_Summer=array('tsq_year'=>$tsq_year,'tsq_id'=>$tsq_id);
+		$this->load->view('summer/summer_set/test_summer_quota',$Row_Summer);
+	}
 
 }
 ?>

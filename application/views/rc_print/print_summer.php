@@ -308,25 +308,7 @@
 		
 		
 <?php
-		if(($data_stu->IDLevel==41)){ ?>
-<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-		<table style="width: 740px; font-size: 20px;" border="0" cellpadding="0" cellspacing="0">
-			<thead>
-				<tr>
-					<td style="width: 370px;">
-						<div>&nbsp;</div>
-					</td>
-					<td style="width: 370px;">
-						<div style="text-align :center;">ช่องทางการชำระเงิน</div>
-						<div>&nbsp;<img src="<?php echo base_url();?>Template/global_assets/images/t.JPG" width="22" height="22" alt=""/>&nbsp;เงินสด</div>
-						<div>&nbsp;&nbsp;</div>
-						<div>ลงชื่อผู้รับเงิน....................................................</div>
-					</td>
-				</tr>
-			<thead>
-		</table>		
-<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-<?php	}elseif(($data_stu->IDLevel==31)){ ?>
+		if(($data_stu->IDLevel==31)){ ?>
 
 <?php   }else{ ?>
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
@@ -375,7 +357,7 @@
 		</table>
 		
 	<?php
-			if(($data_stu->IDLevel==31 or $data_stu->IDLevel==41)){ ?>
+			if(($data_stu->IDLevel==31)){ ?>
 		<table style="width: 740px;" border="0" cellpadding="0" cellspacing="0">
 			<tbody>
 				<tr>

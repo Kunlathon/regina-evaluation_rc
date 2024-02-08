@@ -8,6 +8,12 @@
 ?>
 
 
+
+
+
+
+
+
 <?php
 	//ส่วนประกอบของโครงสร้างรายงานคะแนนเรียน Summer
 
@@ -1575,7 +1581,7 @@
 <?php
 	class CountMoneyPaySummer{
 		public $SMPS_no,$SMPS_year;
-		public $count_rckey;
+		public $RSC_keep,$remain_summer,$count_rckey;
 		function __construct($SMPS_no,$SMPS_year){
 			$this->SMPS_no=$SMPS_no;
 			$this->SMPS_year=$SMPS_year;
@@ -2142,6 +2148,7 @@
 <?php
 	class DataRsSubjectPrice{
 		public $SRSP_No,$SRSP_Year;
+		public $RSP_price;
 		function __construct($SRSP_No,$SRSP_Year){
 			$this->SRSP_No=$SRSP_No;
 			$this->SRSP_Year=$SRSP_Year;
@@ -2837,3 +2844,120 @@
 ?>
 
 
+<?php
+	class KeepSummerQuota{
+		public $KSQ_No,$KSQ_year;
+		public $Int_Quota,$KSQ_System,$rq_no;
+		function __construct($KSQ_No,$KSQ_year){
+
+			$this->KSQ_No=$KSQ_No;
+			$this->KSQ_year=$KSQ_year;
+
+			$KSQ_System="ON";
+
+			$db_summerID=$_SERVER['REMOTE_ADDR'];
+			$connpdo_summer=new connected_summer($db_summerID);
+			$pdo_summer=$connpdo_summer->run_connto_summer();
+
+			try{
+				$KeepSummerQuotaSql="SELECT `rssubject_quota`.`rq_keep` AS `Int_Quota`,`rssubject_quota`.`rq_no` 
+								     FROM `rssubject_quota` 
+									 LEFT JOIN `rssubject_quota_list` 
+									 ON (`rssubject_quota`.`rq_no`=`rssubject_quota_list`.`rq_id`) 
+									 WHERE `rssubject_quota_list`.`rql_id`='{$this->KSQ_No}' 
+									 AND `rssubject_quota_list`.`rq_year`='{$this->KSQ_year}' 
+									 AND `rssubject_quota`.`rq_year`='{$this->KSQ_year}';";
+					if(($KeepSummerQuotaRs=$pdo_summer->query($KeepSummerQuotaSql))){
+						$KeepSummerQuotaRow=$KeepSummerQuotaRs->Fetch(PDO::FETCH_ASSOC);
+							if((is_array($KeepSummerQuotaRow) and count($KeepSummerQuotaRow))){
+								$Int_Quota=$KeepSummerQuotaRow["Int_Quota"];
+								$rq_no=$KeepSummerQuotaRow["rq_no"];
+								$KSQ_System="YES";
+							}else{
+								$Int_Quota=null;
+								$rq_no=null;
+								$KSQ_System="ON";
+							}
+					}else{
+						$Int_Quota=null;
+						$rq_no=null;
+						$KSQ_System="ON";
+					}
+			}catch(PDOException $e){
+				$Int_Quota=null;
+				$rq_no=null;
+				$KSQ_System="ON";
+			}
+
+			$pdo_summer=null;
+			$this->Int_Quota=$Int_Quota;
+			$this->rq_no=$rq_no;
+			$this->KSQ_System=$KSQ_System;
+
+		}function set_int_quota(){
+			return $this->Int_Quota;
+		}function set_id_quota(){
+			return $this->rq_no;
+		}function set_error_quota(){
+			return $this->KSQ_System;
+		}
+	}
+
+?>
+
+
+<?php
+	class Sum_Quota_Summer{
+		public $TQS_ID,$TQS_Year;
+		public $sum_summer_test;
+		function __construct($TQS_ID,$TQS_Year){
+			$this->TQS_ID=$TQS_ID;
+			$this->TQS_Year=$TQS_Year;
+
+			$db_summerID=$_SERVER['REMOTE_ADDR'];
+			$connpdo_summer=new connected_summer($db_summerID);
+			$pdo_summer=$connpdo_summer->run_connto_summer();
+
+			$sum_summer_test=0;
+
+			try{
+				$Data_SummerSql="SELECT `rql_id`
+								 FROM `rssubject_quota_list` 
+								 WHERE`rq_id`='{$this->TQS_ID}' 
+								 AND `rq_year`='{$this->TQS_Year}';";
+						
+					if(($Data_SummerRs=$pdo_summer->query($Data_SummerSql))){
+						while($Data_SummerRow=$Data_SummerRs->Fetch(PDO::FETCH_ASSOC)){
+							if((is_array($Data_SummerRow) and count($Data_SummerRow))){
+								$summer_id=$Data_SummerRow["rql_id"];
+
+								$int_summer_test=new CountMoneyPaySummer($summer_id,$this->TQS_Year);
+								$copy_int_summer=$int_summer_test->RunCountSummer();
+
+									if(isset($copy_int_summer)){
+										$sum_summer_test=$sum_summer_test+$copy_int_summer;
+									}else{
+										$sum_summer_test=null;
+									}
+
+							}else{
+								$sum_summer_test=null;
+							}
+						}
+					}else{
+						$sum_summer_test=null;
+					}
+			}catch(PDOException $e){
+				$sum_summer_test=null;
+			}
+
+			$pdo_summer=null;
+
+			$this->sum_summer_test=$sum_summer_test;
+
+		}function PrintSumSummer(){
+			return $this->sum_summer_test;
+		}
+	}
+
+?>

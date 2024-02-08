@@ -1,7 +1,7 @@
 <style>
-#RuningLoad {
-	display:none;
-}
+	#RuningLoad {
+		display:none;
+	}
 </style>
 <?php
 //-----------------------------------------------------------------------------
@@ -225,7 +225,7 @@
 <!--Update coding by beer 14/03/2023-->
 	<?php
 		$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
-			if((@$StatusPaySummerData->SPS_RMD_on==1)){	  ?>
+			if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
 
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 	<div class="row">
@@ -393,7 +393,7 @@
 		<div class="col-<?php echo $grid;?>-12">
 			<div class="alert alert-warning no-border">
 				<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-					<span class="text-semibold">กิจกรรม ช่วงบ่าย "(เพิ่ม 500)" </span>ต้องชำระค่าลงทะเบียนเพิ่ม 500 บาท ที่ห้องการเงิน
+					<span class="text-semibold">กิจกรรมช่วงบ่ายที่เรียนตาม แผนการเรียน ต้องชำระค่าลงทะเบียนเพิ่ม <b>500 บาท</b> </span>
 			</div>		
 		</div>
 	</div>
@@ -449,72 +449,86 @@
 								</div>
 							</div>	
 	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}
-						else {
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
 <!--##########################################################-->	
 <!--##########################################################-->							
 				<?php	}else{	?>
@@ -540,70 +554,86 @@
 								</div>
 							</div>	
 	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if(isConfirm){
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-						}else{
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
 <!--##########################################################-->							
 <!--##########################################################-->							
 					<?php	}else{	?>
@@ -618,72 +648,86 @@
 								</div>
 							</div>	
 	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-				    var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}
-						else {
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
+	                                    <script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
 <!--##########################################################-->							
 <!--##########################################################-->							
 					<?php	} ?>
@@ -1040,71 +1084,86 @@
 							
 							
 	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}else{
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
 <!--##########################################################-->					
 <!--##########################################################-->						
 				<?php	}else{ ?>
@@ -1123,72 +1182,86 @@
 							
 							
 	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}
-						else {
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
+	                                    <script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
 <!--##########################################################-->
 <!--##########################################################-->						
 				<?php	}      ?>
@@ -1311,72 +1384,86 @@
 										</div>
 									</div>	
 			<!--##########################################################-->	
-				<script>
-					$(document).ready(function (){
-						$('#RSDno<?php echo $count_su;?>').on('click', function() {
-							var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-							var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-							var RSYear="<?php echo $data_summer;?>";
-							var RSKey="<?php echo $user_login;?>";
-							var RSClass="<?php echo $call_stu->IDLevel;?>";
-							var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-							var StudentID="<?php echo $user_login;?>";
-							var StudentName="<?php echo $myname;?>";					
-							swal({
-								title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-								text:  "กิจกรรม : "+RSDnoName,
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#EF5350",
-								confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-								cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-								closeOnConfirm: false,
-								closeOnCancel: false
-							},
-							function(isConfirm){
-								if (isConfirm) {
-									if(RSDno==""){
-										swal({
-											title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-											text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-											confirmButtonColor: "#66BB6A",
-											type: "error"
-										});							
-									}else{
-										swal({
-											title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-											text:  "กิจกรรม : "+RSDnoName,
-											confirmButtonColor: "#66BB6A",
-											type: "success"
-										},function(){
-											$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-												RSD_no:RSDno,
-												RSD_noName:RSDnoName,
-												RS_Year:RSYear,
-												RS_Key:RSKey,
-												RS_Class:RSClass,
-												RS_Est:RSEst,
-												Student_ID:StudentID,
-												Student_Name:StudentName										
-											},function(){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
 											})
-										});							
-									}
-
-								}
-								else {
-									swal({
-										title: "ยกเลิกการลงทะเบียน",
-										text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});
-								}
-							});
-						});			
-					})	
-				</script>
+										</script>
 			<!--##########################################################-->	
 			<!--##########################################################-->							
 						<?php	}else{	?>
@@ -1391,72 +1478,86 @@
 										</div>
 									</div>	
 			<!--##########################################################-->	
-				<script>
-					$(document).ready(function (){
-						$('#RSDno<?php echo $count_su;?>').on('click', function() {
-							var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-							var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-							var RSYear="<?php echo $data_summer;?>";
-							var RSKey="<?php echo $user_login;?>";
-							var RSClass="<?php echo $call_stu->IDLevel;?>";
-							var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-							var StudentID="<?php echo $user_login;?>";
-							var StudentName="<?php echo $myname;?>";					
-							swal({
-								title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-								text:  "กิจกรรม : "+RSDnoName,
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#EF5350",
-								confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-								cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-								closeOnConfirm: false,
-								closeOnCancel: false
-							},
-							function(isConfirm){
-								if (isConfirm) {
-									if(RSDno==""){
-										swal({
-											title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-											text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-											confirmButtonColor: "#66BB6A",
-											type: "error"
-										});							
-									}else{
-										swal({
-											title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-											text:  "กิจกรรม : "+RSDnoName,
-											confirmButtonColor: "#66BB6A",
-											type: "success"
-										},function(){
-											$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-												RSD_no:RSDno,
-												RSD_noName:RSDnoName,
-												RS_Year:RSYear,
-												RS_Key:RSKey,
-												RS_Class:RSClass,
-												RS_Est:RSEst,
-												Student_ID:StudentID,
-												Student_Name:StudentName
-											},function(){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
 											})
-										});							
-									}
-
-								}
-								else {
-									swal({
-										title: "ยกเลิกการลงทะเบียน",
-										text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});
-								}
-							});
-						});			
-					})	
-				</script>
+										</script>
 			<!--##########################################################-->	
 			<!--##########################################################-->							
 						<?php	}
@@ -1480,6 +1581,8 @@
 				</div>
 			</div>	
 		</div>
+
+		
 	<!--##########################################################-->					
 				<?php	}else{ ?>
 	<!--##########################################################-->	
@@ -1925,72 +2028,86 @@
 											</div>
 										</div>	
 				<!--##########################################################-->	
-					<script>
-						$(document).ready(function (){
-							$('#RSDno<?php echo $count_su;?>').on('click', function() {
-								var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-								var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-								var RSYear="<?php echo $data_summer;?>";
-								var RSKey="<?php echo $user_login;?>";
-								var RSClass="<?php echo $call_stu->IDLevel;?>";
-								var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-								var StudentID="<?php echo $user_login;?>";
-								var StudentName="<?php echo $myname;?>";					
-								swal({
-									title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									type: "warning",
-									showCancelButton: true,
-									confirmButtonColor: "#EF5350",
-									confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-									cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-									closeOnConfirm: false,
-									closeOnCancel: false
-								},
-								function(isConfirm){
-									if (isConfirm) {
-										if(RSDno==""){
-											swal({
-												title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-												text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-												confirmButtonColor: "#66BB6A",
-												type: "error"
-											});							
-										}else{
-											swal({
-												title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-												text:  "กิจกรรม : "+RSDnoName,
-												confirmButtonColor: "#66BB6A",
-												type: "success"
-											},function(){
-												$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-													RSD_no:RSDno,
-													RSD_noName:RSDnoName,
-													RS_Year:RSYear,
-													RS_Key:RSKey,
-													RS_Class:RSClass,
-													RS_Est:RSEst,
-													Student_ID:StudentID,
-													Student_Name:StudentName										
-												},function(){
-													document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
 												})
-											});							
-										}
-
-									}
-									else {
-										swal({
-											title: "ยกเลิกการลงทะเบียน",
-											text: "เลือกรายการกิจกรรมที่สนใจ",
-											confirmButtonColor: "#2196F3",
-											type: "error"
-										});
-									}
-								});
-							});			
-						})	
-					</script>	
+											})
+										</script>	
 				<!--##########################################################-->							
 							<?php	}else{	?>
 				<!--##########################################################-->
@@ -2004,72 +2121,86 @@
 											</div>
 										</div>	
 				<!--##########################################################-->	
-					<script>
-						$(document).ready(function (){
-							$('#RSDno<?php echo $count_su;?>').on('click', function() {
-								var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-								var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-								var RSYear="<?php echo $data_summer;?>";
-								var RSKey="<?php echo $user_login;?>";
-								var RSClass="<?php echo $call_stu->IDLevel;?>";
-								var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-								var StudentID="<?php echo $user_login;?>";
-								var StudentName="<?php echo $myname;?>";					
-								swal({
-									title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									type: "warning",
-									showCancelButton: true,
-									confirmButtonColor: "#EF5350",
-									confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-									cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-									closeOnConfirm: false,
-									closeOnCancel: false
-								},
-								function(isConfirm){
-									if (isConfirm) {
-										if(RSDno==""){
-											swal({
-												title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-												text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-												confirmButtonColor: "#66BB6A",
-												type: "error"
-											});							
-										}else{
-											swal({
-												title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-												text:  "กิจกรรม : "+RSDnoName,
-												confirmButtonColor: "#66BB6A",
-												type: "success"
-											},function(){
-												$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-													RSD_no:RSDno,
-													RSD_noName:RSDnoName,
-													RS_Year:RSYear,
-													RS_Key:RSKey,
-													RS_Class:RSClass,
-													RS_Est:RSEst,
-													Student_ID:StudentID,
-													Student_Name:StudentName										
-												},function(){
-													document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
 												})
-											});							
-										}
-
-									}
-									else {
-										swal({
-											title: "ยกเลิกการลงทะเบียน",
-											text: "เลือกรายการกิจกรรมที่สนใจ",
-											confirmButtonColor: "#2196F3",
-											type: "error"
-										});
-									}
-								});
-							});			
-						})	
-					</script>	
+											})
+										</script>
 				<!--##########################################################-->							
 							<?php	}
 								}else{}?>
@@ -2096,6 +2227,80 @@
 				</div>
 			</div>	
 		</div>
+
+
+		<?php
+				if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=23)){ ?>
+
+		<fieldset class="content-group">
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-body border-top-green">
+
+					
+						<div class="row">
+
+		<?php
+			$count_info=1;
+			while($count_info<=19){ ?>
+			
+							
+				<div class="col-<?php echo $grid;?>-3">
+					<img src="<?php echo base_url();?>view/img_user/Info-summer/P2-6/<?php echo $count_info;?>.jpg" class="img-thumbnail">
+				</div>
+
+		<?php
+				$count_info=$count_info+1;
+			}
+		?>						
+						</div>
+						
+
+
+
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<?php	}elseif(($call_stu->IDLevel>=31 and $call_stu->IDLevel<=33)){ ?>
+
+		<fieldset class="content-group">
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-body border-top-green">
+
+					
+						<div class="row">
+
+		<?php
+			$count_info=1;
+			while($count_info<=14){ ?>
+			
+							
+				<div class="col-<?php echo $grid;?>-3">
+					<img src="<?php echo base_url();?>view/img_user/Info-summer/M1-3/<?php echo $count_info;?>.jpg" class="img-thumbnail">
+				</div>
+
+		<?php
+				$count_info=$count_info+1;
+			}
+		?>						
+						</div>
+						
+
+
+
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<?php	}else{} ?>
+
+		
+
+
 <!--##########################################################-->						
 			<?php	}?>
 <!--##########################################################-->					
@@ -2154,7 +2359,7 @@
 <!--Update coding by beer 14/03/2023-->
 	<?php
 		$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
-			if((@$StatusPaySummerData->SPS_RMD_on==1)){	  ?>
+			if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
 
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 	<div class="row">
@@ -2253,7 +2458,7 @@
 		</div>
 	</div>	
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	}elseif((@$StatusPaySummerData->SPS_RMD_on==2)){ ?>
+	<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
 	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 	<div class="row">
 		<div class="col-<?php echo $grid;?>-12">
@@ -2335,1195 +2540,465 @@
 </div><br>
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
 	<?php
-		$End4143DateTime_Cr=date("Y-m-d H:i:s");
-		$End4143DateTime_notrun=strtotime("2023-02-09 16:00:00");
-		$End4143DateTime_run=strtotime($End4143DateTime_Cr);
+		$Open4143DateTime_Cr=date("Y-m-d H:i:s");
+		$Open4143DateTime_notrun=strtotime("2024-02-07 08:00:00");
+		$Open4143DateTime_run=strtotime($Open4143DateTime_Cr);
 //---------------------------------------------------------------------------------			
-			if(($End4143DateTime_run>=$End4143DateTime_notrun)){
-				$End4143Print_runtime="OFF";
+			if(($Open4143DateTime_notrun>=$Open4143DateTime_run)){
+				$Open4143Print_runtime="OFF";
 			}else{
-				$End4143Print_runtime="ON";
+				$Open4143Print_runtime="ON";
 			}
 //---------------------------------------------------------------------------------							
 	?>
 
-
-	<?php
-		//$test_system="OFF";
-		switch($test_system){
-			case "ON": ?>
-	<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="content-group-<?php echo $grid;?>">
-				<div class="alert alpha-teal border-teal alert-styled-left">
-					<div>ขออภัยในความสะดวก&nbsp;เจ้าหน้าที่&nbsp;ICT&nbsp;กำลังทดสอบระบบ... </div>
-					<div>หากผู้ปกครองดำเนินการกรอกข้อมูล&nbsp;จะถือว่าดำเนินการไม่สำเร็จ</div>
-				</div>
-			</div>
-		</div>
-	</div>		
-	<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	break;
-			default:
-	//---------------------------------------------------------------		
-		}
-	?>
-<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-
-<?php
-	//time_add
-	$TimeAddTime_Cr=date("Y-m-d H:i:s");
-	$TimeAddTime_notrun=strtotime($time_add);
-	$TimeAddTime_run=strtotime($TimeAddTime_Cr);
-		if(($TimeAddTime_run>=$TimeAddTime_notrun)){
-			$TimeAdd_runtime="OFF";
-		}else{
-			$TimeAdd_runtime="ON";
-		}
-	//time_add End	
-?>
-
-<?php
-	//$OFFONDateTime=date("2023-01-19 08:00:00");
-	//$OFFONDateTime=date("2021-07-24 08:00:00");
-	$OFFONDateTime_Cr=date("Y-m-d H:i:s");
-	$OFFONDateTime_notrun=strtotime($OFFONDateTime);
-	$OFFONDateTime_run=strtotime($OFFONDateTime_Cr);
-//+++++++++++++++23End	
-		if(($OFFONDateTime_run>=$OFFONDateTime_notrun)){
-			$OFFONPrint_runtime="ON";
-		}else{
-			$OFFONPrint_runtime="OFF"; 
-		}
-?>
-<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<?php
-		if(($OFFONPrint_runtime=="OFF")){ ?>
-<!--##########################################################-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="content-group-<?php echo $grid;?>">
-				<div class="alert alert-warning alert-styled-left">
-					การลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน&nbsp;ปีการศึกษา&nbsp;<?php echo $data_summer;?>&nbsp;จะเริ่มลงทะเบียนตั้งแต่วันที่&nbsp;<?php echo date("Y-m-d H:i:s",strtotime($OFFONDateTime));?>&nbsp;เป็นต้นไป
-				</div>
-			</div>
-		</div>
-	</div>
-<!--##########################################################-->
-<?php	}elseif(($OFFONPrint_runtime=="ON")){	?>
-<!--##########################################################-->
-	<?php
-		//$EndDateTime=date("2023-01-30 00:00:00");//สิ้นสุดระยะเวลาลงทะเบียน
-		$EndDateTime_Cr=date("Y-m-d H:i:s");
-		$EndDateTime_notrun=strtotime($EndDateTime);
-		$EndDateTime_run=strtotime($EndDateTime_Cr);
-//----------------------------------------------------------------			
-			if(($EndDateTime_run>=$EndDateTime_notrun)){
-				$EndPrint_runtime="OFF";
-			}else{
-				$EndPrint_runtime="ON";
-			}
-//----------------------------------------------------------------
-//----------------------------------------------------------------			
-			if(($EndPrint_runtime=="OFF")){	?>
-<!--##########################################################-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="content-group-<?php echo $grid;?>">
-				<div class="alert alert-warning alert-styled-left">
-					<div>&nbsp;สิ้นสุดระยะเวลาดำเนินการ&nbsp;ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน&nbsp;ปีการศึกษา&nbsp;<?php echo $data_summer;?>&nbsp;</div>
-					<div>&nbsp;ติดต่อฝ่ายวิชาการ&nbsp;โทรศัพท์&nbsp;053-282395&nbsp;ต่อ&nbsp;121&nbsp;หรือ&nbsp;122&nbsp;(การเรียนการสอนเรียนเสริมภาคฤูดร้อน)</div>
-					<div>&nbsp;ติดต่อฝ่ายกิจการนักเรียน&nbsp;โทรศัพท์&nbsp;053-282395&nbsp;ต่อ&nbsp;114&nbsp;(กิจกรรมเรียนเสริมภาคฤูดร้อน)</div>
-				</div>
-			</div>
-		</div>
-	</div>				
-<!--Update coding by beer 14/03/2023-->
-	<?php
-		$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
-			if((@$StatusPaySummerData->SPS_RMD_on==1)){	  ?>
-
-	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-warning alert-styled-left">
-				<span class="text-semibold" style="text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
-			</div>	
-		</div>
-	</div><br>		
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-info">
-				<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
-			</div>	
-		</div>
-	</div>	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead>
-						<tr class="success">
-							<th><div>#</div></th>
-							<th><div>รหัสวิชา / กิจกรรม</div></th>
-							<th><div>รายการวิชา / กิจกรรม</div></th>
-						</tr>
-					</thead>
-					<tbody>
-
-	<?php
-			$CSD_Count=1;
-			$CSD_Sumpay=0;
-			$CallSummerData=new PrintSummerData($user_login,$data_summer);
-			foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
-						<tr class="info">
-							<td><div><?php echo $CSD_Count;?></div></td>
-							<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
-							<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
-						</tr>		
-	<?php		$CSD_Count=$CSD_Count+1;
-				$CSD_Sumpay=$CSD_Sumpay+$CallSummerDataRow["RSP_price"];
-			} ?>						
-
-					</tbody>
-				</table>
-			</div>	
-		</div>
-	</div><hr>	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
-		<div class="panel panel-body border-top-teal">
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-4">				
 		<?php
-//-----------------------------------------------------------------------------------
-			//include("view/database/class_pdo.php");    
-			include("view/database/regina_student.php");
-			include("view/function/pay_scb.php");
-//-----------------------------------------------------------------------------------	
-			$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
-			$stu_data=new regina_stu_data($user_login);	
-//-----------------------------------------------------------------------------------	
-//-----------------------------------------------------------------------------------		
-			$class=$data_stu->IDLevel;
-			$class_ex=$data_stu->Sort_name_E2;
-			$txt_billerId="099400043439110";
-			$txt_ref1=strtoupper($user_login."L".$class_ex);
-			$txt_ref2=strtoupper("SUMMER".$data_term."0Y".$data_yaer);
-			$txt_amount=number_format($CSD_Sumpay, 2, '.', '');                                                   
-			$txt_width="104";
-			$payqrcode=new qrcode_scb($txt_billerId,$txt_ref1,$txt_ref2,$txt_amount,$txt_width);
-		?>		
-				
-					<div><img src="<?php echo $payqrcode->call_qrcode_scb();?>" class="img-thumbnail" alt="<?php echo $txt_billerId.$txt_ref1.$txt_ref2.$txt_amount.$txt_width;?>" width="104" height="104"></div>
-					<div>BillerID&nbsp;:&nbsp;<?php echo $txt_billerId;?></div>
-					<div>ref1&nbsp;:&nbsp;<?php echo $txt_ref1;?></div>
-					<div>ref2&nbsp;:&nbsp;<?php echo $txt_ref2;?></div>
-					<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
-				
-				</div>
-				<div class="col-<?php echo $grid;?>-4">
-					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน</button>
-				</div>
-				
+				if(($Open4143Print_runtime=="OFF")){ ?>
 
-				
-				<div class="col-<?php echo $grid;?>-4"></div>
-			</div>
-			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
-			<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
-			<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
-		</div>
-	</form>
-		</div>
-	</div>	
-	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	}elseif((@$StatusPaySummerData->SPS_RMD_on==2)){ ?>
-	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-success alert-styled-left">
-				<span class="text-semibold" style="text-shadow: 0 0 0.2em #8F7; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
-			</div>	
-		</div>
-	</div><br>	
-
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-body border-top-success">
-				<div class="row">
-					<div class="col-<?php echo $grid;?>-12">
-						<div class="panel panel-info">
-							<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
-						</div>	
-					</div>
-				</div>	
-				<div class="row">
-					<div class="col-<?php echo $grid;?>-12">
-							<div class="table-responsive">
-								<table class="table table-hover">
-									<thead>
-										<tr class="success">
-											<th><div>#</div></th>
-											<th><div>รหัสวิชา / กิจกรรม</div></th>
-											<th><div>รายการวิชา / กิจกรรม</div></th>
-										</tr>
-									</thead>
-									<tbody>
-					<?php
-							$CSD_Count=1;
-							$CallSummerData=new PrintSummerData($user_login,$data_summer);
-							foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
-										<tr class="info">
-											<td><div><?php echo $CSD_Count;?></div></td>
-											<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
-											<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
-										</tr>		
-					<?php	$CSD_Count=$CSD_Count+1;} ?>						
-
-									</tbody>
-								</table>
-							</div>	
-					</div>
-				</div>			
-			</div>
-		</div>
-	</div>
-	
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	}else{ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	<?php   } ?>
-<!--Update coding by beer End 14/03/2023-->
-<!--##########################################################-->				
-<?php		}elseif(($EndPrint_runtime=="ON")){ ?>
-<!--##########################################################-->
-<!--##########################################################-->
-	<?php
-			if(($call_stu->IDLevel==41)){ ?>
-<!--##########################################################-->	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-warning no-border">
-				<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-					<span class="text-semibold">กิจกรรม ช่วงบ่าย "(เพิ่ม 500)" </span>ต้องชำระค่าลงทะเบียนเพิ่ม 500 บาท ที่ห้องการเงิน
-			</div>		
-		</div>
-	</div>
-<!--##########################################################-->			
-	<?php	}else{}?>
-<!--##########################################################-->
-<!--##########################################################-->
-		<?php
-			$ClassSummer=new SetClassSummer($call_stu->IDLevel);
-			$StatusPaySummer=new StatusPaySummer($user_login,$data_summer);
-			
-				if(($ClassSummer->RunSetClassSummer()=="A")){	?>
-<!--##########################################################-->		
-			<?php
-					if((isset($StatusPaySummer->SPS_RMD_on))){ ?>
-<!--##########################################################-->
-				<?php
-						if(($StatusPaySummer->SPS_RMD_on==null or $StatusPaySummer->SPS_RMD_on==0)){	?>
-<!--##########################################################-->	
+	<fieldset class="content-group">
 		<div class="row">
 			<div class="col-<?php echo $grid;?>-12">
-				<div class="panel panel-info">
-					<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>		
-					<div class="panel-body">
-	<form class="form-horizontal">
-					
-						<div class="row">
-	<?php
-		$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
-			$count_su=0;
-			foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
-							
-	<!--##########################################################-->			
-				<?php
-					$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-					$SummerKeep=$SummerKeep->CountSummerKeep();
-					$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-					$SummerCount=$SummerCount->CountSummerCount();
-					
-				?>
-	<!--##########################################################-->	
-				<?php
-					if((isset($SummerKeep,$SummerCount))){
-						if(($SummerCount>=$SummerKeep)){ ?>
-	<!--##########################################################-->	
-	<!--##########################################################-->							
-							<div class="col-<?php echo $grid;?>-12">
-								<div class="form-group">
-									<label class="radio-inline">
-										<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-										<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-									</label>			
-								</div>
-							</div>	
-	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}
-						else {
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
-<!--##########################################################-->	
-<!--##########################################################-->							
-				<?php	}else{	?>
-<!--##########################################################-->	
-<!--##########################################################-->			
-					<?php
-						$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-						$SummerKeep=$SummerKeep->CountSummerKeep();
-						$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-						$SummerCount=$SummerCount->CountSummerCount();
-					?>
-<!--##########################################################-->
-					<?php
-							if(($SummerCount>=$SummerKeep)){ ?>
-<!--##########################################################-->
-<!--##########################################################-->							
-							<div class="col-<?php echo $grid;?>-12">
-								<div class="form-group">
-									<label class="radio-inline">
-										<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-										<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-									</label>			
-								</div>
-							</div>	
-	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if(isConfirm){
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-						}else{
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
-<!--##########################################################-->							
-<!--##########################################################-->							
-					<?php	}else{	?>
-<!--##########################################################-->
-<!--##########################################################-->							
-							<div class="col-<?php echo $grid;?>-12">
-								<div class="form-group">
-									<label class="radio-inline">
-										<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-										<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-									</label>			
-								</div>
-							</div>	
-	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-				    var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}
-						else {
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
-<!--##########################################################-->							
-<!--##########################################################-->							
-					<?php	} ?>
-
-	
-<!--##########################################################-->						
-				<?php	}
-					}else{ ?>
-	<!--<div class="row">
-		<div class="col-<?php //echo $grid;?>-12">
-			<div class="alert alert-danger alert-styled-left alert-bordered">			
-				<span class="text-semibold">ไม่พบรายการข้อมูล...</span>
-			</div>		
+				<div class="alert alert-warning alert-styled-left">
+					<div>นักเรียนระดับชั้น มัธยมศึกษาชั้นปีที่ 4 ถึง 6 เริ่มลงทะเบียนกิจกรรมเรียนเสริมภาคภดูร้อน (Summer Day)</div>
+					<div>วันที่ 7 กุมภาพันธ์ พ.ศ 2567 เวลา 08.00 น </div>
+				</div>
+			</div
 		</div>
-	</div>-->						
-			<?php	} ?>
+	</fieldset>
 
-
-					
-	<?php	$count_su=$count_su+1;
-			} ?>		
-	</form>								
-						</div>
-					</div>		
+	<fieldset class="content-group">
+		<div class="row">
+			<div class="col-<?php echo $grid;?>-12">
+				<div class="alert alert-danger alert-styled-left alert-bordered">
+					<div>นักเรียนที่ลงก่อนเวลาดังกล่าว ขอความเริ่มมือให้ลงทะเบียนใหม่ในช่วงเวลาที่กำหนด</div>
 				</div>
 			</div>
-		</div>		
-<!--##########################################################-->					
-				<?php	}else{ ?>
-	<!--##########################################################-->	
-	<?php
-		$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
-			if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
-
-	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-warning alert-styled-left">
-				<span class="text-semibold" style="text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
-			</div>	
 		</div>
-	</div><br>		
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-info">
-				<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
-			</div>	
-		</div>
-	</div>	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead>
-						<tr class="success">
-							<th><div>#</div></th>
-							<th><div>รหัสวิชา / กิจกรรม</div></th>
-							<th><div>รายการวิชา / กิจกรรม</div></th>
-						</tr>
-					</thead>
-					<tbody>
+	</fieldset>
 
-	<?php
-			$CSD_Count=1;
-			$CSD_Sumpay=0;
-			$CallSummerData=new PrintSummerData($user_login,$data_summer);
-			foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
-						<tr class="info">
-							<td><div><?php echo $CSD_Count;?></div></td>
-							<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
-							<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
-						</tr>		
-	<?php		$CSD_Count=$CSD_Count+1;
-				$CSD_Sumpay=$CSD_Sumpay+$CallSummerDataRow["RSP_price"];
-			} ?>						
 
-					</tbody>
-				</table>
-			</div>	
-		</div>
-	</div><hr>	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
-		<div class="panel panel-body border-top-teal">
+		<?php	}elseif(($Open4143Print_runtime=="ON")){ ?>
+		<!--+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+-->
+		
+
+			<?php
+				//$test_system="OFF";
+				switch($test_system){
+					case "ON": ?>
+			<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-4">				
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="content-group-<?php echo $grid;?>">
+						<div class="alert alpha-teal border-teal alert-styled-left">
+							<div>ขออภัยในความสะดวก&nbsp;เจ้าหน้าที่&nbsp;ICT&nbsp;กำลังทดสอบระบบ... </div>
+							<div>หากผู้ปกครองดำเนินการกรอกข้อมูล&nbsp;จะถือว่าดำเนินการไม่สำเร็จ</div>
+						</div>
+					</div>
+				</div>
+			</div>		
+			<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php	break;
+					default:
+			//---------------------------------------------------------------		
+				}
+			?>
+		<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+		<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
 		<?php
-//-----------------------------------------------------------------------------------
-			//include("view/database/class_pdo.php");    
-			include("view/database/regina_student.php");
-			include("view/function/pay_scb.php");
-//-----------------------------------------------------------------------------------	
-			$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
-			$stu_data=new regina_stu_data($user_login);	
-//-----------------------------------------------------------------------------------	
-//-----------------------------------------------------------------------------------		
-			$class=$data_stu->IDLevel;
-			$class_ex=$data_stu->Sort_name_E2;
-			$txt_billerId="099400043439110";
-			$txt_ref1=strtoupper($user_login."L".$class_ex);
-			$txt_ref2=strtoupper("SUMMER".$data_term."0Y".$data_yaer);
-			$txt_amount=number_format($CSD_Sumpay, 2, '.', '');                                                   
-			$txt_width="104";
-			$payqrcode=new qrcode_scb($txt_billerId,$txt_ref1,$txt_ref2,$txt_amount,$txt_width);
-		?>		
-				
-				<div><img src="<?php echo $payqrcode->call_qrcode_scb();?>" class="img-thumbnail" alt="<?php echo $txt_billerId.$txt_ref1.$txt_ref2.$txt_amount.$txt_width;?>" width="104" height="104"></div>
-				<div>BillerID&nbsp;:&nbsp;<?php echo $txt_billerId;?></div>
-				<div>ref1&nbsp;:&nbsp;<?php echo $txt_ref1;?></div>
-				<div>ref2&nbsp;:&nbsp;<?php echo $txt_ref2;?></div>
-				<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
-				
-				</div>
-				<div class="col-<?php echo $grid;?>-4">
-					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน123</button>
-				</div>
-				
-				
-				
-				<div class="col-<?php echo $grid;?>-4">
-				
-					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
-	
+			//time_add
+			$TimeAddTime_Cr=date("Y-m-d H:i:s");
+			$TimeAddTime_notrun=strtotime($time_add);
+			$TimeAddTime_run=strtotime($TimeAddTime_Cr);
+				if(($TimeAddTime_run>=$TimeAddTime_notrun)){
+					$TimeAdd_runtime="OFF";
+				}else{
+					$TimeAdd_runtime="ON";
+				}
+			//time_add End	
+		?>
+
+		<?php
+			//$OFFONDateTime=date("2023-01-19 08:00:00");
+			//$OFFONDateTime=date("2021-07-24 08:00:00");
+			$OFFONDateTime_Cr=date("Y-m-d H:i:s");
+			$OFFONDateTime_notrun=strtotime($OFFONDateTime);
+			$OFFONDateTime_run=strtotime($OFFONDateTime_Cr);
+		//+++++++++++++++23End	
+				if(($OFFONDateTime_run>=$OFFONDateTime_notrun)){
+					$OFFONPrint_runtime="ON";
+				}else{
+					$OFFONPrint_runtime="OFF"; 
+				}
+		?>
+		<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+		<?php
+				if(($OFFONPrint_runtime=="OFF")){ ?>
+		<!--##########################################################-->
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="content-group-<?php echo $grid;?>">
+						<div class="alert alert-warning alert-styled-left">
+							การลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน&nbsp;ปีการศึกษา&nbsp;<?php echo $data_summer;?>&nbsp;จะเริ่มลงทะเบียนตั้งแต่วันที่&nbsp;<?php echo date("Y-m-d H:i:s",strtotime($OFFONDateTime));?>&nbsp;เป็นต้นไป
+						</div>
+					</div>
 				</div>
 			</div>
-			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
-			<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
-			<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
-		</div>
-	</form>
-		</div>
-	</div>	
-	
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-			<script>
-				$(document).ready(function (){
+		<!--##########################################################-->
+		<?php	}elseif(($OFFONPrint_runtime=="ON")){	?>
+		<!--##########################################################-->
+			<?php
+				//$EndDateTime=date("2023-01-30 00:00:00");//สิ้นสุดระยะเวลาลงทะเบียน
+				$EndDateTime_Cr=date("Y-m-d H:i:s");
+				$EndDateTime_notrun=strtotime($EndDateTime);
+				$EndDateTime_run=strtotime($EndDateTime_Cr);
+		//----------------------------------------------------------------			
+					if(($EndDateTime_run>=$EndDateTime_notrun)){
+						$EndPrint_runtime="OFF";
+					}else{
+						$EndPrint_runtime="ON";
+					}
+		//----------------------------------------------------------------
+		//----------------------------------------------------------------			
+					if(($EndPrint_runtime=="OFF")){	?>
+		<!--##########################################################-->
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="content-group-<?php echo $grid;?>">
+						<div class="alert alert-warning alert-styled-left">
+							<div>&nbsp;สิ้นสุดระยะเวลาดำเนินการ&nbsp;ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน&nbsp;ปีการศึกษา&nbsp;<?php echo $data_summer;?>&nbsp;</div>
+							<div>&nbsp;ติดต่อฝ่ายวิชาการ&nbsp;โทรศัพท์&nbsp;053-282395&nbsp;ต่อ&nbsp;121&nbsp;หรือ&nbsp;122&nbsp;(การเรียนการสอนเรียนเสริมภาคฤูดร้อน)</div>
+							<div>&nbsp;ติดต่อฝ่ายกิจการนักเรียน&nbsp;โทรศัพท์&nbsp;053-282395&nbsp;ต่อ&nbsp;114&nbsp;(กิจกรรมเรียนเสริมภาคฤูดร้อน)</div>
+						</div>
+					</div>
+				</div>
+			</div>				
+		<!--Update coding by beer 14/03/2023-->
+			<?php
+				$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
+					if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
 
-					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-					var URSCKey="<?php echo $user_login;?>";//
-					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-					var URSCName="<?php echo $myname;?>";
-
-					$('#sweet_loader').on('click', function() {
-						swal({
-							title: "คุณต้องการยกเลิกหรือไม่",
-							text: URSCTxtTh,
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#FF7043",
-							confirmButtonText: "ใช้ยกเลิก"
-						},function(){
-							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-								URSC_Year:URSCYear,
-								URSC_Key:URSCKey,
-								URSC_Txtth:URSCTxtTh,
-								URSC_Name:URSCName
-							},function(txt_rc){
-								if(txt_rc!==""){
-									$("#zone_txt_rc").html(txt_rc);
-								}else{}
-							})
-						});
-					});
-				})
-			</script>
-
-	
-			<div id="zone_txt_rc"></div>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	
-	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
-	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-success alert-styled-left">
-				<span class="text-semibold" style="text-shadow: 0 0 0.2em #8F7; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+			<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-warning alert-styled-left">
+						<span class="text-semibold" style="text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+					</div>	
+				</div>
+			</div><br>		
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-info">
+						<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+					</div>	
+				</div>
 			</div>	
-		</div>
-	</div><br>	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr class="success">
+									<th><div>#</div></th>
+									<th><div>รหัสวิชา / กิจกรรม</div></th>
+									<th><div>รายการวิชา / กิจกรรม</div></th>
+								</tr>
+							</thead>
+							<tbody>
 
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-body border-top-success">
-				<div class="row">
-					<div class="col-<?php echo $grid;?>-12">
-						<div class="panel panel-info">
-							<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+			<?php
+					$CSD_Count=1;
+					$CSD_Sumpay=0;
+					$CallSummerData=new PrintSummerData($user_login,$data_summer);
+					foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
+								<tr class="info">
+									<td><div><?php echo $CSD_Count;?></div></td>
+									<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
+									<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
+								</tr>		
+			<?php		$CSD_Count=$CSD_Count+1;
+						$CSD_Sumpay=$CSD_Sumpay+$CallSummerDataRow["RSP_price"];
+					} ?>						
+
+							</tbody>
+						</table>
+					</div>	
+				</div>
+			</div><hr>	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+			<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
+				<div class="panel panel-body border-top-teal">
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-4">				
+				<?php
+		//-----------------------------------------------------------------------------------
+					//include("view/database/class_pdo.php");    
+					include("view/database/regina_student.php");
+					include("view/function/pay_scb.php");
+		//-----------------------------------------------------------------------------------	
+					$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
+					$stu_data=new regina_stu_data($user_login);	
+		//-----------------------------------------------------------------------------------	
+		//-----------------------------------------------------------------------------------		
+					$class=$data_stu->IDLevel;
+					$class_ex=$data_stu->Sort_name_E2;
+					$txt_billerId="099400043439110";
+					$txt_ref1=strtoupper($user_login."L".$class_ex);
+					$txt_ref2=strtoupper("SUMMER".$data_term."0Y".$data_yaer);
+					$txt_amount=number_format($CSD_Sumpay, 2, '.', '');                                                   
+					$txt_width="104";
+					$payqrcode=new qrcode_scb($txt_billerId,$txt_ref1,$txt_ref2,$txt_amount,$txt_width);
+				?>		
+						
+							<div><img src="<?php echo $payqrcode->call_qrcode_scb();?>" class="img-thumbnail" alt="<?php echo $txt_billerId.$txt_ref1.$txt_ref2.$txt_amount.$txt_width;?>" width="104" height="104"></div>
+							<div>BillerID&nbsp;:&nbsp;<?php echo $txt_billerId;?></div>
+							<div>ref1&nbsp;:&nbsp;<?php echo $txt_ref1;?></div>
+							<div>ref2&nbsp;:&nbsp;<?php echo $txt_ref2;?></div>
+							<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
+						
+						</div>
+						<div class="col-<?php echo $grid;?>-4">
+							<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน</button>
+						</div>
+						
+
+						
+						<div class="col-<?php echo $grid;?>-4"></div>
+					</div>
+					<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+					<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
+					<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
+					<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
+				</div>
+			</form>
+				</div>
+			</div>	
+			<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
+			<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-success alert-styled-left">
+						<span class="text-semibold" style="text-shadow: 0 0 0.2em #8F7; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+					</div>	
+				</div>
+			</div><br>	
+
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-body border-top-success">
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+								</div>	
+							</div>
 						</div>	
-					</div>
-				</div>	
-				<div class="row">
-					<div class="col-<?php echo $grid;?>-12">
-							<div class="table-responsive">
-								<table class="table table-hover">
-									<thead>
-										<tr class="success">
-											<th><div>#</div></th>
-											<th><div>รหัสวิชา / กิจกรรม</div></th>
-											<th><div>รายการวิชา / กิจกรรม</div></th>
-										</tr>
-									</thead>
-									<tbody>
-					<?php
-							$CSD_Count=1;
-							$CallSummerData=new PrintSummerData($user_login,$data_summer);
-							foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
-										<tr class="info">
-											<td><div><?php echo $CSD_Count;?></div></td>
-											<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
-											<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
-										</tr>		
-					<?php	$CSD_Count=$CSD_Count+1;} ?>						
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr class="success">
+													<th><div>#</div></th>
+													<th><div>รหัสวิชา / กิจกรรม</div></th>
+													<th><div>รายการวิชา / กิจกรรม</div></th>
+												</tr>
+											</thead>
+											<tbody>
+							<?php
+									$CSD_Count=1;
+									$CallSummerData=new PrintSummerData($user_login,$data_summer);
+									foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
+												<tr class="info">
+													<td><div><?php echo $CSD_Count;?></div></td>
+													<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
+													<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
+												</tr>		
+							<?php	$CSD_Count=$CSD_Count+1;} ?>						
 
-									</tbody>
-								</table>
-							</div>	
+											</tbody>
+										</table>
+									</div>	
+							</div>
+						</div>			
 					</div>
-				</div>			
+				</div>
 			</div>
-		</div>
-	</div>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-	<?php
-			if(($DeletePay_Sud=="Yes")){ ?>
 			
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-		<?php
-				if(($TimeAdd_runtime=="ON")){ ?>
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-body border-top-teal">
-				<div class="row">
-					<div class="col-<?php echo $grid;?>-12">
-						<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
-					</div>
-				</div>
-				<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-				<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
-				<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
-				<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
-			</div>
-		</div>
-	</div>				
-		<?php	}else{} ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	
-	<?php	}else{ ?>
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-		<!--
-			<div class="panel panel-body border-top-teal">
-				<div class="row">
-					<div class="col-<?php //echo $grid;?>-12">
-						<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
-					</div>
-				</div>
-				<input type="hidden" name="data_summer" value="<?php //echo $data_summer;?>">
-				<input type="hidden" name="data_yaer" value="<?php //echo $data_yaer;?>">
-				<input type="hidden" name="data_term" value="<?php //echo $data_term;?>">
-				<input type="hidden" name="user_login" value="<?php //echo $user_login;?>">
-			</div>
-		-->
-		</div>
-	</div>				
-	<?php	} ?>
-	
-
-	
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-
-			<script>
-				$(document).ready(function (){
-
-					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-					var URSCKey="<?php echo $user_login;?>";//
-					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-					var URSCName="<?php echo $myname;?>";
-
-					$('#sweet_loader').on('click', function() {
-						swal({
-							title: "คุณต้องการยกเลิกหรือไม่",
-							text: URSCTxtTh,
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#FF7043",
-							confirmButtonText: "ใช้ยกเลิก"
-						},function(){
-							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-								URSC_Year:URSCYear,
-								URSC_Key:URSCKey,
-								URSC_Txtth:URSCTxtTh,
-								URSC_Name:URSCName
-							},function(txt_rc){
-								if(txt_rc!==""){
-									$("#zone_txt_rc").html(txt_rc);
-								}else{}
-							})
-						});
-					});
-				})
-			</script>
-
-	
-			<div id="zone_txt_rc"></div>
-
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php	}else{ ?>
-	
-	<?php   } ?>				
-	<!--##########################################################-->						
-				<?php	}?>				
-<!--##########################################################-->				
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 			<?php	}else{ ?>
-<!--##########################################################-->	
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div class="panel panel-info">
-					<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>
-					<div class="panel-body">
-	<form class="form-horizontal">
-					
-						<div class="row">
-	<?php
-		$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
-			$count_su=0;
-			foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
-							
-<!--##########################################################-->			
-				<?php
-					$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-					$SummerKeep=$SummerKeep->CountSummerKeep();
-					$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-					$SummerCount=$SummerCount->CountSummerCount();
-				?>
-<!--##########################################################-->	
-				<?php
-						if(($SummerCount>=$SummerKeep)){	?>
-<!--##########################################################-->	
-<!--##########################################################-->							
-							
-							<div class="col-<?php echo $grid;?>-12">
-								<div class="form-group">
-									<label class="radio-inline">
-										<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-										<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-									</label>			
-								</div>
-							</div>	
-							
-							
-							
-	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}else{
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
-<!--##########################################################-->					
-<!--##########################################################-->						
-				<?php	}else{ ?>
-<!--##########################################################-->
-<!--##########################################################-->							
-							
-							<div class="col-<?php echo $grid;?>-12">
-								<div class="form-group">
-									<label class="radio-inline">
-										<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-										<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-									</label>			
-								</div>
-							</div>	
-							
-							
-							
-	<!--##########################################################-->	
-		<script>
-			$(document).ready(function (){
-				$('#RSDno<?php echo $count_su;?>').on('click', function() {
-					var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-					var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-					var RSYear="<?php echo $data_summer;?>";
-					var RSKey="<?php echo $user_login;?>";
-					var RSClass="<?php echo $call_stu->IDLevel;?>";
-					var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-					var StudentID="<?php echo $user_login;?>";
-					var StudentName="<?php echo $myname;?>";
-					swal({
-						title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-						text:  "กิจกรรม : "+RSDnoName,
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#EF5350",
-						confirmButtonText: "ใช้ ยืนยันการลงทะเบียน",
-						cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-						closeOnConfirm: false,
-						closeOnCancel: false
-					},
-					function(isConfirm){
-						if (isConfirm) {
-							if(RSDno==""){
-								swal({
-									title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-									text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-									confirmButtonColor: "#66BB6A",
-									type: "error"
-								});							
-							}else{
-								swal({
-									title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									confirmButtonColor: "#66BB6A",
-									type: "success"
-								},function(){
-									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-										RSD_no:RSDno,
-										RSD_noName:RSDnoName,
-										RS_Year:RSYear,
-										RS_Key:RSKey,
-										RS_Class:RSClass,
-										RS_Est:RSEst,
-										Student_ID:StudentID,
-										Student_Name:StudentName
-									},function(){
-										document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
-									})
-								});							
-							}
-
-						}
-						else {
-							swal({
-								title: "ยกเลิกการลงทะเบียน",
-								text: "เลือกรายการกิจกรรมที่สนใจ",
-								confirmButtonColor: "#2196F3",
-								type: "error"
-							});
-						}
-					});
-				});			
-			})	
-		</script>
-<!--##########################################################-->
-<!--##########################################################-->						
-				<?php	}      ?>
-					
-	<?php	$count_su=$count_su+1;
-			} ?>		
-	</form>								
-						</div>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			<?php   } ?>
+		<!--Update coding by beer End 14/03/2023-->
+		<!--##########################################################-->				
+		<?php		}elseif(($EndPrint_runtime=="ON")){ ?>
+		<!--##########################################################-->
+		<!--##########################################################-->
+			<?php
+					if(($call_stu->IDLevel==41)){ ?>
+		<!--##########################################################-->	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-warning no-border">
+						<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+							<span class="text-semibold">กิจกรรมช่วงบ่ายที่เรียนตาม แผนการเรียน ต้องชำระค่าลงทะเบียนเพิ่ม <b>500 บาท</b> </span>
 					</div>		
 				</div>
 			</div>
-		</div>		
-<!--##########################################################-->				
-			<?php	}?>
-<!--##########################################################-->					
-		<?php	}elseif(($ClassSummer->RunSetClassSummer()=="B")){ ?>
-<!--##########################################################-->
-			<?php
-					if((isset($StatusPaySummer->SPS_RMD_on))){ ?>
-<!--##########################################################-->	
+		<!--##########################################################-->			
+			<?php	}else{}?>
+		<!--##########################################################-->
+		<!--##########################################################-->
 				<?php
-						if(($StatusPaySummer->SPS_RMD_on==null or $StatusPaySummer->SPS_RMD_on==0)){	?>
-<!--##########################################################-->
-	<?php
-			if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=23)){ ?>
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">ภาคเช้า วิชาการ</div>
-						<div class="panel-body">
-							<ul>
-								<li>ภาษาไทย</li>
-								<li>คณิตศาสตร์</li>
-								<li>วิทยาศาสตร์</li>
-								<li>ภาษาอังกฤษ</li>
-								<li>สังคมศึกษา</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-	<?php	}elseif(($call_stu->IDLevel>=31 and $call_stu->IDLevel<=33)){ ?>
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">ภาคเช้า วิชาการ</div>
-						<div class="panel-body">
-							<ul>
-								<li>ภาษาไทย</li>
-								<li>คณิตศาสตร์</li>
-								<li>วิทยาศาสตร์</li>
-								<li>ภาษาอังกฤษ</li>
-								<li>สังคมศึกษา</li>
-								<li>ภาษาอังกฤษเพื่อการสื่อสาร</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>			
-	<?php	}elseif(($call_stu->IDLevel>=41 and $call_stu->IDLevel<=43)){ ?>
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">ภาคเช้า วิชาการ</div>
-						<div class="panel-body">
-							<ul>
-								<li>จัดเรียนการสอนตามแผนการเรียน</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>			
-	<?php	}else{}?>	
-<!--##########################################################-->	
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div class="panel panel-info">
-	<?php
-			if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=43)){ ?>
-					<div class="panel-heading">
-						<div>ภาคบ่าย เรียนกิจกรรมตามความสนใจ</div>
-						<div>กรุณาเลือกกิจกรรม...</div>
-					</div>			
-	<?php	}else{?>
-					<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>		
-	<?php   } ?>				
-					<div class="panel-body">
-	<form class="form-horizontal">
+					$ClassSummer=new SetClassSummer($call_stu->IDLevel);
+					$StatusPaySummer=new StatusPaySummer($user_login,$data_summer);
 					
-						<div class="row">
-	<?php
-		$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
-			$count_su=0;
-			foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
-				
-		<?php
-				if(($ShowRsSubjectDataRow["RST_on"]==1)){	?>		
+						if(($ClassSummer->RunSetClassSummer()=="A")){	?>
+		<!--##########################################################-->		
+					<?php
+							if((isset($StatusPaySummer->SPS_RMD_on))){ ?>
+		<!--##########################################################-->
+						<?php
+								if(($StatusPaySummer->SPS_RMD_on==null or $StatusPaySummer->SPS_RMD_on==0)){	?>
+		<!--##########################################################-->	
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<div class="panel panel-info">
+							<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>		
+							<div class="panel-body">
+			<form class="form-horizontal">
+							
+								<div class="row">
 			<?php
-				    if(($ShowRsSubjectDataRow['RSD_Plan']==0 or $ShowRsSubjectDataRow['RSD_Plan']==$rc_IDPlan)){ ?>
-					
+				$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
+					$count_su=0;
+					foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
+									
 			<!--##########################################################-->			
 						<?php
 							$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
 							$SummerKeep=$SummerKeep->CountSummerKeep();
 							$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
 							$SummerCount=$SummerCount->CountSummerCount();
+							
 						?>
 			<!--##########################################################-->	
 						<?php
 							if((isset($SummerKeep,$SummerCount))){
 								if(($SummerCount>=$SummerKeep)){ ?>
-			<!--##########################################################-->
-			<!--##########################################################-->				
-									<div class="col-<?php echo $grid;?>-6">
+			<!--##########################################################-->	
+			<!--##########################################################-->							
+									<div class="col-<?php echo $grid;?>-12">
+										<div class="form-group">
+											<label class="radio-inline">
+												<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+												<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+											</label>			
+										</div>
+									</div>	
+		<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
+		<!--##########################################################-->	
+		<!--##########################################################-->							
+						<?php	}else{	?>
+		<!--##########################################################-->	
+		<!--##########################################################-->			
+							<?php
+								$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+								$SummerKeep=$SummerKeep->CountSummerKeep();
+								$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+								$SummerCount=$SummerCount->CountSummerCount();
+							?>
+		<!--##########################################################-->
+							<?php
+									if(($SummerCount>=$SummerKeep)){ ?>
+		<!--##########################################################-->
+		<!--##########################################################-->							
+									<div class="col-<?php echo $grid;?>-12">
 										<div class="form-group">
 											<label class="radio-inline">
 												<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
@@ -3532,78 +3007,92 @@
 										</div>
 									</div>	
 			<!--##########################################################-->	
-				<script>
-					$(document).ready(function (){
-						$('#RSDno<?php echo $count_su;?>').on('click', function() {
-							var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-							var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-							var RSYear="<?php echo $data_summer;?>";
-							var RSKey="<?php echo $user_login;?>";
-							var RSClass="<?php echo $call_stu->IDLevel;?>";
-							var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-							var StudentID="<?php echo $user_login;?>";
-							var StudentName="<?php echo $myname;?>";					
-							swal({
-								title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-								text:  "กิจกรรม : "+RSDnoName,
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#EF5350",
-								confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-								cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-								closeOnConfirm: false,
-								closeOnCancel: false
-							},
-							function(isConfirm){
-								if (isConfirm) {
-									if(RSDno==""){
-										swal({
-											title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-											text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-											confirmButtonColor: "#66BB6A",
-											type: "error"
-										});							
-									}else{
-										swal({
-											title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-											text:  "กิจกรรม : "+RSDnoName,
-											confirmButtonColor: "#66BB6A",
-											type: "success"
-										},function(){
-											$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-												RSD_no:RSDno,
-												RSD_noName:RSDnoName,
-												RS_Year:RSYear,
-												RS_Key:RSKey,
-												RS_Class:RSClass,
-												RS_Est:RSEst,
-												Student_ID:StudentID,
-												Student_Name:StudentName										
-											},function(){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
 											})
-										});							
-									}
-
-								}
-								else {
-									swal({
-										title: "ยกเลิกการลงทะเบียน",
-										text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});
-								}
-							});
-						});			
-					})	
-				</script>
-			<!--##########################################################-->	
-			<!--##########################################################-->							
-						<?php	}else{	?>
-			<!--##########################################################-->	
-			<!--##########################################################-->				
-									<div class="col-<?php echo $grid;?>-6">
+										</script>
+		<!--##########################################################-->							
+		<!--##########################################################-->							
+							<?php	}else{	?>
+		<!--##########################################################-->
+		<!--##########################################################-->							
+									<div class="col-<?php echo $grid;?>-12">
 										<div class="form-group">
 											<label class="radio-inline">
 												<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
@@ -3612,739 +3101,1629 @@
 										</div>
 									</div>	
 			<!--##########################################################-->	
-				<script>
-					$(document).ready(function (){
-						$('#RSDno<?php echo $count_su;?>').on('click', function() {
-							var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-							var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-							var RSYear="<?php echo $data_summer;?>";
-							var RSKey="<?php echo $user_login;?>";
-							var RSClass="<?php echo $call_stu->IDLevel;?>";
-							var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-							var StudentID="<?php echo $user_login;?>";
-							var StudentName="<?php echo $myname;?>";					
-							swal({
-								title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-								text:  "กิจกรรม : "+RSDnoName,
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#EF5350",
-								confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-								cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-								closeOnConfirm: false,
-								closeOnCancel: false
-							},
-							function(isConfirm){
-								if (isConfirm) {
-									if(RSDno==""){
-										swal({
-											title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-											text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-											confirmButtonColor: "#66BB6A",
-											type: "error"
-										});							
-									}else{
-										swal({
-											title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-											text:  "กิจกรรม : "+RSDnoName,
-											confirmButtonColor: "#66BB6A",
-											type: "success"
-										},function(){
-											$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-												RSD_no:RSDno,
-												RSD_noName:RSDnoName,
-												RS_Year:RSYear,
-												RS_Key:RSKey,
-												RS_Class:RSClass,
-												RS_Est:RSEst,
-												Student_ID:StudentID,
-												Student_Name:StudentName
-											},function(){
-												document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
 											})
-										});							
-									}
+										</script>
+		<!--##########################################################-->							
+		<!--##########################################################-->							
+							<?php	} ?>
 
-								}
-								else {
-									swal({
-										title: "ยกเลิกการลงทะเบียน",
-										text: "เลือกรายการกิจกรรมที่สนใจ",
-										confirmButtonColor: "#2196F3",
-										type: "error"
-									});
-								}
-							});
-						});			
-					})	
-				</script>
-			<!--##########################################################-->	
-			<!--##########################################################-->							
+			
+		<!--##########################################################-->						
 						<?php	}
-							}else{}
-						?>
-			
-			
-			
-				<?php $count_su=$count_su+1; ?>	
-				
-			<?php	}else{}?>
-	
-		
-		
-		<?php	}else{} ?>
-								
-	<?php	} ?>		
-	</form>								
-						</div>
+							}else{ ?>
+			<!--<div class="row">
+				<div class="col-<?php //echo $grid;?>-12">
+					<div class="alert alert-danger alert-styled-left alert-bordered">			
+						<span class="text-semibold">ไม่พบรายการข้อมูล...</span>
 					</div>		
 				</div>
-			</div>	
-		</div>
-	<!--##########################################################-->					
-				<?php	}else{ ?>
-	<!--##########################################################-->	
-		<?php
-			$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
+			</div>-->						
+					<?php	} ?>
 
-				if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
-				
-		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-warning alert-styled-left">
-				<span class="text-semibold" style="text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
-			</div>	
-		</div>
-	</div><br>		
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-info">
-				<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
-			</div>	
-		</div>
-	</div>	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<thead>
-						<tr class="success">
-							<th><div>#</div></th>
-							<th><div>รหัสวิชา / กิจกรรม</div></th>
-							<th><div>รายการวิชา / กิจกรรม</div></th>
-						</tr>
-					</thead>
-					<tbody>
 
-	<?php
-			$CSD_Count=1;
-			$CSD_Sumpay=0;
-			$CallSummerData=new PrintSummerData($user_login,$data_summer);
-			foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
-						<tr class="info">
-							<td><div><?php echo $CSD_Count;?></div></td>
-							<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
-							<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
-						</tr>		
-	<?php		$CSD_Count=$CSD_Count+1;
-				$CSD_Sumpay=$CSD_Sumpay+$CallSummerDataRow["RSP_price"];
-			} ?>						
+							
+			<?php	$count_su=$count_su+1;
+					} ?>		
+			</form>								
+								</div>
+							</div>		
+						</div>
+					</div>
+				</div>		
+		<!--##########################################################-->					
+						<?php	}else{ ?>
+			<!--##########################################################-->	
+			<?php
+				$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
+					if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
 
-					</tbody>
-				</table>
-			</div>	
-		</div>
-	</div><hr>	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
-		<div class="panel panel-body border-top-teal">
+			<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 			<div class="row">
-				<div class="col-<?php echo $grid;?>-4">				
-		<?php
-//-----------------------------------------------------------------------------------
-		//	include("view/database/class_pdo.php");    
-			include("view/database/regina_student.php");
-			include("view/function/pay_scb.php");
-//-----------------------------------------------------------------------------------	
-			$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
-			$stu_data=new regina_stu_data($user_login);	
-//-----------------------------------------------------------------------------------	
-//-----------------------------------------------------------------------------------		
-			$class=$data_stu->IDLevel;
-			$class_ex=$data_stu->Sort_name_E2;
-			$txt_billerId="099400043439110";
-			$txt_ref1=strtoupper($user_login."L".$class_ex);
-			$txt_ref2=strtoupper("SUMMER".$data_term."0Y".$data_yaer);
-			$txt_amount=number_format($CSD_Sumpay, 2, '.', '');                                                   
-			$txt_width="104";
-			$payqrcode=new qrcode_scb($txt_billerId,$txt_ref1,$txt_ref2,$txt_amount,$txt_width);
-		?>		
-				
-				<div><img src="<?php echo $payqrcode->call_qrcode_scb();?>" class="img-thumbnail" alt="<?php echo $txt_billerId.$txt_ref1.$txt_ref2.$txt_amount.$txt_width;?>" width="104" height="104"></div>
-				<div>BillerID&nbsp;:&nbsp;<?php echo $txt_billerId;?></div>
-				<div>ref1&nbsp;:&nbsp;<?php echo $txt_ref1;?></div>
-				<div>ref2&nbsp;:&nbsp;<?php echo $txt_ref2;?></div>
-				<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
-				
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-warning alert-styled-left">
+						<span class="text-semibold" style="text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+					</div>	
 				</div>
-				<div class="col-<?php echo $grid;?>-4">
-					<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน&nbsp;ค่าลงทะเบียน</button>
+			</div><br>		
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-info">
+						<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+					</div>	
 				</div>
-				
-			
-				
-				<div class="col-<?php echo $grid;?>-4">
-				
-					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
+			</div>	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr class="success">
+									<th><div>#</div></th>
+									<th><div>รหัสวิชา / กิจกรรม</div></th>
+									<th><div>รายการวิชา / กิจกรรม</div></th>
+								</tr>
+							</thead>
+							<tbody>
 
+			<?php
+					$CSD_Count=1;
+					$CSD_Sumpay=0;
+					$CallSummerData=new PrintSummerData($user_login,$data_summer);
+					foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
+								<tr class="info">
+									<td><div><?php echo $CSD_Count;?></div></td>
+									<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
+									<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
+								</tr>		
+			<?php		$CSD_Count=$CSD_Count+1;
+						$CSD_Sumpay=$CSD_Sumpay+$CallSummerDataRow["RSP_price"];
+					} ?>						
+
+							</tbody>
+						</table>
+					</div>	
+				</div>
+			</div><hr>	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+			<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
+				<div class="panel panel-body border-top-teal">
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-4">				
+				<?php
+		//-----------------------------------------------------------------------------------
+					//include("view/database/class_pdo.php");    
+					include("view/database/regina_student.php");
+					include("view/function/pay_scb.php");
+		//-----------------------------------------------------------------------------------	
+					$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
+					$stu_data=new regina_stu_data($user_login);	
+		//-----------------------------------------------------------------------------------	
+		//-----------------------------------------------------------------------------------		
+					$class=$data_stu->IDLevel;
+					$class_ex=$data_stu->Sort_name_E2;
+					$txt_billerId="099400043439110";
+					$txt_ref1=strtoupper($user_login."L".$class_ex);
+					$txt_ref2=strtoupper("SUMMER".$data_term."0Y".$data_yaer);
+					$txt_amount=number_format($CSD_Sumpay, 2, '.', '');                                                   
+					$txt_width="104";
+					$payqrcode=new qrcode_scb($txt_billerId,$txt_ref1,$txt_ref2,$txt_amount,$txt_width);
+				?>		
+						
+						<div><img src="<?php echo $payqrcode->call_qrcode_scb();?>" class="img-thumbnail" alt="<?php echo $txt_billerId.$txt_ref1.$txt_ref2.$txt_amount.$txt_width;?>" width="104" height="104"></div>
+						<div>BillerID&nbsp;:&nbsp;<?php echo $txt_billerId;?></div>
+						<div>ref1&nbsp;:&nbsp;<?php echo $txt_ref1;?></div>
+						<div>ref2&nbsp;:&nbsp;<?php echo $txt_ref2;?></div>
+						<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
+						
+						</div>
+						<div class="col-<?php echo $grid;?>-4">
+							<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน ค่าลงทะเบียน123</button>
+						</div>
+						
+						
+						
+						<div class="col-<?php echo $grid;?>-4">
+						
+							<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
+			
+						</div>
+					</div>
+					<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+					<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
+					<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
+					<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
+				</div>
+			</form>
+				</div>
+			</div>	
+			
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+					<script>
+						$(document).ready(function (){
+
+							var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+							var URSCKey="<?php echo $user_login;?>";//
+							var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+							var URSCName="<?php echo $myname;?>";
+
+							$('#sweet_loader').on('click', function() {
+								swal({
+									title: "คุณต้องการยกเลิกหรือไม่",
+									text: URSCTxtTh,
+									type: "warning",
+									showCancelButton: true,
+									confirmButtonColor: "#FF7043",
+									confirmButtonText: "ใช้ยกเลิก"
+								},function(){
+									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+										URSC_Year:URSCYear,
+										URSC_Key:URSCKey,
+										URSC_Txtth:URSCTxtTh,
+										URSC_Name:URSCName
+									},function(txt_rc){
+										if(txt_rc!==""){
+											$("#zone_txt_rc").html(txt_rc);
+										}else{}
+									})
+								});
+							});
+						})
+					</script>
+
+			
+					<div id="zone_txt_rc"></div>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			
+			<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
+			<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-success alert-styled-left">
+						<span class="text-semibold" style="text-shadow: 0 0 0.2em #8F7; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+					</div>	
+				</div>
+			</div><br>	
+
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-body border-top-success">
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+								<div class="panel panel-info">
+									<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+								</div>	
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr class="success">
+													<th><div>#</div></th>
+													<th><div>รหัสวิชา / กิจกรรม</div></th>
+													<th><div>รายการวิชา / กิจกรรม</div></th>
+												</tr>
+											</thead>
+											<tbody>
+							<?php
+									$CSD_Count=1;
+									$CallSummerData=new PrintSummerData($user_login,$data_summer);
+									foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
+												<tr class="info">
+													<td><div><?php echo $CSD_Count;?></div></td>
+													<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
+													<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
+												</tr>		
+							<?php	$CSD_Count=$CSD_Count+1;} ?>						
+
+											</tbody>
+										</table>
+									</div>	
+							</div>
+						</div>			
+					</div>
 				</div>
 			</div>
-			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
-			<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
-			<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
-		</div>
-	</form>
-		</div>
-	</div>	
-	
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-<script>
-				$(document).ready(function (){
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
-					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-					var URSCKey="<?php echo $user_login;?>";//
-					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-					var URSCName="<?php echo $myname;?>";
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+			<?php
+					if(($DeletePay_Sud=="Yes")){ ?>
+					
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+				<?php
+						if(($TimeAdd_runtime=="ON")){ ?>
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-body border-top-teal">
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+								<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
+							</div>
+						</div>
+						<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+						<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
+						<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
+						<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
+					</div>
+				</div>
+			</div>				
+				<?php	}else{} ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			
+			<?php	}else{ ?>
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+				<!--
+					<div class="panel panel-body border-top-teal">
+						<div class="row">
+							<div class="col-<?php //echo $grid;?>-12">
+								<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
+							</div>
+						</div>
+						<input type="hidden" name="data_summer" value="<?php //echo $data_summer;?>">
+						<input type="hidden" name="data_yaer" value="<?php //echo $data_yaer;?>">
+						<input type="hidden" name="data_term" value="<?php //echo $data_term;?>">
+						<input type="hidden" name="user_login" value="<?php //echo $user_login;?>">
+					</div>
+				-->
+				</div>
+			</div>				
+			<?php	} ?>
+			
 
-					$('#sweet_loader').on('click', function() {
-						swal({
-							title: "คุณต้องการยกเลิกหรือไม่",
-							text: URSCTxtTh,
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#FF7043",
-							confirmButtonText: "ใช้ยกเลิก"
-						},function(){
-							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-								URSC_Year:URSCYear,
-								URSC_Key:URSCKey,
-								URSC_Txtth:URSCTxtTh,
-								URSC_Name:URSCName
-							},function(txt_rc){
-								if(txt_rc!==""){
-									$("#zone_txt_rc").html(txt_rc);
-								}else{}
-							})
-						});
-					});
-				})
-			</script>
+			
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
 
-	
-			<div id="zone_txt_rc"></div>
-	
+					<script>
+						$(document).ready(function (){
+
+							var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+							var URSCKey="<?php echo $user_login;?>";//
+							var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+							var URSCName="<?php echo $myname;?>";
+
+							$('#sweet_loader').on('click', function() {
+								swal({
+									title: "คุณต้องการยกเลิกหรือไม่",
+									text: URSCTxtTh,
+									type: "warning",
+									showCancelButton: true,
+									confirmButtonColor: "#FF7043",
+									confirmButtonText: "ใช้ยกเลิก"
+								},function(){
+									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+										URSC_Year:URSCYear,
+										URSC_Key:URSCKey,
+										URSC_Txtth:URSCTxtTh,
+										URSC_Name:URSCName
+									},function(txt_rc){
+										if(txt_rc!==""){
+											$("#zone_txt_rc").html(txt_rc);
+										}else{}
+									})
+								});
+							});
+						})
+					</script>
+
+			
+					<div id="zone_txt_rc"></div>
 
 		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-		<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
-		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div class="alert alert-success alert-styled-left">
-					<span class="text-semibold" style="text-shadow: 0 0 0.2em #8F7; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
-				</div>	
-			</div>
-		</div><br>	
-
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div class="panel panel-body border-top-success">
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php	}else{ ?>
+			
+			<?php   } ?>				
+			<!--##########################################################-->						
+						<?php	}?>				
+		<!--##########################################################-->				
+					<?php	}else{ ?>
+		<!--##########################################################-->	
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<div class="panel panel-info">
+							<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>
+							<div class="panel-body">
+			<form class="form-horizontal">
+							
+								<div class="row">
+			<?php
+				$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
+					$count_su=0;
+					foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
+									
+		<!--##########################################################-->			
+						<?php
+							$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+							$SummerKeep=$SummerKeep->CountSummerKeep();
+							$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+							$SummerCount=$SummerCount->CountSummerCount();
+						?>
+		<!--##########################################################-->	
+						<?php
+								if(($SummerCount>=$SummerKeep)){	?>
+		<!--##########################################################-->	
+		<!--##########################################################-->							
+									
+									<div class="col-<?php echo $grid;?>-12">
+										<div class="form-group">
+											<label class="radio-inline">
+												<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+												<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+											</label>			
+										</div>
+									</div>	
+									
+									
+									
+			<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
+		<!--##########################################################-->					
+		<!--##########################################################-->						
+						<?php	}else{ ?>
+		<!--##########################################################-->
+		<!--##########################################################-->							
+									
+									<div class="col-<?php echo $grid;?>-12">
+										<div class="form-group">
+											<label class="radio-inline">
+												<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+												<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+											</label>			
+										</div>
+									</div>	
+									
+									
+									
+			<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
+		<!--##########################################################-->
+		<!--##########################################################-->						
+						<?php	}      ?>
+							
+			<?php	$count_su=$count_su+1;
+					} ?>		
+			</form>								
+								</div>
+							</div>		
+						</div>
+					</div>
+				</div>		
+		<!--##########################################################-->				
+					<?php	}?>
+		<!--##########################################################-->					
+				<?php	}elseif(($ClassSummer->RunSetClassSummer()=="B")){ ?>
+		<!--##########################################################-->
+					<?php
+							if((isset($StatusPaySummer->SPS_RMD_on))){ ?>
+		<!--##########################################################-->	
+						<?php
+								if(($StatusPaySummer->SPS_RMD_on==null or $StatusPaySummer->SPS_RMD_on==0)){	?>
+		<!--##########################################################-->
+			<?php
+					if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=23)){ ?>
 					<div class="row">
 						<div class="col-<?php echo $grid;?>-12">
 							<div class="panel panel-info">
-								<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
-							</div>	
+								<div class="panel-heading">ภาคเช้า วิชาการ</div>
+								<div class="panel-body">
+									<ul>
+										<li>ภาษาไทย</li>
+										<li>คณิตศาสตร์</li>
+										<li>วิทยาศาสตร์</li>
+										<li>ภาษาอังกฤษ</li>
+										<li>สังคมศึกษา</li>
+									</ul>
+								</div>
+							</div>
 						</div>
-					</div>	
+					</div>
+			<?php	}elseif(($call_stu->IDLevel>=31 and $call_stu->IDLevel<=33)){ ?>
 					<div class="row">
 						<div class="col-<?php echo $grid;?>-12">
-							
-								<div class="table-responsive">
-									<table class="table table-hover">
-										<thead>
-											<tr class="success">
-												<th><div>#</div></th>
-												<th><div>รหัสวิชา / กิจกรรม</div></th>
-												<th><div>รายการวิชา / กิจกรรม</div></th>
-											</tr>
-										</thead>
-										<tbody>
-
-						<?php
-								$CSD_Count=1;
-								$CallSummerData=new PrintSummerData($user_login,$data_summer);
-								foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
-											<tr class="info">
-												<td><div><?php echo $CSD_Count;?></div></td>
-												<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
-												<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
-											</tr>		
-						<?php	$CSD_Count=$CSD_Count+1;} ?>						
-
-										</tbody>
-									</table>
-								</div>				
-										
+							<div class="panel panel-info">
+								<div class="panel-heading">ภาคเช้า วิชาการ</div>
+								<div class="panel-body">
+									<ul>
+										<li>ภาษาไทย</li>
+										<li>คณิตศาสตร์</li>
+										<li>วิทยาศาสตร์</li>
+										<li>ภาษาอังกฤษ</li>
+										<li>สังคมศึกษา</li>
+										<li>ภาษาอังกฤษเพื่อการสื่อสาร</li>
+									</ul>
+								</div>
+							</div>
 						</div>
-					</div>				
-				</div>
-			</div>
-		</div>
-
-		
-
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-<?php
-		if(($DeletePay_Sud=="Yes")){ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php
-		    if(($TimeAdd_runtime=="ON")){ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-		<?php
-				if(($call_stu->IDLevel==31 or $call_stu->IDLevel==41)){ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
-		<div class="panel panel-body border-top-teal">
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-6">
-					<button type="submit" class="btn btn-success">พิมพ์ใบยืนยันการลงทะเบียน</button>
-				</div>
-				<div class="col-<?php echo $grid;?>-6">
-					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>
-				</div>
-			</div>
-			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
-			<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
-			<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
-		</div>
-	</form>
-		</div>
-	</div>					
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->					
-		<?php	}else{ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="panel panel-body border-top-teal">
+					</div>			
+			<?php	}elseif(($call_stu->IDLevel>=41 and $call_stu->IDLevel<=43)){ ?>
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-12">
+							<div class="panel panel-info">
+								<div class="panel-heading">ภาคเช้า วิชาการ</div>
+								<div class="panel-body">
+									<ul>
+										<li>จัดเรียนการสอนตามแผนการเรียน</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>			
+			<?php	}else{}?>	
+		<!--##########################################################-->	
 				<div class="row">
 					<div class="col-<?php echo $grid;?>-12">
-						<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
-					</div>
-				</div>
-				<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-				<input type="hidden" name="data_yaer" value="<?php  echo $data_yaer;?>">
-				<input type="hidden" name="data_term" value="<?php  echo $data_term;?>">
-				<input type="hidden" name="user_login" value="<?php  echo $user_login;?>">
-			</div>
-		</div>
-	</div>				
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->			
-		<?php   }?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->			
-    <?php	}else{ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-		<?php
-				if(($call_stu->IDLevel==31 or $call_stu->IDLevel==41)){ ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-	<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
-		<div class="panel panel-body border-top-teal">
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<button type="submit" class="btn btn-success">พิมพ์ใบยืนยันการลงทะเบียน</button>
-				</div>
-			</div>
-			<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
-			<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
-			<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
-			<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
-		</div>
-	</form>
-		</div>
-	</div>				
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->				
-		<?php	}else{} ?>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-	<?php   }?>	
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-<?php	}else{ ?>
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-		<!--
-		<div class="panel panel-body border-top-teal">
-			<div class="row">
-				<div class="col-<?php //echo $grid;?>-12">
-					<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
-				</div>
-			</div>
-			<input type="hidden" name="data_summer" value="<?php //echo $data_summer;?>">
-			<input type="hidden" name="data_yaer" value="<?php //echo $data_yaer;?>">
-			<input type="hidden" name="data_term" value="<?php //echo $data_term;?>">
-			<input type="hidden" name="user_login" value="<?php //echo $user_login;?>">
-		</div>
-		-->
-		</div>
-	</div>		
-<?php	} ?>	
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-			<script>
-				$(document).ready(function (){
-
-					var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
-					var URSCKey="<?php echo $user_login;?>";//
-					var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
-					var URSCName="<?php echo $myname;?>";
-
-					$('#sweet_loader').on('click', function() {
-						swal({
-							title: "คุณต้องการยกเลิกหรือไม่",
-							text: URSCTxtTh,
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#FF7043",
-							confirmButtonText: "ใช้ยกเลิก"
-						},function(){
-							$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
-								URSC_Year:URSCYear,
-								URSC_Key:URSCKey,
-								URSC_Txtth:URSCTxtTh,
-								URSC_Name:URSCName
-							},function(txt_rc){
-								if(txt_rc!==""){
-									$("#zone_txt_rc").html(txt_rc);
-								}else{}
-							})
-						});
-					});
-				})
-			</script>
-
-	
-			<div id="zone_txt_rc"></div>
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
-		<?php	}else{} ?>
-	<!--##########################################################-->						
-				<?php	}?>						
-<!--##########################################################-->						
-			<?php	}else{	?>
-<!--##########################################################-->
-	<?php
-			if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=23)){ ?>
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">ภาคเช้า วิชาการ</div>
-						<div class="panel-body">
-							<ul>
-								<li>ภาษาไทย</li>
-								<li>คณิตศาสตร์</li>
-								<li>วิทยาศาสตร์</li>
-								<li>ภาษาอังกฤษ</li>
-								<li>สังคมศึกษา</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-	<?php	}elseif(($call_stu->IDLevel>=31 and $call_stu->IDLevel<=33)){ ?>
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">ภาคเช้า วิชาการ</div>
-						<div class="panel-body">
-							<ul>
-								<li>ภาษาไทย</li>
-								<li>คณิตศาสตร์</li>
-								<li>วิทยาศาสตร์</li>
-								<li>ภาษาอังกฤษ</li>
-								<li>สังคมศึกษา</li>
-								<li>ภาษาอังกฤษเพื่อการสื่อสาร</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>			
-	<?php	}elseif(($call_stu->IDLevel>=41 and $call_stu->IDLevel<=43)){ ?>
-			<div class="row">
-				<div class="col-<?php echo $grid;?>-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">ภาคเช้า วิชาการ</div>
-						<div class="panel-body">
-							<ul>
-								<li>จัดเรียนการสอนตามแผนการเรียน</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>			
-	<?php	}else{}?>		
-<!--##########################################################-->		
-		<div class="row">
-			<div class="col-<?php echo $grid;?>-12">
-				<div class="panel panel-info">
-	<?php
-			if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=43)){ ?>
-					<div class="panel-heading">
-						<div>ภาคบ่าย เรียนกิจกรรมตามความสนใจ</div>
-						<div>กรุณาเลือกกิจกรรม...</div>
-					</div>			
-	<?php	}else{?>
-					<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>		
-	<?php   } ?>	
-					<div class="panel-body">
-	<form class="form-horizontal">
-					
-						<div class="row">
-	<?php
-		$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
-			$count_su=0;
-			foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
-				
-		<?php
-				if(($ShowRsSubjectDataRow["RST_on"]==1)){	?>
-				
-				<?php
-					    if(($ShowRsSubjectDataRow['RSD_Plan']==0 or $ShowRsSubjectDataRow['RSD_Plan']==$rc_IDPlan)){ ?>
+						<div class="panel panel-info">
+			<?php
+					if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=43)){ ?>
+							<div class="panel-heading">
+								<div>ภาคบ่าย เรียนกิจกรรมตามความสนใจ</div>
+								<div>กรุณาเลือกกิจกรรม...</div>
+							</div>			
+			<?php	}else{?>
+							<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>		
+			<?php   } ?>				
+							<div class="panel-body">
+			<form class="form-horizontal">
+							
+								<div class="row">
+			<?php
+				$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
+					$count_su=0;
+					foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
 						
-				<!--##########################################################-->			
-							<?php
-								$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-								$SummerKeep=$SummerKeep->CountSummerKeep();
-								$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
-								$SummerCount=$SummerCount->CountSummerCount();
-							?>
-				<!--##########################################################-->	
-							<?php
-								if((isset($SummerKeep,$SummerCount))){
-									if(($SummerCount>=$SummerKeep)){ ?>
-				<!--##########################################################-->	
-										<div class="col-<?php echo $grid;?>-6">
-											<div class="form-group">
-												<label class="radio-inline">
-													<input type="radio" class="styled"  disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-													<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-												</label>
-
-											</div>
-										</div>	
-				<!--##########################################################-->	
-					<script>
-						$(document).ready(function (){
-							$('#RSDno<?php echo $count_su;?>').on('click', function() {
-								var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-								var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-								var RSYear="<?php echo $data_summer;?>";
-								var RSKey="<?php echo $user_login;?>";
-								var RSClass="<?php echo $call_stu->IDLevel;?>";
-								var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-								var StudentID="<?php echo $user_login;?>";
-								var StudentName="<?php echo $myname;?>";					
-								swal({
-									title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									type: "warning",
-									showCancelButton: true,
-									confirmButtonColor: "#EF5350",
-									confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-									cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-									closeOnConfirm: false,
-									closeOnCancel: false
-								},
-								function(isConfirm){
-									if (isConfirm) {
-										if(RSDno==""){
-											swal({
-												title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-												text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-												confirmButtonColor: "#66BB6A",
-												type: "error"
-											});							
-										}else{
-											swal({
-												title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-												text:  "กิจกรรม : "+RSDnoName,
-												confirmButtonColor: "#66BB6A",
-												type: "success"
-											},function(){
-												$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-													RSD_no:RSDno,
-													RSD_noName:RSDnoName,
-													RS_Year:RSYear,
-													RS_Key:RSKey,
-													RS_Class:RSClass,
-													RS_Est:RSEst,
-													Student_ID:StudentID,
-													Student_Name:StudentName										
-												},function(){
-													document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+				<?php
+						if(($ShowRsSubjectDataRow["RST_on"]==1)){	?>		
+					<?php
+							if(($ShowRsSubjectDataRow['RSD_Plan']==0 or $ShowRsSubjectDataRow['RSD_Plan']==$rc_IDPlan)){ ?>
+							
+					<!--##########################################################-->			
+								<?php
+									$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+									$SummerKeep=$SummerKeep->CountSummerKeep();
+									$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+									$SummerCount=$SummerCount->CountSummerCount();
+								?>
+					<!--##########################################################-->	
+								<?php
+									if((isset($SummerKeep,$SummerCount))){
+										if(($SummerCount>=$SummerKeep)){ ?>
+					<!--##########################################################-->
+					<!--##########################################################-->				
+											<div class="col-<?php echo $grid;?>-6">
+												<div class="form-group">
+													<label class="radio-inline">
+														<input type="radio" class="styled" disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+														<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+													</label>			
+												</div>
+											</div>	
+					<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
 												})
-											});							
-										}
-
-									}
-									else {
-										swal({
-											title: "ยกเลิกการลงทะเบียน",
-											text: "เลือกรายการกิจกรรมที่สนใจ",
-											confirmButtonColor: "#2196F3",
-											type: "error"
-										});
-									}
-								});
-							});			
-						})	
-					</script>	
-				<!--##########################################################-->							
-							<?php	}else{	?>
-				<!--##########################################################-->
-										<div class="col-<?php echo $grid;?>-6">
-											<div class="form-group">
-												<label class="radio-inline">
-													<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
-													<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
-												</label>
-
-											</div>
-										</div>	
-				<!--##########################################################-->	
-					<script>
-						$(document).ready(function (){
-							$('#RSDno<?php echo $count_su;?>').on('click', function() {
-								var RSDno=$("#RSDno<?php echo $count_su;?>").val();
-								var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
-								var RSYear="<?php echo $data_summer;?>";
-								var RSKey="<?php echo $user_login;?>";
-								var RSClass="<?php echo $call_stu->IDLevel;?>";
-								var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
-								var StudentID="<?php echo $user_login;?>";
-								var StudentName="<?php echo $myname;?>";					
-								swal({
-									title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-									text:  "กิจกรรม : "+RSDnoName,
-									type: "warning",
-									showCancelButton: true,
-									confirmButtonColor: "#EF5350",
-									confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
-									cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
-									closeOnConfirm: false,
-									closeOnCancel: false
-								},
-								function(isConfirm){
-									if (isConfirm) {
-										if(RSDno==""){
-											swal({
-												title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
-												text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
-												confirmButtonColor: "#66BB6A",
-												type: "error"
-											});							
-										}else{
-											swal({
-												title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
-												text:  "กิจกรรม : "+RSDnoName,
-												confirmButtonColor: "#66BB6A",
-												type: "success"
-											},function(){
-												$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
-													RSD_no:RSDno,
-													RSD_noName:RSDnoName,
-													RS_Year:RSYear,
-													RS_Key:RSKey,
-													RS_Class:RSClass,
-													RS_Est:RSEst,
-													Student_ID:StudentID,
-													Student_Name:StudentName										
-												},function(){
-													document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+											})
+										</script>
+					<!--##########################################################-->	
+					<!--##########################################################-->							
+								<?php	}else{	?>
+					<!--##########################################################-->	
+					<!--##########################################################-->				
+											<div class="col-<?php echo $grid;?>-6">
+												<div class="form-group">
+													<label class="radio-inline">
+														<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+														<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+													</label>			
+												</div>
+											</div>	
+					<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
 												})
-											});							
-										}
-
-									}
-									else {
-										swal({
-											title: "ยกเลิกการลงทะเบียน",
-											text: "เลือกรายการกิจกรรมที่สนใจ",
-											confirmButtonColor: "#2196F3",
-											type: "error"
-										});
-									}
-								});
-							});			
-						})	
-					</script>	
-				<!--##########################################################-->							
-							<?php	}
-								}else{}?>
-				<!--##########################################################-->
-				<!--##########################################################-->	
-					<?php $count_su=$count_su+1; ?>	
+											})
+										</script>
+					<!--##########################################################-->	
+					<!--##########################################################-->							
+								<?php	}
+									}else{}
+								?>
 					
-				<?php	}else{ ?>
-	<!--<div class="row">
-		<div class="col-<?php //echo $grid;?>-12">
-			<div class="alert alert-danger alert-styled-left alert-bordered">			
-				<span class="text-semibold">ไม่พบรายการข้อมูล...</span>
-			</div>		
-		</div>
-	</div>-->						
-				<?php   } ?>
-
-		<?php	}else{} ?>
-									
-	<?php	} ?>		
-	</form>								
+					
+					
+						<?php $count_su=$count_su+1; ?>	
+						
+					<?php	}else{}?>
+			
+				
+				
+				<?php	}else{} ?>
+										
+			<?php	} ?>		
+			</form>								
+								</div>
+							</div>		
 						</div>
+					</div>	
+				</div>
+
+
+
+
+			<!--##########################################################-->					
+						<?php	}else{ ?>
+			<!--##########################################################-->	
+				<?php
+					$StatusPaySummerData= new StatusPaySummer($user_login,$data_summer);
+
+						if(($StatusPaySummerData->SPS_RMD_on==1)){	  ?>
+						
+				<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-warning alert-styled-left">
+						<span class="text-semibold" style="text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+					</div>	
+				</div>
+			</div><br>		
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-info">
+						<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+					</div>	
+				</div>
+			</div>	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr class="success">
+									<th><div>#</div></th>
+									<th><div>รหัสวิชา / กิจกรรม</div></th>
+									<th><div>รายการวิชา / กิจกรรม</div></th>
+								</tr>
+							</thead>
+							<tbody>
+
+			<?php
+					$CSD_Count=1;
+					$CSD_Sumpay=0;
+					$CallSummerData=new PrintSummerData($user_login,$data_summer);
+					foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
+								<tr class="info">
+									<td><div><?php echo $CSD_Count;?></div></td>
+									<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
+									<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
+								</tr>		
+			<?php		$CSD_Count=$CSD_Count+1;
+						$CSD_Sumpay=$CSD_Sumpay+$CallSummerDataRow["RSP_price"];
+					} ?>						
+
+							</tbody>
+						</table>
+					</div>	
+				</div>
+			</div><hr>	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+			<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
+				<div class="panel panel-body border-top-teal">
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-4">				
+				<?php
+		//-----------------------------------------------------------------------------------
+				//	include("view/database/class_pdo.php");    
+					include("view/database/regina_student.php");
+					include("view/function/pay_scb.php");
+		//-----------------------------------------------------------------------------------	
+					$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
+					$stu_data=new regina_stu_data($user_login);	
+		//-----------------------------------------------------------------------------------	
+		//-----------------------------------------------------------------------------------		
+					$class=$data_stu->IDLevel;
+					$class_ex=$data_stu->Sort_name_E2;
+					$txt_billerId="099400043439110";
+					$txt_ref1=strtoupper($user_login."L".$class_ex);
+					$txt_ref2=strtoupper("SUMMER".$data_term."0Y".$data_yaer);
+					$txt_amount=number_format($CSD_Sumpay, 2, '.', '');                                                   
+					$txt_width="104";
+					$payqrcode=new qrcode_scb($txt_billerId,$txt_ref1,$txt_ref2,$txt_amount,$txt_width);
+				?>		
+						
+						<div><img src="<?php echo $payqrcode->call_qrcode_scb();?>" class="img-thumbnail" alt="<?php echo $txt_billerId.$txt_ref1.$txt_ref2.$txt_amount.$txt_width;?>" width="104" height="104"></div>
+						<div>BillerID&nbsp;:&nbsp;<?php echo $txt_billerId;?></div>
+						<div>ref1&nbsp;:&nbsp;<?php echo $txt_ref1;?></div>
+						<div>ref2&nbsp;:&nbsp;<?php echo $txt_ref2;?></div>
+						<div>จำนวนเงิน&nbsp;:&nbsp;<?php echo number_format($CSD_Sumpay, 2, '.', ',');?></div>				
+						
+						</div>
+						<div class="col-<?php echo $grid;?>-4">
+							<button type="submit" class="btn btn-success">พิมพ์ใบชำระเงิน&nbsp;ค่าลงทะเบียน</button>
+						</div>
+						
+					
+						
+						<div class="col-<?php echo $grid;?>-4">
+						
+							<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>				
+
+						</div>
+					</div>
+					<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+					<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
+					<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
+					<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
+				</div>
+			</form>
+				</div>
+			</div>	
+			
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+		<script>
+						$(document).ready(function (){
+
+							var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+							var URSCKey="<?php echo $user_login;?>";//
+							var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+							var URSCName="<?php echo $myname;?>";
+
+							$('#sweet_loader').on('click', function() {
+								swal({
+									title: "คุณต้องการยกเลิกหรือไม่",
+									text: URSCTxtTh,
+									type: "warning",
+									showCancelButton: true,
+									confirmButtonColor: "#FF7043",
+									confirmButtonText: "ใช้ยกเลิก"
+								},function(){
+									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+										URSC_Year:URSCYear,
+										URSC_Key:URSCKey,
+										URSC_Txtth:URSCTxtTh,
+										URSC_Name:URSCName
+									},function(txt_rc){
+										if(txt_rc!==""){
+											$("#zone_txt_rc").html(txt_rc);
+										}else{}
+									})
+								});
+							});
+						})
+					</script>
+
+			
+					<div id="zone_txt_rc"></div>
+			
+
+				<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+				<?php	}elseif(($StatusPaySummerData->SPS_RMD_on==2)){ ?>
+				<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<div class="alert alert-success alert-styled-left">
+							<span class="text-semibold" style="text-shadow: 0 0 0.2em #8F7; font-size: 20px;"><?php echo $StatusPaySummerData->SPS_RMD_txt;?></span>
+						</div>	
+					</div>
+				</div><br>	
+
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<div class="panel panel-body border-top-success">
+							<div class="row">
+								<div class="col-<?php echo $grid;?>-12">
+									<div class="panel panel-info">
+										<div class="panel-heading">รายการลงทะเบียนเรียนเสริมภาคฤดูร้อน</div>
+									</div>	
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-<?php echo $grid;?>-12">
+									
+										<div class="table-responsive">
+											<table class="table table-hover">
+												<thead>
+													<tr class="success">
+														<th><div>#</div></th>
+														<th><div>รหัสวิชา / กิจกรรม</div></th>
+														<th><div>รายการวิชา / กิจกรรม</div></th>
+													</tr>
+												</thead>
+												<tbody>
+
+								<?php
+										$CSD_Count=1;
+										$CallSummerData=new PrintSummerData($user_login,$data_summer);
+										foreach($CallSummerData->RunPrintSummerData() as $rc=>$CallSummerDataRow){ ?>
+													<tr class="info">
+														<td><div><?php echo $CSD_Count;?></div></td>
+														<td><div><?php echo $CallSummerDataRow["RSD_no"];?></div></td>
+														<td><div><?php echo $CallSummerDataRow["RSD_txtTh"];?></div></td>
+													</tr>		
+								<?php	$CSD_Count=$CSD_Count+1;} ?>						
+
+												</tbody>
+											</table>
+										</div>				
+												
+								</div>
+							</div>				
+						</div>
+					</div>
+				</div>
+
+				
+
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+		<?php
+				if(($DeletePay_Sud=="Yes")){ ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php
+					if(($TimeAdd_runtime=="ON")){ ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+				<?php
+						if(($call_stu->IDLevel==31 or $call_stu->IDLevel==41)){ ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+			<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
+				<div class="panel panel-body border-top-teal">
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-6">
+							<button type="submit" class="btn btn-success">พิมพ์ใบยืนยันการลงทะเบียน</button>
+						</div>
+						<div class="col-<?php echo $grid;?>-6">
+							<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>
+						</div>
+					</div>
+					<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+					<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
+					<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
+					<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
+				</div>
+			</form>
+				</div>
+			</div>					
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->					
+				<?php	}else{ ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="panel panel-body border-top-teal">
+						<div class="row">
+							<div class="col-<?php echo $grid;?>-12">
+								<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
+							</div>
+						</div>
+						<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+						<input type="hidden" name="data_yaer" value="<?php  echo $data_yaer;?>">
+						<input type="hidden" name="data_term" value="<?php  echo $data_term;?>">
+						<input type="hidden" name="user_login" value="<?php  echo $user_login;?>">
+					</div>
+				</div>
+			</div>				
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->			
+				<?php   }?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->			
+			<?php	}else{ ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+				<?php
+						if(($call_stu->IDLevel==31 or $call_stu->IDLevel==41)){ ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+			<form name="print_rc_summer" action="<?php echo base_url();?>rcprint/print_summer/<?php echo $user_login;?>" method="post" target="_blank">
+				<div class="panel panel-body border-top-teal">
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-12">
+							<button type="submit" class="btn btn-success">พิมพ์ใบยืนยันการลงทะเบียน</button>
+						</div>
+					</div>
+					<input type="hidden" name="data_summer" value="<?php echo $data_summer;?>">
+					<input type="hidden" name="data_yaer" value="<?php echo $data_yaer;?>">
+					<input type="hidden" name="data_term" value="<?php echo $data_term;?>">
+					<input type="hidden" name="user_login" value="<?php echo $user_login;?>">
+				</div>
+			</form>
+				</div>
+			</div>				
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->				
+				<?php	}else{} ?>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+			<?php   }?>	
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
+		<?php	}else{ ?>
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+				<!--
+				<div class="panel panel-body border-top-teal">
+					<div class="row">
+						<div class="col-<?php //echo $grid;?>-12">
+							<button type="button" class="btn btn-info" id="sweet_loader">ยกเลิกการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน</button>			
+						</div>
+					</div>
+					<input type="hidden" name="data_summer" value="<?php //echo $data_summer;?>">
+					<input type="hidden" name="data_yaer" value="<?php //echo $data_yaer;?>">
+					<input type="hidden" name="data_term" value="<?php //echo $data_term;?>">
+					<input type="hidden" name="user_login" value="<?php //echo $user_login;?>">
+				</div>
+				-->
+				</div>
+			</div>		
+		<?php	} ?>	
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+					<script>
+						$(document).ready(function (){
+
+							var URSCYear="<?php echo $data_yaer;?>";//ปีการศึกษา
+							var URSCKey="<?php echo $user_login;?>";//
+							var URSCTxtTh="<?php echo $CallSummerDataRow['RSD_txtTh'];?>";
+							var URSCName="<?php echo $myname;?>";
+
+							$('#sweet_loader').on('click', function() {
+								swal({
+									title: "คุณต้องการยกเลิกหรือไม่",
+									text: URSCTxtTh,
+									type: "warning",
+									showCancelButton: true,
+									confirmButtonColor: "#FF7043",
+									confirmButtonText: "ใช้ยกเลิก"
+								},function(){
+									$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer_count.php",{
+										URSC_Year:URSCYear,
+										URSC_Key:URSCKey,
+										URSC_Txtth:URSCTxtTh,
+										URSC_Name:URSCName
+									},function(txt_rc){
+										if(txt_rc!==""){
+											$("#zone_txt_rc").html(txt_rc);
+										}else{}
+									})
+								});
+							});
+						})
+					</script>
+
+			
+					<div id="zone_txt_rc"></div>
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+		<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->		
+				<?php	}else{} ?>
+			<!--##########################################################-->						
+						<?php	}?>						
+		<!--##########################################################-->						
+					<?php	}else{	?>
+		<!--##########################################################-->
+			<?php
+					if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=23)){ ?>
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-12">
+							<div class="panel panel-info">
+								<div class="panel-heading">ภาคเช้า วิชาการ</div>
+								<div class="panel-body">
+									<ul>
+										<li>ภาษาไทย</li>
+										<li>คณิตศาสตร์</li>
+										<li>วิทยาศาสตร์</li>
+										<li>ภาษาอังกฤษ</li>
+										<li>สังคมศึกษา</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+			<?php	}elseif(($call_stu->IDLevel>=31 and $call_stu->IDLevel<=33)){ ?>
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-12">
+							<div class="panel panel-info">
+								<div class="panel-heading">ภาคเช้า วิชาการ</div>
+								<div class="panel-body">
+									<ul>
+										<li>ภาษาไทย</li>
+										<li>คณิตศาสตร์</li>
+										<li>วิทยาศาสตร์</li>
+										<li>ภาษาอังกฤษ</li>
+										<li>สังคมศึกษา</li>
+										<li>ภาษาอังกฤษเพื่อการสื่อสาร</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>			
+			<?php	}elseif(($call_stu->IDLevel>=41 and $call_stu->IDLevel<=43)){ ?>
+					<div class="row">
+						<div class="col-<?php echo $grid;?>-12">
+							<div class="panel panel-info">
+								<div class="panel-heading">ภาคเช้า วิชาการ</div>
+								<div class="panel-body">
+									<ul>
+										<li>จัดเรียนการสอนตามแผนการเรียน</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>			
+			<?php	}else{}?>		
+		<!--##########################################################-->		
+				<div class="row">
+					<div class="col-<?php echo $grid;?>-12">
+						<div class="panel panel-info">
+			<?php
+					if(($call_stu->IDLevel>=12 and $call_stu->IDLevel<=43)){ ?>
+							<div class="panel-heading">
+								<div>ภาคบ่าย เรียนกิจกรรมตามความสนใจ </div>
+								<div>กรุณาเลือกกิจกรรม...</div>
+							</div>			
+			<?php	}else{?>
+							<div class="panel-heading">รายการกิจกรรมเรียนเสริมภาคฤดูร้อน</div>		
+			<?php   } ?>	
+							<div class="panel-body">
+			<form class="form-horizontal">
+							
+								<div class="row">
+			<?php
+				$ShowRsSubjectData=new ShowRsSubjectData($data_summer,$call_stu->IDLevel);
+					$count_su=0;
+					foreach($ShowRsSubjectData->RunShowRsSubjectData() as $rc=>$ShowRsSubjectDataRow){ ?>
+						
+				<?php
+						if(($ShowRsSubjectDataRow["RST_on"]==1)){	?>
+						
+						<?php
+								if(($ShowRsSubjectDataRow['RSD_Plan']==0 or $ShowRsSubjectDataRow['RSD_Plan']==$rc_IDPlan)){ ?>
+								
+						<!--##########################################################-->			
+									<?php
+										$SummerKeep=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+										$SummerKeep=$SummerKeep->CountSummerKeep();
+										$SummerCount=new ShowCountSummer($ShowRsSubjectDataRow["RSD_no"],$data_summer);
+										$SummerCount=$SummerCount->CountSummerCount();
+									?>
+						<!--##########################################################-->	
+									<?php
+										if((isset($SummerKeep,$SummerCount))){
+											if(($SummerCount>=$SummerKeep)){ ?>
+						<!--##########################################################-->	
+												<div class="col-<?php echo $grid;?>-6">
+													<div class="form-group">
+														<label class="radio-inline">
+															<input type="radio" class="styled"  disabled="disabled" name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+															<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+														</label>
+
+													</div>
+												</div>	
+						<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>	
+						<!--##########################################################-->							
+									<?php	}else{	?>
+						<!--##########################################################-->
+												<div class="col-<?php echo $grid;?>-6">
+													<div class="form-group">
+														<label class="radio-inline">
+															<input type="radio" class="styled"  name="RSDno" id="RSDno<?php echo $count_su;?>"  value="<?php echo $ShowRsSubjectDataRow["RSD_no"];?>" required="required">
+															<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>
+														</label>
+
+													</div>
+												</div>	
+						<!--##########################################################-->	
+										<script>
+											$(document).ready(function(){
+												$('#RSDno<?php echo $count_su;?>').on('click',function(){
+													var RSDno=$("#RSDno<?php echo $count_su;?>").val();
+													var RSDnoName="<?php echo $ShowRsSubjectDataRow["RSD_txtTh"];?>";
+													var RSYear="<?php echo $data_summer;?>";
+													var RSKey="<?php echo $user_login;?>";
+													var RSClass="<?php echo $call_stu->IDLevel;?>";
+													var RSEst="<?php echo $ClassSummer->RunSetClassSummer();?>";
+													var StudentID="<?php echo $user_login;?>";
+													var StudentName="<?php echo $myname;?>";
+													swal({
+														title: "ยืนยันการลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+														text:  "กิจกรรม : "+RSDnoName,
+														type: "warning",
+														showCancelButton: true,
+														confirmButtonColor: "#EF5350",
+														confirmButtonText: "ใช่ ยืนยันการลงทะเบียน",
+														cancelButtonText: "ไม่ ยืนยันการลงทะเบียน",
+														closeOnConfirm: false,
+														closeOnCancel: false
+													},function(isConfirm){
+														if(isConfirm){
+															if(RSDno==""){
+																swal({
+																	title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+																	text:  "กรุณาเลือกกิจกรรมใหม่อีกครั้ง",
+																	confirmButtonColor: "#66BB6A",
+																	type: "error"
+																});	
+															}else{
+																$.post('<?php echo base_url();?>summer/test_summer_quota/'+RSYear+'/'+RSDno,{
+																	RSDno:RSDno,
+																	RSYear:RSYear
+																},function(set_test_summer) {
+																	var set_test_summer=set_test_summer.trim();
+																		if(set_test_summer==="full"){
+																			swal({
+																				title: "กิจกรรมนี้ครบจำนวนแล้ว ไม่สามารถลงทะเบียนได้",
+																				text:  "กิจกรรม : "+RSDnoName,
+																				//text: set_test_summer,
+																				confirmButtonColor: "#66BB6A",
+																				type: "error"
+																			});
+																		}else{
+																			swal({
+																				title: "ลงทะเบียนกิจกรรมเรียนเสริมภาคฤดูร้อน",
+																				//text: set_test_summer,
+																				text:  "กิจกรรม : "+RSDnoName,
+																				confirmButtonColor: "#66BB6A",
+																				type: "success"
+																			},function(){
+																				$.post("<?php echo base_url();?>view/mod/student/code/rc_summer/summer.php",{
+																					RSD_no:RSDno,
+																					RSD_noName:RSDnoName,
+																					RS_Year:RSYear,
+																					RS_Key:RSKey,
+																					RS_Class:RSClass,
+																					RS_Est:RSEst,
+																					Student_ID:StudentID,
+																					Student_Name:StudentName										
+																				},function(){
+																					document.location="<?php echo base_url();?>?evaluation_mod=rc_summer"
+																				})
+																			})
+																		}
+																})
+															}
+														}else{
+															swal({
+																title: "ยกเลิกการลงทะเบียน",
+																text: "เลือกรายการกิจกรรมที่สนใจ",
+																confirmButtonColor: "#2196F3",
+																type: "error"
+															});
+														}
+													})
+												})
+											})
+										</script>
+						<!--##########################################################-->							
+									<?php	}
+										}else{}?>
+						<!--##########################################################-->
+						<!--##########################################################-->	
+							<?php $count_su=$count_su+1; ?>	
+							
+						<?php	}else{ ?>
+			<!--<div class="row">
+				<div class="col-<?php //echo $grid;?>-12">
+					<div class="alert alert-danger alert-styled-left alert-bordered">			
+						<span class="text-semibold">ไม่พบรายการข้อมูล...</span>
+					</div>		
+				</div>
+			</div>-->						
+						<?php   } ?>
+
+				<?php	}else{} ?>
+											
+			<?php	} ?>		
+			</form>								
+								</div>
+							</div>		
+						</div>
+					</div>	
+				</div>
+		<!--##########################################################-->						
+					<?php	}?>
+		<!--##########################################################-->					
+				<?php	}else{ ?>
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-warning alert-styled-left">			
+						<span class="text-semibold">การดำเนินการไม่ถูกต้องไม่สามารถดำเนินการได้...</span>
+					</div>		
+				</div>
+			</div>			
+					
+				<?php   }?>		
+		<!--##########################################################-->				
+		<?php		}else{ ?>
+			<div class="row">
+				<div class="col-<?php echo $grid;?>-12">
+					<div class="alert alert-warning alert-styled-left">			
+						<span class="text-semibold">การดำเนินการไม่ถูกต้องไม่สามารถดำเนินการได้...</span>
 					</div>		
 				</div>
 			</div>	
-		</div>
-<!--##########################################################-->						
-			<?php	}?>
-<!--##########################################################-->					
-		<?php	}else{ ?>
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-warning alert-styled-left">			
-				<span class="text-semibold">การดำเนินการไม่ถูกต้องไม่สามารถดำเนินการได้...</span>
-			</div>		
-		</div>
-	</div>			
 			
-		<?php   }?>		
-<!--##########################################################-->				
-<?php		}else{ ?>
-	<div class="row">
-		<div class="col-<?php echo $grid;?>-12">
-			<div class="alert alert-warning alert-styled-left">			
-				<span class="text-semibold">การดำเนินการไม่ถูกต้องไม่สามารถดำเนินการได้...</span>
-			</div>		
-		</div>
-	</div>	
-	
-	  <?php } ?>
-<!--##########################################################-->	
-<?php   } ?>
+			<?php } ?>
+		<!--##########################################################-->	
+		<?php   } ?>
+
+		<!--+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+-->
+		<?php	}else{ ?>
+
+
+
+<?php	}?>
+
+
+
+
+
 <!--##########################################################-->
 <!--##########################################################-->		
 	<?php       }

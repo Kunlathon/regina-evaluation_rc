@@ -1,3 +1,5 @@
+	
+	
 	<!-- Theme JS files colors_indigo-->
 	<script src="Template/global_assets/js/core/libraries/jquery_ui/core.min.js"></script>
 	<script src="Template/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
@@ -27,3 +29,4 @@
 
 	<script src="Template/global_assets/js/plugins/ui/ripple.min.js"></script>
 	<!-- /theme JS files -->
+
