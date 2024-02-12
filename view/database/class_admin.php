@@ -1,7 +1,4 @@
-
-
 <?php
-
 	class print_teacher_rc{
 		public $key_rc;
 		public $mynameTh,$mynameEn,$rc_key;
@@ -248,10 +245,6 @@ class print_teacher{
 
 		}
 	}
-
-
-
-
 ?>
 
 <?php
@@ -451,6 +444,7 @@ class print_teacher{
 <?php
 	class set_age{
 		public $use_dateuse;
+		public $age;
 		function __construct($use_dateuse){
 			$this->use_dateuse=$use_dateuse;
 			$txt_dateuse=date($this->use_dateuse);
@@ -503,8 +497,8 @@ class print_teacher{
 <?php
 	//books_stu
 	class books_stu{
-		public $book_levelnew;
-		public $book_plan;
+		public $book_levelnew,$book_plan;
+		public $pob_price;
 		function __construct($book_levelnew,$book_plan){
 			$this->book_levelnew=$book_levelnew;
 			$this->book_plan=$book_plan;
@@ -539,10 +533,8 @@ class print_teacher{
 <?php
 	//static_stuRc
 		class  static_stuRC{
-			public $ssrc_t;
-			public $ssrc_y;
-			public $ssrc_c;
-			public $ssrc_s;
+			public $ssrc_t,$ssrc_y,$ssrc_c,$ssrc_s;
+			public $count_stu;
 
 			function __construct($ssrc_t,$ssrc_y,$ssrc_c,$ssrc_s){
 				$this->ssrc_t=$ssrc_t;
@@ -579,6 +571,7 @@ class print_teacher{
 <?php
 	class sturc_statustxt{
 		public $status_txt;
+		public $IDStatus;
 		function __construct($status_txt){
 			$this->status_txt=$status_txt;
 
@@ -614,6 +607,7 @@ class print_teacher{
 <?php
 	class sturc_statusid{
 		public $status_id;
+		public $NameStatus;
 		function __construct($status_id){
 			$this->status_id=$status_id;
 
@@ -851,9 +845,8 @@ class print_teacher{
 
 
 	class regina_stu_data4{
-		public $stu_id;
-		public $stu_year;
-		public $stu_term;
+		public $stu_id,$stu_year,$stu_term;
+		public $rsd_studentid,$rsd_Identification,$sd_prefix,$rsd_name,$rsd_surname,$rsc_num,$rsc_room,$Sort_name,$rsc_class;
 		//public $stu_class;
 
 		function __construct($stu_id,$stu_year,$stu_term){
@@ -923,6 +916,7 @@ class print_teacher{
 		}
 	}
 
+	
 //regina_stu_data
 	class regina_stu_data{
 		public $stu_id;
@@ -1890,9 +1884,8 @@ class print_teacher{
 
 
 	class class_stuA{
-		public $stu_key;
-		public $stu_term;
-		public $stu_year;
+		public $stu_key,$stu_term,$stu_year;
+		public $txt_system,$rsd_studentid,$rsd_name,$rsd_surname,$rsc_year,$rsc_term,$rsc_plan,$rsc_class;
 		function __construct($stu_key,$stu_term,$stu_year){
 			$this->stu_key=$stu_key;
 			$this->stu_term=$stu_term;
@@ -1953,9 +1946,8 @@ class print_teacher{
 // class_stu
 
 	class class_stu{
-		public $stu_key;
-		public $stu_term;
-		public $stu_year;
+		public $stu_key,$stu_term,$stu_year;
+		public $txt_system,$rsd_studentid,$rsd_name,$rsd_surname,$rsc_year,$rsc_term,$rsc_plan,$rsc_class;
 		function __construct($stu_key,$stu_term,$stu_year){
 			$this->stu_key=$stu_key;
 			$this->stu_term=$stu_term;

@@ -491,7 +491,7 @@
 	
 	//**********************************************
 //-----------------------------------------------------------------	
-	$RsStudentData=new DataRsStudentDataA($user_login,$data_yaer,$class);   
+	//$RsStudentData=new DataRsStudentDataA($user_login,$data_yaer,$class);   
 	$data_stu=new stu_levelpdo($user_login,$data_yaer,$data_term);
 		if(isset($data_stu->rsd_studentid)){
 			$RC_rsd_studentid=$data_stu->rsd_studentid;
@@ -502,13 +502,13 @@
 			$RC_Sort_name_E2=$data_stu->Sort_name_E2;
 		}else{
 //-----------------------------------------------------------------			
-			$RsLavaL=new PrintLavaL($RsStudentData->RSDClass);	
+			//$RsLavaL=new PrintLavaL($RsStudentData->RSDClass);	
 //-----------------------------------------------------------------			
-			$RC_rsd_studentid=$RsStudentData->RSDKey;
+			//$RC_rsd_studentid=$RsStudentData->RSDKey;
 			$RC_Sort_name=$RsLavaL->RunPrintLavaL();
 			$RC_rsc_room="0";
-			$RC_planname="($RsStudentData->RSDSchool) ".$RsStudentData->RSDPhone;
-			$RC_IDLevel=$RsStudentData->RSDClass;
+			//$RC_planname="($RsStudentData->RSDSchool) ".$RsStudentData->RSDPhone;
+			//$RC_IDLevel=$RsStudentData->RSDClass;
 			$RC_Sort_name_E2=$RsLavaL->RunPrintLavaEh();			
 		}
 //-----------------------------------------------------------------	

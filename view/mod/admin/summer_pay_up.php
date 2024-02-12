@@ -4,7 +4,7 @@
 	include("view/database/pdo_summer.php");
 	include("view/database/class_summer.php");
 	
-	$PrintSystem=new SystemSummer("read","-","-","-","-","-","-","-","-","-","-","-");
+	$PrintSystem=new SystemSummer("read","-","-","-","-","-","-","-","-","-","-");
 		if(($PrintSystem->RunSS_Error()=="No")){
 			foreach($PrintSystem->RunSS_Array() as $rc=>$PrintSystemRow){
 				$summer_t=$PrintSystemRow["data_term"];
@@ -76,8 +76,24 @@
 			$count_up_payN=0;
 			foreach($namedDataArray as $SummerPayRow){
 				$SP_Key=$SummerPayRow["SP_Key"];	
-				$SP_Year=$SummerPayRow["SP_Year"];	
-				$SP_Class=$SummerPayRow["SP_Class"];
+				//$SP_Year=$SummerPayRow["SP_Year"];	
+
+
+				$data_sutdent=new stu_levelpdo($sp_key,$summer_year,$summer_t);
+				
+					if((isset($data_sutdent->IDLevel))){
+						$sp_class=$data_sutdent->IDLevel;
+					}else{
+
+					}
+				
+				
+
+
+
+
+
+				//$SP_Class=$SummerPayRow["SP_Class"];
 
 				$SP_ClassTxt=new print_leveltxt($SP_Class);
 				$RunUpdate=new UpdatePaySummer($SP_Key,$SP_ClassTxt->level_IDLevel,$SP_Year);

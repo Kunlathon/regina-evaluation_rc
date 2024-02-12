@@ -16,14 +16,20 @@
 	$summer_t=filter_input(INPUT_POST,'summer_t');
 	$summer_year=filter_input(INPUT_POST,'summer_year');
 	$sp_key=filter_input(INPUT_POST,'sp_key');
-	$sp_class=filter_input(INPUT_POST,'sp_class');
+	//$sp_class=filter_input(INPUT_POST,'sp_class');
 	$sp_system=filter_input(INPUT_POST,'sp_system');
 	
 	
 //---------------------------------------------------------------------
 	
 
+	$data_sutdent=new stu_levelpdo($sp_key,$summer_year,$summer_t);
+					
+	if((isset($data_sutdent->IDLevel))){
+		$sp_class=$data_sutdent->IDLevel;
+	}else{
 
+	}
 
 
 //----------------------------------------------------------------------	
@@ -37,24 +43,32 @@
 //----------------------------------------------------------------------------------
 					$IntoRcRcSummerFirst=new IntoDeleteRcSummerFirst($sp_key,$summer_year,$sp_class,$sp_system);
 						if($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="Y"){
-							$txt_error=0;
-							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+							//$txt_error=0;
+							//exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+							echo "no_error";
 						}elseif($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="N"){
-							$txt_error=1;
-							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
-						}else{}
+							//$txt_error=1;
+							//exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+							echo "error";
+						}else{
+							echo "error_null";
+						}
 //----------------------------------------------------------------------------------				
 				break;
 				case "Delete":
 //----------------------------------------------------------------------------------
 					$IntoRcRcSummerFirst=new IntoDeleteRcSummerFirst($sp_key,$summer_year,$sp_class,$sp_system);
 						if($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="Y"){
-							$txt_error=0;
-							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+							//$txt_error=0;
+							//exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+							echo "no_error";
 						}elseif($IntoRcRcSummerFirst->CallIntoDeleteRcSummerFirst()=="N"){
-							$txt_error=1;
-							exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
-						}else{}
+							//$txt_error=1;
+							//exit("<script>window.location='$golink/?evaluation_mod=summer_pay&txt_error=$txt_error';</script>");
+							echo "error";
+						}else{
+							echo "error_null";
+						}
 //----------------------------------------------------------------------------------				
 				break;
 				default:

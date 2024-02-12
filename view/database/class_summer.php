@@ -2202,7 +2202,7 @@
 //----------------------------------------------------------------------------------
 			$SRDA_sql="SELECT `RSD_no`, `RSD_txtTh`, `RSD_txtEn`, `RSD_class`,`RSD_Plan`, `RSD_year`, `RST_on` 
 					   FROM `rssubject_data` 
-					   WHERE `RSD_year`='{$this->SRSD_Year}' AND `RSD_class`='{$this->SRSD_Class}'
+					   WHERE `RSD_year`='{$this->SRSD_Year}' AND `RSD_class`='{$this->SRSD_Class}' AND `RST_Admin`='0'
 					   ORDER BY `rssubject_data`.`RSD_no` ASC";
 				if($SRDA_rs=$pdo_summer->query($SRDA_sql)){
 					while($SRDA_row=$SRDA_rs->Fetch(PDO::FETCH_ASSOC)){
@@ -2230,6 +2230,51 @@
 ?>
 
 <?php
+	//update 2024/02/12 Time 19:14 for admin by rc0468 
+	class ShowRsSubjectDataByadmin{
+		public $SRSD_Year,$SRSD_Class;
+		public $SRDArray;
+		function __construct($SRSD_Year,$SRSD_Class){
+			$this->SRSD_Year=$SRSD_Year;
+			$this->SRSD_Class=$SRSD_Class;
+//----------------------------------------------------------------------------------
+			$SRDArray=array();
+//----------------------------------------------------------------------------------			
+			$db_summerID=$_SERVER['REMOTE_ADDR'];
+			$connpdo_summer=new connected_summer($db_summerID);
+			$pdo_summer=$connpdo_summer->run_connto_summer();
+//----------------------------------------------------------------------------------
+			$SRDA_sql="SELECT `RSD_no`, `RSD_txtTh`, `RSD_txtEn`, `RSD_class`,`RSD_Plan`, `RSD_year`, `RST_on` 
+					   FROM `rssubject_data` 
+					   WHERE `RSD_year`='{$this->SRSD_Year}' AND `RSD_class`='{$this->SRSD_Class}' AND `RST_Admin`='1'
+					   ORDER BY `rssubject_data`.`RSD_no` ASC";
+				if($SRDA_rs=$pdo_summer->query($SRDA_sql)){
+					while($SRDA_row=$SRDA_rs->Fetch(PDO::FETCH_ASSOC)){
+						if(is_array($SRDA_row) && count($SRDA_row)){
+							$SRDArray[]=$SRDA_row;
+						}else{
+							$SRDArray=null;
+						}
+					}
+				}else{
+					$SRDArray=null;
+				}
+				if(isset($SRDArray)){
+					$this->SRDArray=$SRDArray;
+					$pdo_summer=null;
+				}else{
+					$pdo_summer=null;
+				}
+		}function RunShowRsSubjectDataByadmin(){
+			if(isset($this->SRDArray)){
+				return $this->SRDArray;
+			}else{}
+		}
+	}
+?>
+
+
+<?php
 	class ShowRsSubjectDataPlan{
 		public $SRSD_Year,$SRSD_Class,$SRSD_Plan;
 		public $SRDArray;
@@ -2246,7 +2291,7 @@
 //----------------------------------------------------------------------------------
 			$SRDA_sql="SELECT `RSD_no`, `RSD_txtTh`, `RSD_txtEn`, `RSD_class`,`RSD_Plan`, `RSD_year`, `RST_on` 
 					   FROM `rssubject_data` 
-					   WHERE `RSD_year`='{$this->SRSD_Year}' AND `RSD_class`='{$this->SRSD_Class}' AND `RSD_Plan`='{$this->SRSD_Plan}'
+					   WHERE `RSD_year`='{$this->SRSD_Year}' AND `RSD_class`='{$this->SRSD_Class}' AND `RSD_Plan`='{$this->SRSD_Plan}' 
 					   ORDER BY `rssubject_data`.`RSD_no` ASC";
 				if($SRDA_rs=$pdo_summer->query($SRDA_sql)){
 					while($SRDA_row=$SRDA_rs->Fetch(PDO::FETCH_ASSOC)){
@@ -2272,6 +2317,9 @@
 		}
 	}
 ?>
+
+
+
 
 
 <?php

@@ -1,29 +1,4 @@
-<?php
-	$txt_error=$data_year=filter_input(INPUT_GET,'txt_error');
-		if(isset($txt_error)){
-			if($txt_error==0){	?>
-				<script>
-					$(document).ready(function (){
-						new PNotify({
-							title: 'สำเร็จ',
-							text: 'ดำเนินการสำเร็จ',
-							addclass: 'bg-success'
-						});						
-					})
-				</script>
-	<?php	}elseif($txt_error==1){	?>
-				<script>
-					$(document).ready(function (){
-						new PNotify({
-							title: 'ไม่สำเร็จ',
-							text: 'ดำเนินการไม่สำเร็จ',
-							addclass: 'bg-warning'
-						});					
-					})
-				</script>				
-	<?php	}else{}
-		}else{}
-?>
+
 
 <?php
 	include("view/database/pdo_data.php");
@@ -31,7 +6,7 @@
 	include("view/database/pdo_summer.php");
 	include("view/database/class_summer.php");
 	
-	$PrintSystem=new SystemSummer("read","-","-","-","-","-","-","-","-","-","-","-");
+	$PrintSystem=new SystemSummer("read","-","-","-","-","-","-","-","-","-","-");
 		if(($PrintSystem->RunSS_Error()=="No")){
 			foreach($PrintSystem->RunSS_Array() as $rc=>$PrintSystemRow){
 				$summer_t=$PrintSystemRow["data_term"];
@@ -142,7 +117,7 @@
 					</fieldset>
 				</div>
 				<div class="col-<?php echo $grid;?>-6">
-					<fieldset class="content-group">
+					<!--<fieldset class="content-group">
 						<div class="form-group">
 							<select class="select" name="sp_class" id="sp_class" data-placeholder="ระดับชั้น...">
 									<option></option>
@@ -167,7 +142,7 @@
 								</optgroup>				
 							</select>						
 						</div>
-					</fieldset>						
+					</fieldset>-->						
 				</div>
 			</div>
 			<div class="row">
@@ -187,19 +162,37 @@
 				var summer_t="<?php echo $summer_t;?>";
 				var summer_year="<?php echo $summer_year;?>";
 				var sp_key=$("#sp_key").val();
-				var sp_class=$("#sp_class").val();
+				
 				var sp_system="Into";
-					if(summer_t!="" && summer_year!="" && sp_key!="" && sp_class!="" && sp_system!=""){
+					if(summer_t!="" && summer_year!="" && sp_key!="" && sp_system!=""){
 						$.post("<?php echo $golink;?>/view/mod/admin/code/summer_pay/into.php",{
 							summer_t:summer_t,
 							summer_year:summer_year,
 							sp_key:sp_key,
-							sp_class:sp_class,
 							sp_system:sp_system
 						}, function(run_sp){
-							if(run_sp !=""){
-								$("#run_intosp").html(run_sp)
-							}else{}
+							var run_sp=run_sp.trim();
+								if(run_sp==="no_error"){
+									swal({
+										title: "บันทึกข้อมูลการชำระค่าสำเร็จ",
+										confirmButtonColor: "#66BB6A",
+										type: "success"
+									},function(){
+										location.reload();
+									});
+								}else if(run_sp==="error"){
+									swal({
+										title: "บันทึกข้อมูลการชำระค่าไม่สำเร็จ",
+										confirmButtonColor: "#66BB6A",
+										type: "error"
+									});
+								}else{
+									swal({
+										title: "พบข้อผิดพลาดไม่สามารถดำเนินการได้",
+										confirmButtonColor: "#66BB6A",
+										type: "error"
+									});
+								}
 						})
 					}else{}
 			})
